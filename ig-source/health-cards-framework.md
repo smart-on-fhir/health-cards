@@ -94,7 +94,7 @@ At a _pilot project level_:
 #### Which Issuers can participate?
 * We'll work with a willing set of issuers and define expectations/requirements
 * Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL
-* Verifiers will discover public keys associated with an issuer via [DID `.well-known` URLs](https://identity.foundation/specs/did-configuration/)
+* Verifiers will discover public keys associated with an issuer via [`.well-known` DID URLs][well-known]
 * For transparency, we'll publish a list of participating organizations in a public directory
 
 #### Which lab tests should be considered in decision-making?
@@ -146,7 +146,7 @@ This identifier conforms to the [`did:ion` method](https://identity.foundation/s
 In this step, the lab learns about the end-user's DID. To accomplish this, the lab initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
 
 :::info
-:spiral_note_pad: **Discovering DIDs for labs:** To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `.well-known/did-configuration` file](https://identity.foundation/specs/did-configuration/) on the web relative to its `.registration.client_url`, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
+:spiral_note_pad: **Discovering DIDs for labs:** To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 :::
 
 ```sequence
@@ -279,8 +279,7 @@ https://identity.foundation/did-siop/#siop-request-validation
 11. Validate `registration` is present as an object
 12. Validate `registration.id_token_signed_response_alg` is an array of algorithms and contains only "ES256K"
 13. Validate `registration.client_uri` is present and store it
-14. Resolve `.well-known/did-configuration` hosted at the URL given in `registration.client_uri`
-    a. Ask user for permission first?
+14. Resolve `/.well-known/did-configuration.json` hosted on the domain given in `registration.client_uri`
 15. Validate `kid` corresponds to a known DID for this lab
 
 
@@ -564,3 +563,7 @@ While it's hard to provide the same level of functionality and convenience witho
 * Lab makes VCs available for download
 * User prints a QR Code conveying the VC, or a link to a hosted copy of the VC (optionally protected by a password or PIN)
 * Verifier scans the barcode, retrieves the VC, and verifies signatures -- then relies on out-of band relationship with the user to match the VC to a real-world identity. For example, the user may be an employee or customer of the verifier, and thus the user's name and phone number may be known by the verifier in advance. The verifier must compare the identity attributes inside the VC with the attributes they have verified out of band.
+
+
+
+[well-known]: https://identity.foundation/.well-known/resources/did-configuration/
