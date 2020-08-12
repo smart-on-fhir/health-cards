@@ -1,4 +1,4 @@
-# health-cards
+# SMART Health Cards
 Health Cards Framework: implementation guide and supporting material
 
 # View the guide:
