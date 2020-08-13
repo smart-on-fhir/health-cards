@@ -130,29 +130,27 @@ In this step, the user installs a standards-based mobile app. The app generates 
  
 This identifier conforms to the [`did:ion` method](https://identity.foundation/sidetree/spec/); it will be used for secure interactions with the issuer and the verifier, from here on out. A good way to start is to build out ION DIDs in [Long-Form](https://identity.foundation/sidetree/spec/#long-form-did-uris)
 
-:::warning
-:question: **DID Methods** There are different DID methods, with trade-offs. It's useful to pick an approach that:
+!!! question " **DID Methods**"
 
-* works for issuers as well as holders
-* supports key rotation
-* supports distinct keys per-device
-* supports service endpoint discovery
+    There are different DID methods, with trade-offs. It's useful to pick an approach that:
 
--- so we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
-:::
+    * works for issuers as well as holders
+    * supports key rotation
+    * supports distinct keys per-device
+    * supports service endpoint discovery
 
-:::warning
-:question: **Signature and encryption algorithms** There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256K` for verification and `RSA-OEAP` for encryption, but should continue to evaluate this choice as requirements emerge. 
-:::
+    -- so we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
+
+!!! question "**Signature and encryption algorithms**"
+
+    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256K` for verification and `RSA-OEAP` for encryption, but should continue to evaluate this choice as requirements emerge. 
 
 ### Connect Health Wallet to lab account
 
 In this step, the lab learns about the end-user's DID. To accomplish this, the lab initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
 
-:::info
-:spiral_note_pad: **Discovering DIDs for labs:** To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
-:::
-
+!!! info "**Discovering DIDs for labs:**"
+    To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 
 ```mermaid
 sequenceDiagram
@@ -195,26 +193,25 @@ openid://?
   &client_id=<<URL where response object will be posted>>
 ```
 
-:::info
-#### Simplifying the workflow when a FHIR API connection exists
-If the Health Wallet app already has a FHIR API connection to the lab that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
+!!! info "Simplifying the workflow when a FHIR API connection exists"
+    If the Health Wallet app already has a FHIR API connection to the lab that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
 
-    GET /Patient/:id/$HealthWallet.connect
-    
-The operation returns a FHIR `Parameters` resource with the OIDC request URL:
+        GET /Patient/:id/$HealthWallet.connect
+        
+    The operation returns a FHIR `Parameters` resource with the OIDC request URL:
 
-```json
-{
-"resourceType": "Parameters",
-  "parameter": [{
-    "name": "openidUrl",
-    "valueUri": "openid://?response_type=..."
-  }]
-}
-```
+    ```json
+    {
+    "resourceType": "Parameters",
+    "parameter": [{
+        "name": "openidUrl",
+        "valueUri": "openid://?response_type=..."
+    }]
+    }
+    ```
 
-This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into the lab portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
-:::
+    This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into the lab portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
+
 
 #### DID SIOP Request
 The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a Request Object signed by the lab.
@@ -322,9 +319,9 @@ id_token=<<signed and encrypted SIOP Response Object>>
 &state=<<state value from SIOP Request Object, if any>>
 ```
 
-:::info
-If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the DID SIOP is authorized by including the SMART on FHIR bearer token in an `Authorziation` header.
-:::
+!!! info "Authorizing FHIR Operations"
+    If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the DID SIOP is authorized by including the SMART on FHIR bearer token in an `Authorziation` header.
+
 
 
 ### Lab Generates Results
@@ -390,92 +387,92 @@ In this step, the user learns that new lab results are available (e.g., by recei
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
-#### FHIR API & Other Alternatives
 
-:::info
-The file download is the lowest common denominator. Lab results delivery could also be conveyed through the [FHIR API $issueVc operation](#FHIR-API-amp-Other-Alternatives) and, as such, could be delivered to the Health Wallet app via an existing FHIR connection. Conceivably there are other ways to transfer the results, with their own cons and pros.
+!!! info "Requesting VCs through the FHIR API"
 
-FHIR API Example Approach
+    The file download is the lowest common denominator. Lab results delivery could also be conveyed through the [FHIR API $issueVc operation](#FHIR-API-amp-Other-Alternatives) and, as such, could be delivered to the Health Wallet app via an existing FHIR connection. Conceivably there are other ways to transfer the results, with their own cons and pros.
 
-##### `$HealthWallet.issueVc` operation
+    FHIR API Example Approach
 
-A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabeld issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
+    ##### `$HealthWallet.issueVc` operation
 
-```json
-{
-  "resourceType": "Parameters",
-  "parameter": [{
-    "name": "credentialType",
-    "valueUri": "https://healthwallet.cards#covid19"
-  }, {
-    "name": "presentationContext",
-    "valueUri": "https://healthwallet.cards#presentation-context-online"
-  }]
-}
-```
+    A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabeld issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
 
-The `credentialType` and `presentationContext` parameters are both required. By default, the issuer will decide which identity claims to include based on the requested `presentationContext`. If the health wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
+    ```json
+        {
+        "resourceType": "Parameters",
+        "parameter": [{
+            "name": "credentialType",
+            "valueUri": "https://healthwallet.cards#covid19"
+        }, {
+            "name": "presentationContext",
+            "valueUri": "https://healthwallet.cards#presentation-context-online"
+        }]
+        }
+    ```
 
-```json
-{
-  "resourceType": "Parameters",
-  "parameter": [{
-    "name": "credentialType",
-    "valueUri": "https://healthwallet.cards#covid19"
-  }, {
-    "name": "presentationContext",
-    "valueUri": "https://healthwallet.cards#presentation-context-online"
-  }, {
-    "name": "includeIdentityClaim",
-    "valueString": "Patient.name"
-  }, {
-    "name": "encryptForKeyId",
-    "valueString": "#encryption-key-1"
-  }]
-}
-```
+    The `credentialType` and `presentationContext` parameters are both required. By default, the issuer will decide which identity claims to include based on the requested `presentationContext`. If the health wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
 
-If no `encryptForKeyId` parameter is supplied, then the signed VC is returned unencrypted. To request encryption, the client includes an `encryptForKeyId` parameter with a `valueString`, indicating the requested encryption key ID, starting with `#`. This ensures that even if the client's DID document includes more than one encryption key, the server will know which one to use for encrypting this payload.
-
-The response is a `Parameters` resourceincludes one more more `verifiableCredential` values like:
-
-```json
-{
-  "resourceType": "Parameters",
-  "parameter":[{
-    "name": "verifiableCredential",
-    "valueAttachment":{
-      "data":"<<base64 encoded VC>>"
-    }
-  }]
-}
-```
-
-
-If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR OperationOutcome including the `no-did-boud` code:
-
-```json
-{
-  "resourceType": "OperationOutcome",
-  "issue": [
+    ```json
     {
-      "severity": "error",
-      "code": "processing",
-      "details": {
-        "coding": [
-          {
-            "system": "https://healthwallet.cards",
-            "code": "no-did-bound",
-            "display": "No DID is bound to the requested Patient account"
-          }
-        ]
-      }
+    "resourceType": "Parameters",
+    "parameter": [{
+        "name": "credentialType",
+        "valueUri": "https://healthwallet.cards#covid19"
+    }, {
+        "name": "presentationContext",
+        "valueUri": "https://healthwallet.cards#presentation-context-online"
+    }, {
+        "name": "includeIdentityClaim",
+        "valueString": "Patient.name"
+    }, {
+        "name": "encryptForKeyId",
+        "valueString": "#encryption-key-1"
+    }]
     }
-  ]
-}
+    ```
 
-```
-:::
+    If no `encryptForKeyId` parameter is supplied, then the signed VC is returned unencrypted. To request encryption, the client includes an `encryptForKeyId` parameter with a `valueString`, indicating the requested encryption key ID, starting with `#`. This ensures that even if the client's DID document includes more than one encryption key, the server will know which one to use for encrypting this payload.
+
+    The response is a `Parameters` resourceincludes one more more `verifiableCredential` values like:
+
+    ```json
+    {
+    "resourceType": "Parameters",
+    "parameter":[{
+        "name": "verifiableCredential",
+        "valueAttachment":{
+        "data":"<<base64 encoded VC>>"
+        }
+    }]
+    }
+    ```
+
+
+    If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR OperationOutcome including the `no-did-boud` code:
+
+    ```json
+    {
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+        "severity": "error",
+        "code": "processing",
+        "details": {
+            "coding": [
+            {
+                "system": "https://healthwallet.cards",
+                "code": "no-did-bound",
+                "display": "No DID is bound to the requested Patient account"
+            }
+            ]
+        }
+        }
+    ]
+    }
+
+    ```
+
 
 ### Presenting lab results to a verifier
 

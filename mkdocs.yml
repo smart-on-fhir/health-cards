@@ -15,11 +15,24 @@ theme:
 markdown_extensions:
   - toc:
       permalink: true
+  - admonition:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
 
 
 plugins:
     - search
-    - mermaid2
 
 extra_javascript:
     - https://unpkg.com/mermaid/dist/mermaid.min.js
+    - mermaid.js
+
+extra_css:
+    - style.css
