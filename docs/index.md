@@ -1,8 +1,12 @@
-# Verifiable Lab Results
-
 ## Status
 
 Early proposal drafted with input from technology and lab vendors
+
+## Contributing
+To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
+
+## Overview Video
+* [https://youtu.be/g7bZU5nmHIA](https://youtu.be/g7bZU5nmHIA)
 
 ## Introduction -- Health Cards
 
@@ -149,7 +153,10 @@ In this step, the lab learns about the end-user's DID. To accomplish this, the l
 :spiral_note_pad: **Discovering DIDs for labs:** To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 :::
 
-```sequence
+
+```mermaid
+sequenceDiagram
+
 participant User's Device as Device
 participant Lab
 
@@ -157,23 +164,23 @@ Device -> Device: Create users DID:ION: keys
 Lab -> Lab: Create DID:ION: keys
 
 note over Device: Later, either [A], [B] or [C]...
-Lab --> Device: [A] Click `openid://` link\non issuer's portal
-Lab --> Device: [B] Scan QR code or NFC tag with\n`openid://` link
+Lab --> Device: [A] Click `openid://` link<br>on issuer's portal
+Lab --> Device: [B] Scan QR code or NFC tag with<br>`openid://` link
 Device --> Lab: [C] FHIR $HealthWallet.connect
-Lab --> Device: [C] Return `openid://` link in\nFHIR Parameters resource
+Lab --> Device: [C] Return `openid://` link in<br>FHIR Parameters resource
 Device -> Device: React to `openid` link
 Device -> Device: Validate prompt
 
 note over Device: Ask user to connect
 Device -> Lab: Issue request to `request_uri`
-Lab -> Lab: Generate DID SIOP\nrequest with lab's\nkeys
+Lab -> Lab: Generate DID SIOP<br>request with lab's<br>keys
 Lab -> Device: Return DID SIOP Request
 Device -> Device: Validate DID SIOP JWT
 
 note over Device: Ask user to share keys
 Device -> Device: Formulate DID SIOP Response
-Device -> Lab: Submit response\n([C] with Authorization header)
-Lab -> Lab: Store keys to\nuser account
+Device -> Lab: Submit response<br>([C] with Authorization header)
+Lab -> Lab: Store keys to<br>user account
 Lab -> Device: Ack
 ```
 
@@ -324,19 +331,20 @@ If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.conn
 
 When the lab performs tests and the results come in, the lab creates a FHIR payload and a corresponding VC.
 
-```sequence
+```mermaid
+sequenceDiagram
 participant Holder
 participant Lab
 
 note over Lab, Holder: Earlier...
 Lab -> Lab: Generate Lab's DID
 Holder --> Lab:  Upload DID
-Lab -> Lab: If labs for holder already\nexist: re-generate VCs
+Lab -> Lab: If labs for holder already<br>exist: re-generate VCs
 
 note over Lab, Holder: Lab Result Created
 Lab -> Lab: Generate FHIR Representation
 Lab -> Lab: Generate VC Representation
-Lab -> Lab: Generate JWT Payload\nincluding Holder DID (if\nknown) and sign
+Lab -> Lab: Generate JWT Payload<br>including Holder DID (if<br>known) and sign
 Lab -> Lab: Store on holder's account
 
 note over Lab, Holder: Later...
@@ -467,7 +475,6 @@ If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Pati
 }
 
 ```
-```
 :::
 
 ### Presenting lab results to a verifier
@@ -478,15 +485,16 @@ In this step, the verifier asks the user to share a COVID-19 result. The overall
 
 This step can happen in person or online.
 
-```sequence
+```mermaid
+sequenceDiagram
 participant Laboratory as Lab
 participant Holder
 participant Verifier
 
-Verifier -> Verifier: generate openid:// link \n with upload URL, public key\nand presentation context
+Verifier -> Verifier: generate openid:// link <br> with upload URL, public key<br>and presentation context
 
 note over Holder, Verifier: In Person Presentation
-Verifier -> Verifier: Display openid:// link\nin QR code
+Verifier -> Verifier: Display openid:// link<br>in QR code
 Verifier -> Holder: scan QR code
 
 note over Holder, Verifier: Online Presentation
@@ -496,21 +504,22 @@ Verifier -> Holder: process redirect
 
 #### Complete the Presentation
 
-```sequence
+```mermaid
+sequenceDiagram
 participant Laboratory as Lab
 participant Holder
 participant Verifier
 
-Holder -> Holder: find VCs suitable for\npresentation context
-Holder -> Holder: let user pick VC\nto share
+Holder -> Holder: find VCs suitable for<br>presentation context
+Holder -> Holder: let user pick VC<br>to share
 Holder -> Holder: confirm sharing
-Holder -> Holder: encrypt VC with\nVerifier's public key
+Holder -> Holder: encrypt VC with<br>Verifier's public key
 Holder -> Verifier: send encrypted VC
 Verifier -> Verifier: decrypt VC
 
 note over Lab, Verifier: Verify VC
 Verifier -> Verifier: validate JWT
-Verifier -> Verifier: extract labs DID\nand resolve
+Verifier -> Verifier: extract labs DID<br>and resolve
 Verifier -> Verifier: ...
 ```
 
