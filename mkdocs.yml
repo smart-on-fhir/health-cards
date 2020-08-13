@@ -7,7 +7,7 @@ nav:
   - Protocol: index.md
   - Credentials: credential-modeling.md
   - Vocabulary: vocabulary.md
-  - Changelog: CHANGELOG.md
+  - Changelog: changelog.md
 
 theme:
   name: material
