@@ -31,7 +31,7 @@ plugins:
     - search
 
 extra_javascript:
-    - https://unpkg.com/mermaid/dist/mermaid.min.js
+    - https://unpkg.com/mermaid@8.7.0/dist/mermaid.min.js
     - mermaid.js
 
 extra_css:
