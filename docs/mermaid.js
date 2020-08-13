@@ -4,7 +4,7 @@
             callback:function(id){
                 console.log(id,' rendered');
             },
-            sequenceDiagram:{
+            sequence:{
                     useMaxWidth:false,
                 }
         };
