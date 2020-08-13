@@ -117,7 +117,7 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 ### Data Model
 
-The credential's data is **represented in FHIR** as outlined in [Modeling Verifiable Credentials in FHIR](https://hackmd.io/@HealthWallet/modeling-healthcare-data-with-vcs)
+The credential's data is **represented in FHIR** as outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/)
 
 
 ## Protocol details
@@ -351,7 +351,7 @@ note over Lab, Holder: Later...
 Lab -> Holder: Holder downloads VCs
 ```
 
-See [Modeling Verifiable Credentials in FHIR](https://hackmd.io/@jmandel/modeling-healthcare-data-with-vcs) for details, at a high level the VC looks like:
+See [Modeling Verifiable Credentials in FHIR](./credential-modeling/)for details, at a high level the VC looks like:
 
 ```json
 {
