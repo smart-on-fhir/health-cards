@@ -524,7 +524,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
       // `iss`, `response_type`, etc
       "claims": {
         "id_token": {
-          "health-wallet-covid19-card": {"essential": true},
+          "https://healthwallet.cards#covid19": {"essential": true},
         }
       }
     }

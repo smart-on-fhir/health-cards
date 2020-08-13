@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4
+
+* Added links to overview / intro video
+* Updated SIOP request to identify requested credentials by type URL (`https://healthwallet.cards#covid19` instead of `health-wallet-covid19-card`)
+
+
 ## 0.0.3
 
 * Update `.well-known` DID links and file URL to match latest spec
