@@ -13,10 +13,6 @@ theme:
   name: material
 
 markdown_extensions:
-  - admonition
-  - codehilite:
-      guess_lang: false
-      linenums: true
   - toc:
       permalink: true
 
