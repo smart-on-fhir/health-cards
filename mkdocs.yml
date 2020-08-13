@@ -1,4 +1,8 @@
 site_name: SMART Health Cards Framework
+repo_url: https://github.com/smart-on-fhir/health-cards
+edit_uri: 'edit/main/docs'
+
+
 nav:
   - Protocol: index.md
   - Credentials: credential-modeling.md
@@ -8,6 +12,9 @@ nav:
 theme:
   name: material
 
+markdown_extensions:
+  - toc:
+      permalink: True
 
 plugins:
     - search
