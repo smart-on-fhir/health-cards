@@ -72,7 +72,7 @@ Sometimes it's easiest to learn by seeing. For an end-to-end demonstration inclu
 
 # Design Considerations
 
-This section outlines higher-level design considerations. See ["Protocol Details"](#Protocol-details) below for technical details.
+This section outlines higher-level design considerations. See ["Protocol Details"](#protocol-details) below for technical details.
 
 ## Data Flow
 
@@ -84,7 +84,7 @@ Each step in the flow must have well-defined inputs and outputs. For each step w
 
 ### Getting credentials into Health Wallet
 * Required method: File download
-* Optional method: [FHIR API Access](#FHIR-API-amp-Other-Alternatives)
+* Optional method: [FHIR API Access](#healthwalletissuevc-operation)
 
 ### Presenting credentials to Verifier
 * Required method: OpenID Connect (OIDC) redirect + `form_post` flow (assumes devices are online)
@@ -386,10 +386,11 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 
 !!! info "Requesting VCs through the FHIR API"
 
-    The file download is the lowest common denominator. Lab results delivery could also be conveyed through the [FHIR API $issueVc operation](#FHIR-API-amp-Other-Alternatives) and, as such, could be delivered to the Health Wallet app via an existing FHIR connection. Conceivably there are other ways to transfer the results, with their own cons and pros.
+    The file download is the lowest common denominator. For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined here.
     
     FHIR API Example Approach
     
+    <a name="healthwalletissuevc-operation"/>
     #### `$HealthWallet.issueVc` Operation
     
     A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
@@ -525,7 +526,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
     }
     ```
 
-2. Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://w3c.github.io/vc-data-model/#presentations-0).
+2. Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://www.w3.org/TR/vc-data-model/#presentations-0).
 
 3. The `id_token` constituting the DID SIOP Response includes a `.vp.verifiableCredential` array:
     ```json
