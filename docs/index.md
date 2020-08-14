@@ -289,7 +289,7 @@ And a payload like:
   "iat": <<issuance time as JSON number of seconds since epoch>>,
   "sub_jwk": {
     "crv": "secp256k1",
-    "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>"
+    "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>",
     "kty": "EC",
     "x": "<<curve's X coordinate>>",
     "y": "<<curve's Y coordinate>>"
