@@ -13,11 +13,9 @@
 
 ## FHIR Codings
 
-The following codes are defined in the `https://healthwallet.cards` system, for use in tagging a FHIR "key resource" (in `.meta.tag`) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.
-
-
-* `covid19`: Used for tagging a FHIR "key resource" as containing a VC of type `https://healthwallet.cards#covid19`
-
-* `immunization`: Used for tagging a FHIR "key resource" as containing a VC of type `https://healthwallet.cards#immunization`
+The following codes are defined in the `https://healthwallet.cards` system:
 
 * `no-did-bound`: Used for `OperationOutcome.issue.code` when the `Patient/:id/$HealthWallet.issueVc` operation fails because no DID is bound to the Patient record
+* `covid19`: Used for tagging a FHIR "key resource" as containing a VC of type `https://healthwallet.cards#covid19`. For use in tagging a FHIR "key resource" (in `.meta.tag`) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.
+* `immunization`: Used for tagging a FHIR "key resource" as containing a VC of type `https://healthwallet.cards#immunization`. For use in tagging a FHIR "key resource" (in `.meta.tag`) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.
+
