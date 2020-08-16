@@ -340,7 +340,10 @@ note over Lab, Holder: Later...
 Lab ->> Holder: Holder downloads VCs
 ```
 
-See [Modeling Verifiable Credentials in FHIR](./credential-modeling/)for details. At a high level the VC looks like:
+See [Modeling Verifiable Credentials in FHIR](./credential-modeling/)for details. The overall VC structure looks like the following:
+
+!!! info "VCs look different when represented as JWTs"
+    The example below shows a VC using the "vanilla" JSON representation. When packaging a VC into a JSON Web Token payload, there are a few differences, to retain compatibility with standard JWT claims. For example, compare [this "vanilla" JSON representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc.json) with its [corresponding JWT payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json). Note that in the JWT payload, most properties have been pushed into a `.vc` claim.
 
 ```json
 {
@@ -353,7 +356,6 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/)for details
     "https://healthwallet.cards#presentation-context-online"],
   "issuer": "<<did:ion identifier for lab>>",
   "issuanceDate": "2020-05-01T11:59:00-07:00",
-  "display": "COVID-19 Card for Eve Everywoman",
   "credentialSubject": {
     "id": "<<did:identifier for holder if known>>",
     "fhirVersion": "<<FHIR Version>>",
