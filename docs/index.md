@@ -340,7 +340,7 @@ note over Lab, Holder: Later...
 Lab ->> Holder: Holder downloads VCs
 ```
 
-See [Modeling Verifiable Credentials in FHIR](./credential-modeling/)for details. The overall VC structure looks like the following:
+See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for details. The overall VC structure looks like the following:
 
 !!! info "VCs look different when represented as JWTs"
     The example below shows a VC using the "vanilla" JSON representation. When packaging a VC into a JSON Web Token payload, there are a few differences, to retain compatibility with standard JWT claims. For example, compare [this "vanilla" JSON representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc.json) with its [corresponding JWT payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json). Note that in the JWT payload, most properties have been pushed into a `.vc` claim.
@@ -392,7 +392,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
     
     FHIR API Example Approach
     
-    <a name="healthwalletissuevc-operation"/>
+    <a name="healthwalletissuevc-operation"></a>
     #### `$HealthWallet.issueVc` Operation
     
     A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
