@@ -137,6 +137,7 @@ This identifier conforms to the [`did:ion` method](https://identity.foundation/s
     There are different DID methods, with trade-offs. It's useful to pick an approach that:
 
     * works for issuers as well as holders
+    * works peer-to-peer *or* anchored to a public record
     * supports key rotation
     * supports distinct keys per-device
     * supports service endpoint discovery
