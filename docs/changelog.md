@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+Updated encryption to use `"enc": "A256GCM"`
+
+
 ## 0.0.4
 
 * Added links to overview / intro video
