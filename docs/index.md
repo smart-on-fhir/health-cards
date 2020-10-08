@@ -128,7 +128,7 @@ The credential's data is **represented in FHIR** as outlined in [Modeling Verifi
 In this step, the user installs a standards-based mobile app. The app generates a decentralized identifier on behalf of the user, including:
 
 * a key of type `EcdsaSecp256k1VerificationKey2019` to enable verification of JWT signatures created by this issuer, using the `ES256K` signature algorithm
-* a key of type `RSAEncryptionPublicKey` to enable encryption of JWE payloads created for this issuer, using `"alg": "RSA-OAEP"` and `"enc": "A128CBC-HS256"`
+* a key of type `RSAEncryptionPublicKey` to enable encryption of JWE payloads created for this issuer, using `"alg": "RSA-OAEP"` and `"enc": "A256GCM"`
  
 This identifier conforms to the [`did:ion` method](https://identity.foundation/sidetree/spec/); it will be used for secure interactions with the issuer and the verifier, from here on out. A good way to start is to build out ION DIDs in [Long-Form](https://identity.foundation/sidetree/spec/#long-form-did-uris).
 
