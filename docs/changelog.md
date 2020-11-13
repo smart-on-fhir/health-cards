@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.6
+
+Updated encryption to use `"alg": "ECDH-ES"` (with `"enc": "A256GCM"`)
+
+
 ## 0.0.5
 
 Updated encryption to use `"enc": "A256GCM"`
