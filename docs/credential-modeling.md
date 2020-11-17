@@ -48,14 +48,23 @@ According to the procedure above, we start with decisions about FHIR content res
     * `Observation` with effectiveTime and a COVID-19 IgG result
     * `DiagnosticReport` from COVID-19 testing, that conveys an overall conclusion (optional)
 
-* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We should support two presentation contexts:
-    * For **Online Presentation**, we expect that the consumer will present the VC to an organization that has a pre-existing relationship with the consumer, so it's sufficient to bind the VC to a real-world name and verified phone number:
-        * `Patient` with name and phone number
-        * (possibly) `Patient` with alternate sets of attributes for other use-cases
-    * For **In-person Presentation**, we expect that the consumer will present the VC at an in-person interaction alongside a physical photo ID, so it's sufficient to bind the VC to a facial image that matches the consumer's physical photo ID
-        * `Patient` with name and a photo of sufficient size and quality
+* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource:
 
-Since we need to support two presentation contexts, **we'll need to generate two VCs** (one per presentation context), so the consumer can share the appropriate VC for any given context.
+    * First name
+    * Middle initial
+    * Last Name
+    * Suffix
+    * Gender
+    * Mobile phone
+    * Email address
+    * Date of birth
+
+    * Overall "level of assurance" indicating whether these elements have been verified (question: do we also want to convey element-specific level of assurance?)
+
+    * Best practices
+        * Each party should attempt to verify the mobile phone number (e.g., using an SMS with a confirmation link or one-time code)
+        * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
+        * Verifiers should not expect all elements in the VC to match their own records, but can still use elements conveyed in the VC. For example, if a user has registered a verifier-specific email addresses in the VC, the verifier might use the email address inside the VC as a second factor in a verifiaction workflow
 
 ### Health Card Examples
 

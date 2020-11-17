@@ -354,7 +354,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
   "type": [
     "VerifiableCredential",
     "https://healthwallet.cards#covid19",
-    "https://healthwallet.cards#presentation-context-online"],
+  ],
   "issuer": "<<did:ion identifier for lab>>",
   "issuanceDate": "2020-05-01T11:59:00-07:00",
   "credentialSubject": {
@@ -404,9 +404,6 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "parameter": [{
         "name": "credentialType",
         "valueUri": "https://healthwallet.cards#covid19"
-      }, {
-        "name": "presentationContext",
-        "valueUri": "https://healthwallet.cards#presentation-context-online"
       }]
     }
     ```
@@ -419,9 +416,6 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "parameter": [{
         "name": "credentialType",
         "valueUri": "https://healthwallet.cards#covid19"
-      }, {
-        "name": "presentationContext",
-        "valueUri": "https://healthwallet.cards#presentation-context-online"
       }, {
         "name": "includeIdentityClaim",
         "valueString": "Patient.name"
