@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7
+
+Simplify demographics recommendations with one uniform "minimum set"
+
 ## 0.0.6
 
 Updated encryption to use `"alg": "ECDH-ES"` (with `"enc": "A256GCM"`)
