@@ -246,8 +246,8 @@ And a payload like:
   "state": "<<client-supplied value, possibly empty>>",
   "registration":  {
     "id_token_signed_response_alg" : "ES256K",
-    "id_token_encrypted_response_alg": "RSA-OAEP",
-    "id_token_encrypted_response_enc": "A128CBC-HS256",
+    "id_token_encrypted_response_alg": "ECDH-ES",
+    "id_token_encrypted_response_enc": "A256GCM",
     "client_uri": "<<base URL for lab>>"
   }
 }
