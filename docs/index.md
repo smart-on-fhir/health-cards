@@ -5,8 +5,8 @@ Draft implementation guide authored with input from technology and lab vendors; 
 ## Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
 
-## Overview Video
-* [https://youtu.be/g7bZU5nmHIA](https://youtu.be/g7bZU5nmHIA)
+## Overview Video (November 2020)
+* [https://youtu.be/UdlmRoJK1Yg](https://youtu.be/UdlmRoJK1Yg)
 
 # Introduction -- Health Cards
 
