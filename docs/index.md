@@ -203,7 +203,7 @@ By using this URI-based approach, the lab can choose to display a static QR code
 !!! info "Simplifying the workflow when a FHIR API connection exists"
     A SMART on FHIR Server can advertise support for issuing VCs according to this specification by populating the following items in its CapabilityStatement, advertised at `GET /metadata`:
 
-    ```json
+    ```
     {
       "resourceType": "CapabilityStatement",
       << snipped for brevity >>
