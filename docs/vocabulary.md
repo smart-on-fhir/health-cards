@@ -9,7 +9,13 @@
 
 ## FHIR Extensions
 
- * `https://healthwallet.cards#vc-attachment`: Extension that decorates a FHIR "key resource" to attach a VC
+* `https://healthwallet.cards#vc-attachment`: Extension that decorates a FHIR "key resource" to attach a VC
+
+## Canonical URLs
+
+*  `https://healthwallet.cards`: Canonical URL for the SMART Health Cards Implementation Guide overall. Discoverable within a FHIR Server's CapabilityStatement, at `.implementationGuide`. A server advertising support for this IG must also support the operations described below.
+*  `https://healthwallet.cards/OperationDefinition/HealthWallet.connect`: Canonical URL for the `$HealthWallet.connect` operation. Discoverable within a FHIR Server's CapabilityStatement, at `.rest.resource.where(type='Patient').operation.definition`
+*  `https://healthwallet.cards/OperationDefinition/HealthWallet.issueVc`: Canonical URL for the `$HealthWallet.issueVc` operation. Discoverable within a FHIR Server's CapabilityStatement, at `.rest.resource.where(type='Patient').operation.definition`
 
 ## FHIR Codings
 
