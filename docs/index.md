@@ -479,7 +479,7 @@ Verifier ->> Verifier: generate openid:// link with upload URL, public key and p
 
 note over Holder, Verifier: In Person Presentation
 Verifier ->> Verifier: Display openid:// link in QR code
-Verifier ->> Holder: scan QR code
+Verifier ->> Holder: Holder scans QR code
 
 note over Holder, Verifier: Online Presentation
 Verifier ->> Verifier: redirect with openid:// link
