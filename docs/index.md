@@ -300,7 +300,7 @@ And a payload like:
 ```
 
 The response is signed as a JWS with the user's DID and optionally encrypted using the lab's DID (if the request specified `id_token_encrypted_response_*`).
-The latter step requires looking inside the DID Document for an `RSAEncryptionPublicKey`, which can be used for encrypting a payload for this party.
+The latter step requires looking inside the DID Document for an encryption key, which can be used for encrypting a payload for this party.
 
 > TODO: Show the header for the JWE around it
 
