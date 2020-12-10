@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.8
+
+* Clarify that `.fhir-backed-vc` files can contain JWS- or JWE-based VCs
+* Update JWS signature algorithm to `ES256`
+
 ## 0.0.7
 
 Simplify demographics recommendations with one uniform "minimum set"
