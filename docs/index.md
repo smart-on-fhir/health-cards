@@ -378,8 +378,8 @@ In this step, the user learns that new lab results are available (e.g., by recei
 ```json
 {
   "verifiableCredential": [
-    "<<Verifiable Credential as JWE>>",
-    "<<Verifiable Credential as JWE>>"
+    "<<Verifiable Credential as JWE or JWS>>",
+    "<<Verifiable Credential as JWE or JWS>>"
   ]
 }
 ```
