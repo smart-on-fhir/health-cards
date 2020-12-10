@@ -201,28 +201,16 @@ openid://?
 By using this URI-based approach, the lab can choose to display a static QR code printed on a sticker at the check-in counter, generating the signed request objects dynamically each time a client dereferences the `request_uri`.
 
 !!! info "Simplifying the workflow when a FHIR API connection exists"
-    A SMART on FHIR Server can advertise support for issuing VCs according to this specification by populating the following items in its CapabilityStatement, advertised at `GET /metadata`:
+    A SMART on FHIR Server can advertise support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
 
     ```
     {
-      "resourceType": "CapabilityStatement",
-      << snipped for brevity >>
-      "implementationGuide": [
-        "https://healthwallet.cards"
-      ],
-      "rest": [
-        << snipped for brevity >>
-        "resource": [
-          "type": "Patient",
-          "operation": [{
-            "name": "Health Wallet Connect",
-            "definition": "https://healthwallet.cards/OperationDefinition/HealthWallet.connect"
-          }, {
-            "name": "Health Wallet Issue VC",
-            "definition": "https://healthwallet.cards/OperationDefinition/HealthWallet.issueVc"
-          }]
-        ]
-      ]
+    "authorization_endpoint": "https://ehr.example.com/auth/authorize",
+    "token_endpoint": "https://ehr.example.com/auth/token",
+    "token_endpoint_auth_methods_supported": ["client_secret_basic"],
+    "scopes_supported": ["__HealthWallet.*", "launch", "launch/patient", "patient/*.*", "offline_access"],
+    "response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
+    "capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
     }
     ```
 
