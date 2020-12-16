@@ -10,7 +10,7 @@ To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/
 
 # Introduction -- Health Cards
 
-This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 serology or PCR results from a participating lab and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
+This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Immunization or lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
 
 Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. 
 
