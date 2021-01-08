@@ -264,7 +264,7 @@ The `id_token_encrypted_response_*` parameters are optional and, if present, sig
 
 #### DID SIOP Request Validation
 
-In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#sd-siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
+In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
 
 > **Bug in spec:** Do NOT attempt to validate according to [OIDC Core 7.5](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssuedValidation) because this applies to the response, not the request.
 
