@@ -129,6 +129,10 @@ In this step, the user installs a standards-based mobile app. The app generates 
 
 * a key of type `JsonWebKey2020` to enable verification of JWT signatures created by this issuer, using the `"alg": "ES256"` signature algorithm
 * a key of type `JsonWebKey2020` to enable encryption of JWE payloads created for this issuer, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
+
+!!! question "**Signature and encryption algorithms**"
+
+    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
  
 This identifier conforms to the [`did:ion` method](https://github.com/decentralized-identity/ion). The `did:ion` method is an implementation of the [Sidetree specification](https://identity.foundation/sidetree/spec): a spec for DID methods using distributed ledgers.
 
@@ -145,10 +149,6 @@ ION DIDs will be used to secure interactions with the issuer and the verifier, f
     * supports service endpoint discovery
 
     So we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
-
-!!! question "**Signature and encryption algorithms**"
-
-    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
 
 !!! question "**Long-form vs. Short-form DIDs**"
 
