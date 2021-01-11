@@ -129,8 +129,14 @@ In this step, the user installs a standards-based mobile app. The app generates 
 
 * a key of type `JsonWebKey2020` to enable verification of JWT signatures created by this issuer, using the `"alg": "ES256"` signature algorithm
 * a key of type `JsonWebKey2020` to enable encryption of JWE payloads created for this issuer, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
+
+!!! question "**Signature and encryption algorithms**"
+
+    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
  
-This identifier conforms to the [`did:ion` method](https://identity.foundation/sidetree/spec/); it will be used for secure interactions with the issuer and the verifier, from here on out. A good way to start is to build out ION DIDs in [Long-Form](https://identity.foundation/sidetree/spec/#long-form-did-uris).
+This identifier conforms to the [`did:ion` method](https://github.com/decentralized-identity/ion). The `did:ion` method is an implementation of the [Sidetree specification](https://identity.foundation/sidetree/spec): a spec for DID methods using distributed ledgers.
+
+ION DIDs will be used to secure interactions with the issuer and the verifier, from here on out.
 
 !!! question " **DID Methods**"
 
@@ -144,10 +150,18 @@ This identifier conforms to the [`did:ion` method](https://identity.foundation/s
 
     So we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
 
-!!! question "**Signature and encryption algorithms**"
+!!! question "**Long-form vs. Short-form DIDs**"
 
-    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
+    `did:ion`, a Sidetree-compliant DID method, supports both long and short form DIDs. In brief, a long-form DID can be resolved to a DID Document on its own: it does not require a blockchain query to provide information
+    about the public key information state of an identity. A short-form DID _requires_ a blockchain query to resolve a DID Document and _requires_ that the corresponding long-form DID
+    be persisted to the blockchain before the short-form DID is resolvable.
 
+    As such, communicating via short-form DIDs requires more capabilities/infrastructure: namely integrating with a Sidetree node to resolve these short-form DIDs.
+    However, this infrastructure enables a more robust security model. You need to persist a DID Document in the blockchain to resolve a short-form DID, persisting a DID Document in the blockchain enables a DID to be updated via key revocation, key addition, etc.
+
+    Check out the documentation on [DID URI Composition](https://identity.foundation/sidetree/spec/#did-uri-composition) and [DID Resolution](https://identity.foundation/sidetree/spec/#resolution) for more details.
+
+This implementation guide recommends using _strictly_ long-form ION DIDs at this time.
 
 ## Connect Health Wallet to Lab Account
 
@@ -264,7 +278,7 @@ The `id_token_encrypted_response_*` parameters are optional and, if present, sig
 
 #### DID SIOP Request Validation
 
-In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#sd-siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
+In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
 
 > **Bug in spec:** Do NOT attempt to validate according to [OIDC Core 7.5](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssuedValidation) because this applies to the response, not the request.
 
