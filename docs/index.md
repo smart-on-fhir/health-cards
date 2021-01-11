@@ -159,7 +159,7 @@ ION DIDs will be used to secure interactions with the issuer and the verifier, f
     As such, communicating via short-form DIDs requires more capabilities/infrastructure: namely integrating with a Sidetree node to resolve these short-form DIDs.
     However, this infrastructure enables a more robust security model. You need to persist a DID Document in the blockchain to resolve a short-form DID, persisting a DID Document in the blockchain enables a DID to be updated via key revocation, key addition, etc.
 
-    Checkout the documentation on [DID URI Composition](https://identity.foundation/sidetree/spec/#did-uri-composition) and [DID Resolution](https://identity.foundation/sidetree/spec/#resolution) for more details.
+    Check out the documentation on [DID URI Composition](https://identity.foundation/sidetree/spec/#did-uri-composition) and [DID Resolution](https://identity.foundation/sidetree/spec/#resolution) for more details.
 
 This implementation guide recommends using _strictly_ long-form ION DIDs at this time.
 
