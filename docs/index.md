@@ -215,7 +215,20 @@ openid://?
 By using this URI-based approach, the lab can choose to display a static QR code printed on a sticker at the check-in counter, generating the signed request objects dynamically each time a client dereferences the `request_uri`.
 
 !!! info "Simplifying the workflow when a FHIR API connection exists"
-    If the Health Wallet app already has a FHIR API connection to the lab that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
+    A SMART on FHIR Server can advertise support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
+
+    ```
+    {
+    "authorization_endpoint": "https://ehr.example.com/auth/authorize",
+    "token_endpoint": "https://ehr.example.com/auth/token",
+    "token_endpoint_auth_methods_supported": ["client_secret_basic"],
+    "scopes_supported": ["__HealthWallet.*", "launch", "launch/patient", "patient/*.*", "offline_access"],
+    "response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
+    "capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
+    }
+    ```
+
+    If the Health Wallet app already has a FHIR API connection to the issuer that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
     
         GET /Patient/:id/$HealthWallet.connect
         

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.9
+
+Add discovery params to `.well-known/smart-configuration`, allowing SMART on FHIR servers to advertise Health Cards capabilities
+
+
 ## 0.0.8
 
 * Clarify that `.fhir-backed-vc` files can contain JWS- or JWE-based VCs

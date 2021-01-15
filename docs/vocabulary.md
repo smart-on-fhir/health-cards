@@ -9,7 +9,8 @@
 
 ## FHIR Extensions
 
- * `https://healthwallet.cards#vc-attachment`: Extension that decorates a FHIR "key resource" to attach a VC
+* `https://healthwallet.cards#vc-attachment`: Extension that decorates a FHIR "key resource" to attach a VC
+
 
 ## FHIR Codings
 
