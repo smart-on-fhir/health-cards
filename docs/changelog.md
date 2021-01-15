@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8
+
+Add discovery params to `.well-known/smart-configuration`, allowing SMART on FHIR servers to advertise Health Cards capabilities
+
 ## 0.0.7
 
 Simplify demographics recommendations with one uniform "minimum set"
