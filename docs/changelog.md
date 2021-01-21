@@ -2,7 +2,7 @@
 
 ## 0.0.10
 
-Move `client_uri` to a top-level SIOP Request Param (from `.registration.client_uri`
+Move `client_uri` to a top-level SIOP Request Param (from `.registration.client_uri`)
 
 
 ## 0.0.9
