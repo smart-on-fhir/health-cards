@@ -128,7 +128,7 @@ The credential's data is **represented in FHIR** as outlined in [Modeling Verifi
 In this step, the user installs a standards-based mobile app. The app generates a decentralized identifier on behalf of the user, including:
 
 * a key of type `JsonWebKey2020` to enable verification of JWT signatures created by the wallet, using the `"alg": "ES256"` signature algorithm
-* a key of type `JsonWebKey2020` to enable encryption of JWE payloads created for this issuer, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
+* a key of type `JsonWebKey2020` to enable encryption of JWE payloads created for this wallet, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
 
 !!! question "**Signature and encryption algorithms**"
 
