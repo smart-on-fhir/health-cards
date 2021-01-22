@@ -2,7 +2,7 @@
 
 ## 0.0.10
 
-Add detail on how to recognize encryption keys, signine keys, and linked domains in a DID Document
+Add detail on how to recognize encryption keys, signing keys, and linked domains in a DID Document
 
 ## 0.0.9
 
