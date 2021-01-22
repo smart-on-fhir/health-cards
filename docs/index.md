@@ -163,6 +163,58 @@ ION DIDs will be used to secure interactions with the issuer and the verifier, f
 
 This implementation guide recommends using _strictly_ long-form ION DIDs at this time.
 
+### Determining keys and service endpoints from a long-form ION DID
+
+Given a long-form ION DID, any participant can follow the ION DID Resolution algorithm to determine the associated DID Document. Within the DID Document you can identify the following:
+
+* **Encryption keys** to be for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ECDH-ES"`. The Key IDs for all encryption keys SHOULD be listed in the `keyAgreement[]` array.
+* **Signing keys** to be for `ES256` signatures. Signing keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ES256"`. The Key IDs for all signing keys SHOULD be listed in the `authentication[]` array.
+* **Linked Domains** for issuers with a public web presence. Linked Domains can found in the `service[]` array, using the `serviceEndpoint` property on entries with a `type` of `"LinkedDomains"`.
+ 
+ For example, the following fragment of a DID Document contains one signing key, one encryption key, and one linked domain (note that `id` and `@context` properties are omitted for brevity):
+ ```
+   ...
+  "service": [
+    {
+      "id": "#linked-domain-1",
+      "type": "LinkedDomains",
+      "serviceEndpoint": "https://lab.example.com"
+    },
+   "verificationMethod": [
+    {
+      "id": "#signing-key-1",
+      "controller": "",
+      "type": "JsonWebKey2020",
+      "publicKeyJwk": {
+        "alg": "ES256",
+        "crv": "P-256",
+        "kty": "EC",
+        "x": "fsjHQujKrtGxrw4LTpLqIhGVd1i7J7aOIlOxnDoefa8",
+        "y": "eGOSyJ_fT1xduW-K4aZwh2BBvRGAaTm_jiMB9EWW6oQ"
+      }
+    },
+    {
+      "id": "#encryption-key-1",
+      "controller": "",
+      "type": "JsonWebKey2020",
+      "publicKeyJwk": {
+        "alg": "ECDH-ES",
+        "crv": "P-256",
+        "kty": "EC",
+        "x": "xds4tFXqH6TFXdRxevqR8xEFgUgTGK_Of0QhGlmg4DY",
+        "y": "2EpP5ef2-YWmi2aIZcFADG88PyNfRoApfzN81i5aZuE"
+      }
+    }
+  ],
+  "authentication": [
+    "#signing-key-1"
+  ],
+  "keyAgreement": [
+    "#encryption-key-1"
+  ]
+  ...
+ ```
+
 ## Connect Health Wallet to Lab Account
 
 In this step, the lab learns about the end-user's DID. To accomplish this, the lab initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
