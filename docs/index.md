@@ -400,7 +400,10 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
 
 ## Lab Results are Finalized
 
-In this step, the user learns that new lab results are available (e.g., by receiving a text message or email notification). To facilitate this workflow, the lab can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Lab's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWTs, which MAY be either JWE or JWS, at the issuer's discretion. (In the case where the user has not connected a wallet to the issuer in advance, these will necessarily be JWS values, since no encryption key is known; in the case where the user has connected a health wallet to the issuer, the issuer MAY choose to encrypt the `.fhir-backed-vc` file using a key from the health wallet's registered DID):
+In this step, the user learns that new lab results are available (e.g., by receiving a text message or email notification). To facilitate this workflow, the lab can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Lab's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWTs, which MAY be either JWE or JWS, at the issuer's discretion:
+
+- in the case where the user has NOT connected a wallet to the issuer in advance, these will necessarily be JWS values, since no encryption key is known
+- in the case where the user has connected a health wallet to the issuer, the issuer MAY choose to encrypt the `.fhir-backed-vc` file using a key from the Health Wallet's registered DID
 
 ```json
 {
