@@ -168,7 +168,7 @@ This implementation guide recommends using _strictly_ long-form ION DIDs at this
 In this step, the lab learns about the end-user's DID. To accomplish this, the lab initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
 
 !!! info "**Discovering DIDs for labs**"
-    To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
+    To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 
 ```mermaid
 sequenceDiagram
@@ -271,11 +271,11 @@ And a payload like:
   "response_context": "wallet",
   "nonce": "<<unique value>>",
   "state": "<<client-supplied value, possibly empty>>",
-  "client_uri": "<<base URL for lab>>",
   "registration":  {
     "id_token_signed_response_alg" : "ES256",
     "id_token_encrypted_response_alg": "ECDH-ES",
     "id_token_encrypted_response_enc": "A256GCM",
+    "client_uri": "<<base URL for lab>>"
   }
 }
 ```
@@ -291,14 +291,14 @@ The `id_token_encrypted_response_*` parameters are optional and, if present, sig
 
 #### DID SIOP Request Validation
 
-In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
+In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
 
 > **Bug in spec:** Do NOT attempt to validate according to [OIDC Core 7.5](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssuedValidation) because this applies to the response, not the request.
 
 
 ### DID SIOP Response
 
-The Health Wallet displays a message to the user asking something like "Connect to lab.example.com?" (based on the `client_uri` value). If the user agrees, the Health Wallet constructs a DID SIOP Response object with a header like:
+The Health Wallet displays a message to the user asking something like "Connect to lab.example.com?" (based on the `registration.client_uri` value). If the user agrees, the Health Wallet constructs a DID SIOP Response object with a header like:
 ```json
 {
   "alg": "ES256",

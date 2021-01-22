@@ -1,10 +1,5 @@
 # Changelog
 
-## 0.0.10
-
-Move `client_uri` to a top-level SIOP Request Param (from `.registration.client_uri`)
-
-
 ## 0.0.9
 
 Add discovery params to `.well-known/smart-configuration`, allowing SMART on FHIR servers to advertise Health Cards capabilities
