@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.10
+
+Add detail on how to recognize encryption keys, signing keys, and linked domains in a DID Document
+
 ## 0.0.9
 
 Add discovery params to `.well-known/smart-configuration`, allowing SMART on FHIR servers to advertise Health Cards capabilities
