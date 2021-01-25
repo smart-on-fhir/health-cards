@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.11
+
+Change canonical domain to https://smarthealth.cards (from https://healthwallet.cards)
+
+
 ## 0.0.10
 
 Add detail on how to recognize encryption keys, signing keys, and linked domains in a DID Document
