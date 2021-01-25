@@ -432,7 +432,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
   ],
   "type": [
     "VerifiableCredential",
-    "https://healthwallet.cards#covid19",
+    "https://smarthealth.cards#covid19",
   ],
   "issuer": "<<did:ion identifier for lab>>",
   "issuanceDate": "2020-05-01T11:59:00-07:00",
@@ -485,7 +485,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "resourceType": "Parameters",
       "parameter": [{
         "name": "credentialType",
-        "valueUri": "https://healthwallet.cards#covid19"
+        "valueUri": "https://smarthealth.cards#covid19"
       }]
     }
     ```
@@ -497,7 +497,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "resourceType": "Parameters",
       "parameter": [{
         "name": "credentialType",
-        "valueUri": "https://healthwallet.cards#covid19"
+        "valueUri": "https://smarthealth.cards#covid19"
       }, {
         "name": "includeIdentityClaim",
         "valueString": "Patient.name"
@@ -534,7 +534,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
         "code": "processing",
         "details": {
           "coding": [{
-            "system": "https://healthwallet.cards",
+            "system": "https://smarthealth.cards",
             "code": "no-did-bound",
             "display": "No DID is bound to the requested Patient account"
           }]
@@ -599,7 +599,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
       // `iss`, `response_type`, etc
       "claims": {
         "id_token": {
-          "https://healthwallet.cards#covid19": {"essential": true},
+          "https://smarthealth.cards#covid19": {"essential": true},
         }
       }
     }
