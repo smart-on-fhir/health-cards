@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.12
+
+Add optional `resourceLink` response parameter on `$HealthWallet.issueVc`
+
 ## 0.0.11
 
 Change canonical domain to https://smarthealth.cards (from https://healthwallet.cards)

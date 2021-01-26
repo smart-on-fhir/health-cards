@@ -490,7 +490,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
     }
     ```
     
-    The `credentialType` and `presentationContext` parameters are both required. By default, the issuer will decide which identity claims to include based on the requested `presentationContext`. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
+    The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
     
     ```json
     {
@@ -501,16 +501,25 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }, {
         "name": "includeIdentityClaim",
         "valueString": "Patient.name"
-      }, {
+      }]
+    }
+    ```
+
+    An optional `encryptForKeyId` parameter can specify an encryption key ID from the connected DID:
+    ```json
+    {
+      "resourceType": "Parameters",
+      "parameter": [{
         "name": "encryptForKeyId",
         "valueString": "#encryption-key-1"
       }]
     }
     ```
-    
+     
     If no `encryptForKeyId` parameter is supplied, then the signed VC is returned unencrypted. To request encryption, the client includes an `encryptForKeyId` parameter with a `valueString`, indicating the requested encryption key ID, starting with `#`. This ensures that even if the client's DID document includes more than one encryption key, the server will know which one to use for encrypting this payload.
-    
-    The response is a `Parameters` resource that includes one more more `verifiableCredential` values like:
+
+   
+    The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
     
     ```json
     {
@@ -523,7 +532,25 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-    
+
+    In the response, an optional repeating `resourceLink` parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential:
+
+    ```json
+    {
+      "resourceType": "Parameters",
+      "parameter": [{
+        "name": "resourceLink",
+        "part": [{
+            "name": "bundledResource",
+            "valueUri": "urn:uuid:4fe4f8d4-9b6e-4780-8ea5-6b5791230c85"
+          }, {
+            "name": "hostedResource",
+            "valueUri": "https://fhir.example.org/Immunization/123"
+        }]
+      }]
+    }
+    ```
+     
     If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR `OperationOutcome` including the "no-did-bound" code:
     
     ```json
