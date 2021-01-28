@@ -661,6 +661,9 @@ The process begins with a QR code or `openid://` link. The only differences are:
 
 In this flow, the user obtains a physical or virtual Health Card QR code. This code can be shared with verifying parties or loaded into a new wallet app by scanning the QR code. The Health Card QR code is created from a specially-issued *QR-Ready Health Card* with the following constraints applied:
 
+* payload is minified (i.e., all optional whitespace has been stripped)
+* payload is compressed with the DEFLATE (RFC1951) algorithm before being signed
+* `zip: "DEF"` is specified in the JWS header
 * `kid` in the JWS header is omitted
 * `sub` in the JWS payload is omitted
 * `iss` in the JWS payload is a short-form ion DID
@@ -669,8 +672,6 @@ In this flow, the user obtains a physical or virtual Health Card QR code. This c
   * created without `Resource.meta` elements
   * created without `Resource.text` elements
   * created without `Coding.display` elements
-* entire payload is minified (i.e., all optional whitespace has been stripped)
-* entire payload is gzipped before being signed (i.e., the signed bytes are the minified gzipped JSON payload object)
  
 The *QR-Ready Health Card* as a JWT is directly used as the text body of a QR code. If the resulting payload is larger than 4296 bytes, the issuer should refactor the resources into multiple *QR-Ready Health Cards*, populating `.vc.credentialSubject.fhirBundleSplit` with the number of cards in the set, and populating `.vc.credentialSubject.fhirBundleSet` with the same UUID for each card in the set.
 
