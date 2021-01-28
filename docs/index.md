@@ -651,6 +651,26 @@ The process begins with a QR code or `openid://` link. The only differences are:
     ```
 ---
 
+### Paper-based fallback: Health Card Links
+* Allows basic use of health cards for users without a smartphone
+* Allow smartphone-enabled users to print a usable backup
+* Allows full health card contents to be shared with a verifier
+* Requires that the verifier is online
+* Does not capture a digital record of a signed request (no DID-SIOP Request flow)
+* Does not capture a digital record of the presentation  (no Verifiable Presentation flow)
+
+In this flow, the user obtains a physical or virtual *Health Card Link* QR code. This code can be shared with verifying parties or loaded into a new wallet app by scanning the QR code. The *Health Card Link* is a QR code whose payload consists of a minified JSON payload with three properties:
+
+1. `type` value of `https://smarthealth.cards#health-card`, identifying this QR code as a *Health Card Link*
+1. `url` value that dereferences do an encrypted Health Card (following the same JWE-based encryption scheme described above)
+1. `jwk` value conveying a private key (`"alg": "ECDH-ES", "crv": "P-256"`) capable of decrypting the encrypted Health Card
+
+Consumers can obtain a Health Card Link through two main workflows:
+* For consumers without a smartphone, issuers or other trusted "Health Card Link Creators" can create a Health Card QR Link and print it. In this process, the Health Card Printer generates or obtains a Health Card; generates an encryption key; encrypts the Health Card; and causes the encrypted Health Card to be hosted at some URL. The Health Card Printer then populates a Health Card Link with the three required proeprties, printing the resulting QR code or otherwise sharing it with the consumer.
+* For consumers with a smartphone, their Health Wallet app can play the role of a Health Card Link Creator, following the steps described above.
+
+For an example of a Health Card Link, [see this gist](https://gist.github.com/jmandel/f0f2c846b70f683ec567bfe21497c7e1)
+
 ## Potential Extensions
 
 ### Fallback for smartphone-based offline presentation
