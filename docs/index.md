@@ -651,20 +651,35 @@ The process begins with a QR code or `openid://` link. The only differences are:
     ```
 ---
 
+### Paper-based fallback: Health Card QR Codes
+* Allows basic use of health cards for users without a smartphone
+* Allow smartphone-enabled users to print a usable backup
+* Allows near-complete health card contents to be shared with a verifier
+* Requires that the verifier has pre-configured a set of known issuers
+* Does not capture a digital record of a signed request (no DID-SIOP Request flow)
+* Does not capture a digital record of the presentation  (no Verifiable Presentation flow)
+
+In this flow, the user obtains a physical or virtual Health Card QR code. This code can be shared with verifying parties or loaded into a new wallet app by scanning the QR code. The Health Card QR code is created from a specially-issued *QR-Ready Health Card* with the following constraints applied:
+
+* `kid` in the JWS header is omitted
+* `sub` in the JWS payload is omitted
+* `iss` in the JWS payload is a short-form ion DID
+* `.vc.credentialSubject.fhirBundle` in the JWS payload is:
+  * created without `Resource.meta` elements
+  * created without `Resource.text` elements
+  * created without `Coding.display` elements
+  * minified (i.e., all optional whitespace has been stripped)
+ 
+The *QR-Ready Health Card* is turned into a QR code by gzipping and then base64 encoding. If the resulting payload is larger than 4296 bytes, the issuer should regenerate the *QR-Ready Health Card* redacting FHIR resources until it is within limits.
+
+In order to verify a Health Card QR Code, the verifier must be able to look up the long-form DID value (i.e., the initial state) associated with the issuer's short-form ion DID (e.g., by checking with a registry of known issuer DIDs).
+
+
 ## Potential Extensions
 
 ### Fallback for smartphone-based offline presentation
 
 We should be able to specify additional "return paths" in the DID SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
-
-### Fallback for users without a smartphone
-
-While it's hard to provide the same level of functionality and convenience without a mobile phone, there are still steps we can take to allow broader use of these verifiable credentials. Here's one possibleS approach to graceful degradation:
-
-* Lab generates VCs that aren't bound to any specific user DID
-* Lab makes VCs available for download
-* User prints a QR Code conveying the VC, or a link to a hosted copy of the VC (optionally protected by a password or PIN)
-* Verifier scans the barcode, retrieves the VC, and verifies signatures -- then relies on out-of band relationship with the user to match the VC to a real-world identity. For example, the user may be an employee or customer of the verifier, and thus the user's name and phone number may be known by the verifier in advance. The verifier must compare the identity attributes inside the VC with the attributes they have verified out of band.
 
 
 
