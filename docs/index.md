@@ -661,8 +661,8 @@ The process begins with a QR code or `openid://` link. The only differences are:
 
 In this flow, the user obtains a physical or virtual *Health Card Link* QR code. This code can be shared with verifying parties or loaded into a new wallet app by scanning the QR code. The *Health Card Link* is a QR code whose payload consists of a minified JSON payload with three properties:
 
-1. `type` value of `https://smarthealth.cards#health-card`, identifying this QR code as a *Health Card Link*
-1. `url` value that dereferences do an encrypted Health Card (following the same JWE-based encryption scheme described above)
+1. `type` value of `https://smarthealth.cards#1`, identifying this QR code as a *Health Card Link*
+1. `url` value that dereferences to an encrypted Health Card (following the same JWE-based encryption scheme described above)
 1. `jwk` value conveying a private key (`"alg": "ECDH-ES", "crv": "P-256"`) capable of decrypting the encrypted Health Card
 
 Consumers can obtain a Health Card Link through two main workflows:
