@@ -677,15 +677,5 @@ For an example of a Health Card Link, [see this gist](https://gist.github.com/jm
 
 We should be able to specify additional "return paths" in the DID SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
 
-### Fallback for users without a smartphone
-
-While it's hard to provide the same level of functionality and convenience without a mobile phone, there are still steps we can take to allow broader use of these verifiable credentials. Here's one possibleS approach to graceful degradation:
-
-* Lab generates VCs that aren't bound to any specific user DID
-* Lab makes VCs available for download
-* User prints a QR Code conveying the VC, or a link to a hosted copy of the VC (optionally protected by a password or PIN)
-* Verifier scans the barcode, retrieves the VC, and verifies signatures -- then relies on out-of band relationship with the user to match the VC to a real-world identity. For example, the user may be an employee or customer of the verifier, and thus the user's name and phone number may be known by the verifier in advance. The verifier must compare the identity attributes inside the VC with the attributes they have verified out of band.
-
-
 
 [well-known]: https://identity.foundation/.well-known/resources/did-configuration/
