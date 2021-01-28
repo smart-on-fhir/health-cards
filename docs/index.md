@@ -620,10 +620,24 @@ Verifier ->> Verifier: ...
 The process begins with a QR code or `openid://` link. The only differences are:
 
 1. The SIOP Request Object includes a `claims` object asking for relevant Verifiable Credentials to be included in the response:
+
+
     ```json
     {
-      // ... other request fields like 
-      // `iss`, `response_type`, etc
+      "iss": "did:ion:<<identifier for lab>>",
+      "response_type": "id_token",
+      "client_id": "<<URL where response object will be posted>>",
+      "scope": "openid did_authn",
+      "response_mode" : "form_post",
+      "response_context": "wallet",
+      "nonce": "<<unique value>>",
+      "state": "<<client-supplied value, possibly empty>>",
+      "registration":  {
+        "id_token_signed_response_alg" : "ES256",
+        "id_token_encrypted_response_alg": "ECDH-ES",
+        "id_token_encrypted_response_enc": "A256GCM",
+        "client_uri": "<<base URL for lab>>"
+      },
       "claims": {
         "id_token": {
           "https://smarthealth.cards#covid19": {"essential": true},
@@ -637,8 +651,19 @@ The process begins with a QR code or `openid://` link. The only differences are:
 3. The `id_token` constituting the DID SIOP Response includes a `.vp.verifiableCredential` array:
     ```json
     {
-      // ... other response fields like
-      // `iss`, `aud`, etc.
+      "iss": "https://self-issued.me",
+      "did": "did:ion:<<identifier for user>>",
+      "aud": "<<client_id from the request>>",
+      "nonce": "<<unique value>>",
+      "exp": <<expiration time as JSON number of seconds since epoch>>,
+      "iat": <<issuance time as JSON number of seconds since epoch>>,
+      "sub_jwk": {
+        "crv": "P-256",
+        "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>",
+        "kty": "EC",
+        "x": "<<curve's X coordinate>>",
+        "y": "<<curve's Y coordinate>>"
+      },
       "vp": {
         "@context": ["https://www.w3.org/2018/credentials/v1"],
         "type": ["VerifiablePresentation"],
