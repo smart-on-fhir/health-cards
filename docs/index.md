@@ -669,9 +669,10 @@ In this flow, the user obtains a physical or virtual Health Card QR code. This c
   * created without `Resource.meta` elements
   * created without `Resource.text` elements
   * created without `Coding.display` elements
-  * minified (i.e., all optional whitespace has been stripped)
+* entire payload is minified (i.e., all optional whitespace has been stripped)
+* entire payload is gzipped before being signed (i.e., the signed bytes are the minified gzipped JSON payload object)
  
-The *QR-Ready Health Card* is turned into a QR code by gzipping and then base64url encoding. If the resulting payload is larger than 4296 bytes, the issuer should refactor the resources into multiple *QR-Ready Health Cards*, populating `.vc.credentialSubject.fhirBundleSplit` with the number of cards in the set, and populating `.vc.credentialSubject.fhirBundleId` with the same UUID for each card in the set.
+The *QR-Ready Health Card* as a JWT is directly used as the text body of a QR code. If the resulting payload is larger than 4296 bytes, the issuer should refactor the resources into multiple *QR-Ready Health Cards*, populating `.vc.credentialSubject.fhirBundleSplit` with the number of cards in the set, and populating `.vc.credentialSubject.fhirBundleSet` with the same UUID for each card in the set.
 
 In order to verify a Health Card QR Code, the verifier must be able to look up the long-form DID value (i.e., the initial state) associated with the issuer's short-form ion DID (e.g., by checking with a registry of known issuer DIDs, or by checking the `.well-known/did-configuration` associated with the `.vc.issuerDomain`).
 
