@@ -569,7 +569,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
     ```
 
 
-## Presenting Helath Cards to a Verifier
+## Presenting Health Cards to a Verifier
 
 In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the DID SIOP protocol.
 
