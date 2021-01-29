@@ -622,7 +622,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
 
     ```json
     {
-      "iss": "did:ion:<<identifier for issuer>>",
+      "iss": "did:ion:<<identifier for verifier>>",
       "response_type": "id_token",
       "client_id": "<<URL where response object will be posted>>",
       "scope": "openid did_authn",
