@@ -298,7 +298,7 @@ By using this URI-based approach, the lab can choose to display a static QR code
     
     This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into the lab portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
 
-    Upon successful completion of the OpenID Connect workflow, the Issuer should consider the supplied user DID to be "connected" to the user's account. Issuers MAY allow a single uesr account to be connected to multiple user DIDs (e.g., to support use cases where a user connects multiple health wallets to a single account); alternatively, issuers MAY clear out previously connected DIDs upon the initiation or completion of a new `$HealthWallet.connect` flow.
+    Upon successful completion of the OpenID Connect workflow, the Issuer should consider the supplied user DID to be "connected" to the user's account. Issuers MAY allow a single user account to be connected to multiple user DIDs (e.g., to support use cases where a user connects multiple health wallets to a single account); alternatively, issuers MAY clear out previously connected DIDs upon the initiation or completion of a new `$HealthWallet.connect` flow.
 
 
 ### DID SIOP Request
