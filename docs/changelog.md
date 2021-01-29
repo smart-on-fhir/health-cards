@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.13
+Add required `holderDid` request parameter on `$HealthWallet.issueVc`
+
 ## 0.0.12
 
 Add optional `resourceLink` response parameter on `$HealthWallet.issueVc`
