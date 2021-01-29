@@ -682,7 +682,9 @@ The process begins with a QR code or `openid://` link. The only differences are:
   * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG"](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
 * When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
   * decision-making rules may change over time as our understanding of the clinical science improves
+  * decision-making rules may be determined or influenced by international, national and local health authorities
   * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
+
 
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
 Decision-making often results in a narrowly-scoped "Pass" that conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purposes, Passes are highly contextual. We are not attempting to standardize "Passes" is this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
