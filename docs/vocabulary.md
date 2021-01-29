@@ -16,7 +16,7 @@
 
 The following codes are defined in the `https://smarthealth.cards` system:
 
-* `no-did-bound`: Used for `OperationOutcome.issue.code` when the `Patient/:id/$HealthWallet.issueVc` operation fails because no DID is bound to the Patient record
+* `did-not-connected`: Used for `OperationOutcome.issue.code` when the `Patient/:id/$HealthWallet.issueVc` operation fails because the supplied `holderDid` does not contain a user DID currently bound to the user's account (e.g., through successful completion of the `$HealthWallet.connect` flow)
 * `covid19`: Used for tagging a FHIR "key resource" as containing a VC of type `https://smarthealth.cards#covid19`. For use in tagging a FHIR "key resource" (in `.meta.tag`) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.
 * `immunization`: Used for tagging a FHIR "key resource" as containing a VC of type `https://smarthealth.cards#immunization`. For use in tagging a FHIR "key resource" (in `.meta.tag`) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.
 

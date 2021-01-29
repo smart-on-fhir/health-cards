@@ -298,6 +298,8 @@ By using this URI-based approach, the lab can choose to display a static QR code
     
     This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into the lab portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
 
+    Upon successful completion of the OpenID Connect workflow, the Issuer should consider the supplied user DID to be "connected" to the user's account. Issuers MAY allow a single uesr account to be connected to multiple user DIDs (e.g., to support use cases where a user connects multiple health wallets to a single account); alternatively, issuers MAY clear out previously connected DIDs upon the initiation or completion of a new `$HealthWallet.connect` flow.
+
 
 ### DID SIOP Request
 
@@ -486,11 +488,35 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "parameter": [{
         "name": "credentialType",
         "valueUri": "https://smarthealth.cards#covid19"
+      }, {
+        "name": "holderDid",
+        "valueUri": "did:ion:<<identifer for holder>>"
       }]
     }
     ```
     
-    The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
+    The `credentialType` parameter is required.
+
+    The `holderDid` parameter is required. If the supplied value has not previously been connected to the issuer via the `$HealthWallet.connect` API, the issuer responds with a FHIR `OperationOutcome` including the `did-not-connected` code:
+
+    ```json
+    {
+      "resourceType": "OperationOutcome",
+      "issue": [{
+        "severity": "error",
+        "code": "processing",
+        "details": {
+          "coding": [{
+            "system": "https://smarthealth.cards",
+            "code": "did-not-connected",
+            "display": "The supplied `holderDid` value has is not connected to this issuer"
+          }]
+        }
+      }]
+    }
+    ```
+
+    By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
     
     ```json
     {
@@ -550,26 +576,6 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-     
-    If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR `OperationOutcome` including the "no-did-bound" code:
-    
-    ```json
-    {
-      "resourceType": "OperationOutcome",
-      "issue": [{
-        "severity": "error",
-        "code": "processing",
-        "details": {
-          "coding": [{
-            "system": "https://smarthealth.cards",
-            "code": "no-did-bound",
-            "display": "No DID is bound to the requested Patient account"
-          }]
-        }
-      }]
-    }
-    ```
-
 
 ## Presenting Lab Results to a Verifier
 
