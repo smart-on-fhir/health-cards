@@ -1,16 +1,18 @@
-## Status
+# Overview
 
-Draft implementation guide authored with input from technology and lab vendors; created in conjunction with four independent software implementations.
+### Status
 
-## Contributing
+Draft implementation guide authored with input from technology, lab, pharmacy, and EHR vendors; created in conjunction with four independent software implementations.
+
+### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
 
-## Overview Video (November 2020)
+### Overview Video (November 2020)
 * [https://youtu.be/UdlmRoJK1Yg](https://youtu.be/UdlmRoJK1Yg)
 
-# Introduction -- Health Cards
+# Introduction
 
-This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Immunization or lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
+This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
 
 Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. 
 
@@ -19,12 +21,12 @@ Because we must ensure end-user privacy and because Health Cards must work acros
 
 ![Figure](https://i.imgur.com/T8RHjlJ.png)
 
-* **Issuer** (e.g., a lab) generates verifiable credentials 
+* **Issuer** (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials 
 * **Holder** stores credentials and presents them at will
 * **Verifier** receives credentials from holder and ensures they are properly signed
 
 
-# Design Goals
+## Design Goals
 
 * Support **end-to-end workflow** where users receive and present relevant healthcare data
 * Enable workflow with **open standards**
@@ -52,22 +54,20 @@ Despite this broad scope, our *short-term definition of success* requires that w
 ## User Experience
 
 1. **Install** a "Health Wallet" app
-2. **Connect** the Health Wallet to a lab account
-3. **Save** a COVID-19 results card from the lab to the Health Wallet
-4. When a user wants to **share** COVID-19 results with a verifier:
-    a) Open Health Wallet
-    b) Scan a QR code displayed by verifier
-    c) Agree when prompted with "Share COVID-19 results with _{Verifier Name_}?"
+2. **Connect** the Health Wallet to an account with the Issuer (optional step)
+3. **Save** a Health Card from the Issuer into the Health Wallet
+4. **Present** a Health Card to a Verifier
+  * Presentation incluldes explicit user opt-in and approval
+  * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
 ## Demo
-Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Lab API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
+Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
 
 #### Demo Mobile Wallet: Home Screen
 ![](https://i.imgur.com/pMuA3N9.png)
 
 #### Demo Mobile Wallet Approval Screen
 ![](https://i.imgur.com/fDdem2h.png)
-
 
 
 # Design Considerations
@@ -78,9 +78,9 @@ This section outlines higher-level design considerations. See ["Protocol Details
 
 Each step in the flow must have well-defined inputs and outputs. For each step we define at least one required data transfer method to establish a basis for interoperability.
 
-### Connecting Health Wallet to Lab
+### Connecting Health Wallet to Issuer
 * Required method: OpenID Connect (OIDC) redirect + `form_post` flow
-* Optional entry point: FHIR `$HealthWallet.connect` operation to begin the OIDC redirect
+* Optional entry point: FHIR `$HealthWallet.connect` operation to begin the OIDC flow
 
 ### Getting credentials into Health Wallet
 * Required method: File download
@@ -88,6 +88,7 @@ Each step in the flow must have well-defined inputs and outputs. For each step w
 
 ### Presenting credentials to Verifier
 * Required method: OpenID Connect (OIDC) redirect + `form_post` flow (assumes devices are online)
+* Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)
 * Optional method: Direct device-to-device connections (e.g. Bluetooth, NFC -- out of scope in the short term)
 
 ## Trust
@@ -101,12 +102,8 @@ At a _pilot project level_:
 * Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL
 * Verifiers will discover public keys associated with an issuer via [`.well-known` DID URLs][well-known]
 * For transparency, we'll publish a list of participating organizations in a public directory
+* In a _post-pilot deployment_, a network of participants would define and agree to a formal Trust Framework
 
-### Which lab tests should be considered in decision-making?
-* We'll create or identify FHIR profiles for each lab test that define required fields, vocabularies, etc.
-* Verifiers will learn out of band about which lab tests should be considered in decision-making; this set is expected to evolve over time as new tests are developed and as our scientific understanding evolves
-
-In a _post-pilot deployment_: a network of participants would define and agree to a formal Trust Framework. This is still TBD.
 
 ## Privacy
 
@@ -118,8 +115,9 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 ## Data Model
 
-The credential's data is **represented in FHIR** as outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/)
+This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
 
+  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG"](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main)
 
 # Protocol Details
 
@@ -178,7 +176,7 @@ Given a long-form ION DID, any participant can follow the ION DID Resolution alg
     {
       "id": "#linked-domain-1",
       "type": "LinkedDomains",
-      "serviceEndpoint": "https://lab.example.com"
+      "serviceEndpoint": "https://issuer.example.com"
     },
    "verificationMethod": [
     {
@@ -215,46 +213,46 @@ Given a long-form ION DID, any participant can follow the ION DID Resolution alg
   ...
  ```
 
-## Connect Health Wallet to Lab Account
+## Connect Health Wallet to Issuer Account
 
-In this step, the lab learns about the end-user's DID. To accomplish this, the lab initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
+In this step, the issuer learns about the end-user's DID. To accomplish this, the issuer initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
 
-!!! info "**Discovering DIDs for labs**"
-    To ensure that all parties can maintain an up-to-date list of DIDs for known labs, each lab [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
+!!! info "**Discovering DIDs for issuers**"
+    To ensure that all parties can maintain an up-to-date list of DIDs for known issuers, each issuer [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 
 ```mermaid
 sequenceDiagram
 
 participant Device as User's Device
-participant Lab
+participant Issuer
 
 Device ->> Device: Create users DID:ION: keys
-Lab ->> Lab: Create DID:ION: keys
+Issuer ->> Issuer: Create DID:ION: keys
 
 note over Device: Later, either [A], [B] or [C]...
-Lab -->> Device: [A] Click `openid://` link on issuer's portal
-Lab -->> Device: [B] Scan QR code or NFC tag with `openid://` link
-Device -->> Lab: [C] FHIR $HealthWallet.connect
-Lab -->> Device: [C] Return `openid://` link in FHIR Parameters resource
+Issuer -->> Device: [A] Click `openid://` link on issuer's portal
+Issuer -->> Device: [B] Scan QR code or NFC tag with `openid://` link
+Device -->> Issuer: [C] FHIR $HealthWallet.connect
+Issuer -->> Device: [C] Return `openid://` link in FHIR Parameters resource
 Device ->> Device: React to `openid` link
 Device ->> Device: Validate prompt
 
 note over Device: Ask user to connect
-Device ->> Lab: Issue request to `request_uri`
-Lab ->> Lab: Generate DID SIOP request with lab's keys
-Lab ->> Device: Return DID SIOP Request
+Device ->> Issuer: Issue request to `request_uri`
+Issuer ->> Issuer: Generate DID SIOP request with Issuer's keys
+Issuer ->> Device: Return DID SIOP Request
 Device ->> Device: Validate DID SIOP JWT
 
 note over Device: Ask user to share keys
 Device ->> Device: Formulate DID SIOP Response
-Device ->> Lab: Submit response ([C] with Authorization header)
-Lab ->> Lab: Store keys to user account
-Lab ->> Device: Ack
+Device ->> Issuer: Submit response ([C] with Authorization header)
+Issuer ->> Issuer: Store keys to user account
+Issuer ->> Device: Ack
 ```
 
 ### DID SIOP Request Discovery
 
-The lab constructs an OIDC request, which is displayed to the user (newlines and spaces added for clarity):
+The issuer constructs an OIDC request, which is displayed to the user (newlines and spaces added for clarity):
 
 ```
 openid://?
@@ -264,7 +262,7 @@ openid://?
   &client_id=<<URL where response object will be posted>>
 ```
 
-By using this URI-based approach, the lab can choose to display a static QR code printed on a sticker at the check-in counter, generating the signed request objects dynamically each time a client dereferences the `request_uri`.
+By using this URI-based approach, the issuer can choose to display a static QR code printed on a sticker at the check-in counter, generating the signed request objects dynamically each time a client dereferences the `request_uri`.
 
 !!! info "Simplifying the workflow when a FHIR API connection exists"
     A SMART on FHIR Server can advertise support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
@@ -296,7 +294,7 @@ By using this URI-based approach, the lab can choose to display a static QR code
     }
     ```
     
-    This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into the lab portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
+    This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into an issuer portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
 
 
 ### DID SIOP Request
@@ -308,14 +306,14 @@ With a header like:
 {
   "alg": "ES256",
   "typ": "JWT",
-  "kid": "did:ion:<<identifier for lab>>#<<verification-key-id>>"
+  "kid": "did:ion:<<identifier for issuer>>#<<verification-key-id>>"
 }
 ```
 
 And a payload like:
 ```json
 {
-  "iss": "did:ion:<<identifier for lab>>",
+  "iss": "did:ion:<<identifier for issuer>>",
   "response_type": "id_token",
   "client_id": "<<URL where response object will be posted>>",
   "scope": "openid did_authn",
@@ -327,7 +325,7 @@ And a payload like:
     "id_token_signed_response_alg" : "ES256",
     "id_token_encrypted_response_alg": "ECDH-ES",
     "id_token_encrypted_response_enc": "A256GCM",
-    "client_uri": "<<base URL for lab>>"
+    "client_uri": "<<base URL for issuer>>"
   }
 }
 ```
@@ -350,7 +348,7 @@ In addition to the [regular DID SIOP request validation](https://identity.founda
 
 ### DID SIOP Response
 
-The Health Wallet displays a message to the user asking something like "Connect to lab.example.com?" (based on the `registration.client_uri` value). If the user agrees, the Health Wallet constructs a DID SIOP Response object with a header like:
+The Health Wallet displays a message to the user asking something like "Connect to issuer.example.com?" (based on the `registration.client_uri` value). If the user agrees, the Health Wallet constructs a DID SIOP Response object with a header like:
 ```json
 {
   "alg": "ES256",
@@ -378,7 +376,7 @@ And a payload like:
 }
 ```
 
-The response is signed as a JWS with the user's DID and optionally encrypted using the lab's DID (if the request specified `id_token_encrypted_response_*`).
+The response is signed as a JWS with the user's DID and optionally encrypted using the issuer's DID (if the request specified `id_token_encrypted_response_*`).
 The latter step requires looking inside the DID Document for an encryption key, which can be used for encrypting a payload for this party.
 
 > TODO: Show the header for the JWE around it
@@ -396,28 +394,28 @@ id_token=<<DID SIOP Response Object as JWS or JWE>>
     If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the DID SIOP is authorized by including the SMART on FHIR bearer token in an `Authorization` header.
 
 
-## Lab Generates Results
+## Issuer Generates Results
 
-When the lab performs tests and the results come in, the lab creates a FHIR payload and a corresponding VC.
+When the issuer performs tests and the results come in, the issuer creates a FHIR payload and a corresponding VC.
 
 ```mermaid
 sequenceDiagram
 participant Holder
-participant Lab
+participant Issuer
 
-note over Holder, Lab: Earlier...
-Lab ->> Lab: Generate Lab's DID
-Holder -->> Lab:  Upload DID
-Lab ->> Lab: If labs for holder already exist: re-generate VCs
+note over Holder, Issuer: Earlier...
+Issuer ->> Issuer: Generate Issuer's DID
+Holder -->> Issuer:  Upload DID
+Issuer ->> Issuer: If health card data for holder already exist: re-generate VCs
 
-note over Lab, Holder: Lab Result Created
-Lab ->> Lab: Generate FHIR Representation
-Lab ->> Lab: Generate VC Representation
-Lab ->> Lab: Generate JWT Payload including Holder DID (if known) and sign
-Lab ->> Lab: Store on holder's account
+note over Issuer, Holder: Data Created
+Issuer ->> Issuer: Generate FHIR Representation
+Issuer ->> Issuer: Generate VC Representation
+Issuer ->> Issuer: Generate JWT Payload including Holder DID (if known) and sign
+Issuer ->> Issuer: Store on holder's account
 
-note over Lab, Holder: Later...
-Lab ->> Holder: Holder downloads VCs
+note over Issuer, Holder: Later...
+Issuer ->> Holder: Holder downloads VCs
 ```
 
 See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for details. The overall VC structure looks like the following:
@@ -434,7 +432,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
     "VerifiableCredential",
     "https://smarthealth.cards#covid19",
   ],
-  "issuer": "<<did:ion identifier for lab>>",
+  "issuer": "<<did:ion identifier for issuer>>",
   "issuanceDate": "2020-05-01T11:59:00-07:00",
   "credentialSubject": {
     "id": "<<did:identifier for holder if known>>",
@@ -450,9 +448,9 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
 }
 ```
 
-## Lab Results are Finalized
+## Health Card is ready to save
 
-In this step, the user learns that new lab results are available (e.g., by receiving a text message or email notification). To facilitate this workflow, the lab can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Lab's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWTs, which MAY be either JWE or JWS, at the issuer's discretion:
+In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWTs, which MAY be either JWE or JWS, at the issuer's discretion:
 
 - in the case where the user has NOT connected a wallet to the issuer in advance, these will necessarily be JWS values, since no encryption key is known
 - in the case where the user has connected a health wallet to the issuer, the issuer MAY choose to encrypt the `.fhir-backed-vc` file using a key from the Health Wallet's registered DID
@@ -571,9 +569,9 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
     ```
 
 
-## Presenting Lab Results to a Verifier
+## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to lab account"](#connect-health-wallet-to-lab-account) above, in that it follows the DID SIOP protocol.
+In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the DID SIOP protocol.
 
 ### Initiate the Presentation
 
@@ -611,7 +609,7 @@ Verifier ->> Verifier: decrypt VC
 
 note over Holder, Verifier: Verify VC
 Verifier ->> Verifier: validate JWT
-Verifier ->> Verifier: extract labs DID and resolve
+Verifier ->> Verifier: extract issuer's DID and resolve
 Verifier ->> Verifier: ...
 ```
 
@@ -624,7 +622,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
 
     ```json
     {
-      "iss": "did:ion:<<identifier for lab>>",
+      "iss": "did:ion:<<identifier for issuer>>",
       "response_type": "id_token",
       "client_id": "<<URL where response object will be posted>>",
       "scope": "openid did_authn",
@@ -636,7 +634,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
         "id_token_signed_response_alg" : "ES256",
         "id_token_encrypted_response_alg": "ECDH-ES",
         "id_token_encrypted_response_enc": "A256GCM",
-        "client_uri": "<<base URL for lab>>"
+        "client_uri": "<<base URL for issuer>>"
       },
       "claims": {
         "id_token": {
@@ -676,6 +674,22 @@ The process begins with a QR code or `openid://` link. The only differences are:
     ```
 ---
 
+# FAQ
+
+## Which clinical data should be considered in decision-making?
+* The data in Health Cards should focus on communicating "immutable clinical facts".
+* Each use case will define specific data profiles.
+  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG"](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
+* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
+  * decision-making rules may change over time as our understanding of the clinical science improves
+  * decision-making rules may be determined or influenced by international, national and local health authorities
+  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
+
+
+## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
+Decision-making often results in a narrowly-scoped "Pass" that conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purposes, Passes are highly contextual. We are not attempting to standardize "Passes" is this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
+
+
 ## Potential Extensions
 
 ### Fallback for smartphone-based offline presentation
@@ -686,8 +700,8 @@ We should be able to specify additional "return paths" in the DID SIOP workflow 
 
 While it's hard to provide the same level of functionality and convenience without a mobile phone, there are still steps we can take to allow broader use of these verifiable credentials. Here's one possibleS approach to graceful degradation:
 
-* Lab generates VCs that aren't bound to any specific user DID
-* Lab makes VCs available for download
+* Issuer generates VCs that aren't bound to any specific user DID
+* Issuer makes VCs available for download
 * User prints a QR Code conveying the VC, or a link to a hosted copy of the VC (optionally protected by a password or PIN)
 * Verifier scans the barcode, retrieves the VC, and verifies signatures -- then relies on out-of band relationship with the user to match the VC to a real-world identity. For example, the user may be an employee or customer of the verifier, and thus the user's name and phone number may be known by the verifier in advance. The verifier must compare the identity attributes inside the VC with the attributes they have verified out of band.
 
