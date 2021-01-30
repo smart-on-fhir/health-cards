@@ -166,7 +166,7 @@ This implementation guide recommends using _strictly_ long-form ION DIDs at this
 Given a long-form ION DID, any participant can follow the ION DID Resolution algorithm to determine the associated DID Document. Within the DID Document you can identify the following:
 
 * **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ECDH-ES"`. The Key IDs for all encryption keys SHOULD be listed in the `keyAgreement[]` array.
-* **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ES256"`. The Key IDs for all signing keys SHOULD be listed in the `authentication[]` array.
+* **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ES256"`. The Key IDs for all signing keys SHOULD be listed in the `assertionMethod[]` array.
 * **Linked Domains** used for issuers with a public web presence. Linked Domains can found in the `service[]` array, using the `serviceEndpoint` property on entries with a `type` of `"LinkedDomains"`.
  
  For example, the following fragment of a DID Document contains one signing key, one encryption key, and one linked domain (note that `id` and `@context` properties are omitted for brevity):
@@ -204,7 +204,7 @@ Given a long-form ION DID, any participant can follow the ION DID Resolution alg
       }
     }
   ],
-  "authentication": [
+  "assertionMethod": [
     "#signing-key-1"
   ],
   "keyAgreement": [
