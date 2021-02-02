@@ -615,7 +615,7 @@ Verifier ->> Verifier: ...
 
 ### Presentation Protocol Details
 
-The process begins with a QR code or `openid://` link. The only differences are:
+The process begins with a QR code or `openid://` link. The only differences from the SIOP workflow for connecting to an Issuer are:
 
 1. The SIOP Request Object includes a `claims` object asking for relevant Verifiable Credentials to be included in the response:
 
@@ -687,7 +687,7 @@ The process begins with a QR code or `openid://` link. The only differences are:
 
 
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
-Decision-making often results in a narrowly-scoped "Pass" that conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purposes, Passes are highly contextual. We are not attempting to standardize "Passes" is this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
+Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
 
 
 ## Potential Extensions
