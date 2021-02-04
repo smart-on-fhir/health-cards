@@ -497,7 +497,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
     
     The `credentialType` parameter is required.
 
-    The `holderDid` parameter is required. If the supplied value has not previously been connected to the issuer via the `$HealthWallet.connect` API, the issuer responds with a FHIR `OperationOutcome` including the `did-not-connected` code:
+    The `holderDid` parameter is optional. If no value is supplied, the resulting Health Cards are not bound to any specific wallet (i.e., the `.vc.holder` should not be populated). If a value is supplied and this DID has previously been connected to the issuer via the `$HealthWallet.connect` API, then the resulting Health Cards are bound to this holder DID (i.e., the `.vc.holder` should be populated).  If a value is supplied but this DID has not previously been connected to the issuer via the `$HealthWallet.connect` API, the issuer responds with a FHIR `OperationOutcome` including the `did-not-connected` code:
 
     ```json
     {
