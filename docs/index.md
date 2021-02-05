@@ -14,14 +14,14 @@ To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/
 
 This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
 
-Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. 
+Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure.
 
 
 ## Conceptual Model
 
 ![Figure](https://i.imgur.com/T8RHjlJ.png)
 
-* **Issuer** (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials 
+* **Issuer** (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials
 * **Holder** stores credentials and presents them at will
 * **Verifier** receives credentials from holder and ensures they are properly signed
 
@@ -131,7 +131,7 @@ In this step, the user installs a standards-based mobile app. The app generates 
 !!! question "**Signature and encryption algorithms**"
 
     There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
- 
+
 This identifier conforms to the [`did:ion` method](https://github.com/decentralized-identity/ion). The `did:ion` method is an implementation of the [Sidetree specification](https://identity.foundation/sidetree/spec): a spec for DID methods using distributed ledgers.
 
 ION DIDs will be used to secure interactions with the issuer and the verifier, from here on out.
@@ -146,7 +146,7 @@ ION DIDs will be used to secure interactions with the issuer and the verifier, f
     * supports distinct keys per-device
     * supports service endpoint discovery
 
-    So we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
+    So we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge.
 
 !!! question "**Long-form vs. Short-form DIDs**"
 
@@ -168,7 +168,7 @@ Given a long-form ION DID, any participant can follow the ION DID Resolution alg
 * **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ECDH-ES"`. The Key IDs for all encryption keys SHOULD be listed in the `keyAgreement[]` array.
 * **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ES256"`. The Key IDs for all signing keys SHOULD be listed in the `authentication[]` array.
 * **Linked Domains** used for issuers with a public web presence. Linked Domains can found in the `service[]` array, using the `serviceEndpoint` property on entries with a `type` of `"LinkedDomains"`.
- 
+
  For example, the following fragment of a DID Document contains one signing key, one encryption key, and one linked domain (note that `id` and `@context` properties are omitted for brevity):
  ```
    ...
@@ -279,11 +279,11 @@ By using this URI-based approach, the issuer can choose to display a static QR c
     ```
 
     If the Health Wallet app already has a FHIR API connection to the issuer that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
-    
+
         GET /Patient/:id/$HealthWallet.connect
-        
+
     The operation returns a FHIR `Parameters` resource with the OIDC request URL:
-    
+
     ```json
     {
       "resourceType": "Parameters",
@@ -293,7 +293,7 @@ By using this URI-based approach, the issuer can choose to display a static QR c
       }]
     }
     ```
-    
+
     This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into an issuer portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
 
 
@@ -470,14 +470,14 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 !!! info "Requesting VCs through the FHIR API"
 
     The file download is the lowest common denominator. For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined here.
-    
+
     FHIR API Example Approach
-    
+
     <a name="healthwalletissuevc-operation"></a>
     #### `$HealthWallet.issueVc` Operation
-    
+
     A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
-    
+
     ```json
     {
       "resourceType": "Parameters",
@@ -487,9 +487,9 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-    
+
     The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
-    
+
     ```json
     {
       "resourceType": "Parameters",
@@ -513,12 +513,12 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-     
+
     If no `encryptForKeyId` parameter is supplied, then the signed VC is returned unencrypted. To request encryption, the client includes an `encryptForKeyId` parameter with a `valueString`, indicating the requested encryption key ID, starting with `#`. This ensures that even if the client's DID document includes more than one encryption key, the server will know which one to use for encrypting this payload.
 
-   
+
     The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
-    
+
     ```json
     {
       "resourceType": "Parameters",
@@ -548,9 +548,9 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-     
+
     If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR `OperationOutcome` including the "no-did-bound" code:
-    
+
     ```json
     {
       "resourceType": "OperationOutcome",
@@ -572,6 +572,8 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 ## Presenting Health Cards to a Verifier
 
 In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the DID SIOP protocol.
+
+The `id_token_encrypted_response_*` parameters in the SIOP Request Object are optional and, if present, signal that the VCs presented by the Health Wallet should be encrypted, not just signed.
 
 ### Initiate the Presentation
 
@@ -603,9 +605,9 @@ participant Verifier
 Holder ->> Holder: find VCs suitable for presentation context
 Holder ->> Holder: let user pick VC to share
 Holder ->> Holder: confirm sharing
-Holder ->> Holder: encrypt VC with Verifier's public key
-Holder ->> Verifier: send encrypted VC
-Verifier ->> Verifier: decrypt VC
+Holder ->> Holder: optionally encrypt VC with Verifier's public key
+Holder ->> Verifier: send VC
+Verifier ->> Verifier: optionally decrypt VC
 
 note over Holder, Verifier: Verify VC
 Verifier ->> Verifier: validate JWT
@@ -666,8 +668,8 @@ The process begins with a QR code or `openid://` link. The only differences from
         "@context": ["https://www.w3.org/2018/credentials/v1"],
         "type": ["VerifiablePresentation"],
         "verifiableCredential": [
-          "<<Verifiable Credential as JWS>>",
-          "<<Verifiable Credential as JWS>>"
+          "<<Verifiable Credential as JWS or JWE >>",
+          "<<Verifiable Credential as JWS or JWE >>"
         ]
       }
     }
