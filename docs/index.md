@@ -76,7 +76,7 @@ This section outlines higher-level design considerations. See ["Protocol Details
 Each step in the flow must have well-defined inputs and outputs. For each step we define at least one required data transfer method to establish a basis for interoperability.
 
 ### Connecting Health Wallet to Issuer (optional)
-* Establish a SMART on FHIR authorization with an Issuer including the `__HealthWallet.*` scope
+* Establish a SMART on FHIR authorization with an Issuer including read access to any resources that will be present in Health Cards (e.g., Patient, Immunization, Observation, DiagnosticReport).
 
 ### Getting credentials into Health Wallet
 * Required method: File download
@@ -162,16 +162,16 @@ Issuers MUST publish keys as JSON Web Key Sets; Verifiers MAY publish keys as JS
 
 ## Connect Health Wallet to Issuer Account
 
-For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization for the `__HealthWallet.*` scope. This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
+For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
-A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
+A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `.well-known/smart-configuration` JSON file. For example:
 
 ```
 {
 "authorization_endpoint": "https://ehr.example.com/auth/authorize",
 "token_endpoint": "https://ehr.example.com/auth/token",
 "token_endpoint_auth_methods_supported": ["client_secret_basic"],
-"scopes_supported": ["__HealthWallet.*", "launch", "launch/patient", "patient/*.*", "offline_access"],
+"scopes_supported": ["launch", "launch/patient", "patient/*.*", "offline_access"],
 "response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
 "capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
 }
