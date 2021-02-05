@@ -2,7 +2,7 @@
 
 ### Status
 
-Draft implementation guide authored with input from technology, lab, pharmacy, and EHR vendors; created in conjunction with four independent software implementations.
+Exploratory draft removing DID dependencies. Not tested or reviewed.
 
 ### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
@@ -31,7 +31,6 @@ Because we must ensure end-user privacy and because Health Cards must work acros
 * Support **end-to-end workflow** where users receive and present relevant healthcare data
 * Enable workflow with **open standards**
 * Support strong **cryptographic signatures**
-* Support **binding credentials to keys** stored on a user's device
 * Enable **privacy preserving** data presentations for specific use cases
 
 
@@ -48,8 +47,6 @@ Despite this broad scope, our *short-term definition of success* requires that w
 
 * Represent "Health Cards" in a "Health Wallet", focusing on COVID-19 status
 * Ensure that each role (issuer, holder, app) can be implemented by any organization following open standards, provided they sign on to the relevant trust framework
-* Align with a longer term vision for standards-based decentralized identity, where each role (issuer, holder, app)
-
 
 ## User Experience
 
@@ -100,7 +97,7 @@ At a _pilot project level_:
 ### Which Issuers can participate?
 * We'll work with a willing set of issuers and define expectations/requirements
 * Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL
-* Verifiers will discover public keys associated with an issuer via [`.well-known` DID URLs][well-known]
+* Verifiers will discover public keys associated with an issuer via `.well-known/jwks.json` URLs
 * For transparency, we'll publish a list of participating organizations in a public directory
 * In a _post-pilot deployment_, a network of participants would define and agree to a formal Trust Framework
 
@@ -132,93 +129,43 @@ In this step, the user installs a standards-based mobile app. The app generates 
 
     There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
  
-This identifier conforms to the [`did:ion` method](https://github.com/decentralized-identity/ion). The `did:ion` method is an implementation of the [Sidetree specification](https://identity.foundation/sidetree/spec): a spec for DID methods using distributed ledgers.
 
-ION DIDs will be used to secure interactions with the issuer and the verifier, from here on out.
+### Determining keys and service endpoints from a JWKS file
 
-!!! question " **DID Methods**"
+Given a JWKS URL, any participant can dereference the URL to identify:
 
-    There are different DID methods, with trade-offs. It's useful to pick an approach that:
-
-    * works for issuers as well as holders
-    * works peer-to-peer *or* anchored to a public record
-    * supports key rotation
-    * supports distinct keys per-device
-    * supports service endpoint discovery
-
-    So we're starting with `did:ion`, but should continue to evaluate this choice as requirements emerge. 
-
-!!! question "**Long-form vs. Short-form DIDs**"
-
-    `did:ion`, a Sidetree-compliant DID method, supports both long and short form DIDs. In brief, a long-form DID can be resolved to a DID Document on its own: it does not require a blockchain query to provide information
-    about the public key information state of an identity. A short-form DID _requires_ a blockchain query to resolve a DID Document and _requires_ that the corresponding long-form DID
-    be persisted to the blockchain before the short-form DID is resolvable.
-
-    As such, communicating via short-form DIDs requires more capabilities/infrastructure: namely integrating with a Sidetree node to resolve these short-form DIDs.
-    However, this infrastructure enables a more robust security model. You need to persist a DID Document in the blockchain to resolve a short-form DID, persisting a DID Document in the blockchain enables a DID to be updated via key revocation, key addition, etc.
-
-    Check out the documentation on [DID URI Composition](https://identity.foundation/sidetree/spec/#did-uri-composition) and [DID Resolution](https://identity.foundation/sidetree/spec/#resolution) for more details.
-
-This implementation guide recommends using _strictly_ long-form ION DIDs at this time.
-
-### Determining keys and service endpoints from a long-form ION DID
-
-Given a long-form ION DID, any participant can follow the ION DID Resolution algorithm to determine the associated DID Document. Within the DID Document you can identify the following:
-
-* **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ECDH-ES"`. The Key IDs for all encryption keys SHOULD be listed in the `keyAgreement[]` array.
-* **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `verificationMethod[]` array whose `publicKeyJwk.alg` is `"ES256"`. The Key IDs for all signing keys SHOULD be listed in the `authentication[]` array.
-* **Linked Domains** used for issuers with a public web presence. Linked Domains can found in the `service[]` array, using the `serviceEndpoint` property on entries with a `type` of `"LinkedDomains"`.
+* **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ECDH-ES"` and `use` is `enc`.
+* **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ES256"`  and `use` is `sig
  
- For example, the following fragment of a DID Document contains one signing key, one encryption key, and one linked domain (note that `id` and `@context` properties are omitted for brevity):
- ```
-   ...
-  "service": [
-    {
-      "id": "#linked-domain-1",
-      "type": "LinkedDomains",
-      "serviceEndpoint": "https://issuer.example.com"
-    },
-   "verificationMethod": [
-    {
-      "id": "#signing-key-1",
-      "controller": "",
-      "type": "JsonWebKey2020",
-      "publicKeyJwk": {
-        "alg": "ES256",
-        "crv": "P-256",
-        "kty": "EC",
-        "x": "fsjHQujKrtGxrw4LTpLqIhGVd1i7J7aOIlOxnDoefa8",
-        "y": "eGOSyJ_fT1xduW-K4aZwh2BBvRGAaTm_jiMB9EWW6oQ"
-      }
-    },
-    {
-      "id": "#encryption-key-1",
-      "controller": "",
-      "type": "JsonWebKey2020",
-      "publicKeyJwk": {
-        "alg": "ECDH-ES",
-        "crv": "P-256",
-        "kty": "EC",
-        "x": "xds4tFXqH6TFXdRxevqR8xEFgUgTGK_Of0QhGlmg4DY",
-        "y": "2EpP5ef2-YWmi2aIZcFADG88PyNfRoApfzN81i5aZuE"
-      }
-    }
-  ],
-  "authentication": [
-    "#signing-key-1"
-  ],
-  "keyAgreement": [
-    "#encryption-key-1"
-  ]
-  ...
- ```
+ For example, the following fragment of a JWKS contains one signing key and  one encryption key:
+```
+{
+  "keys": [
+   {
+     "kid": "signing-key-1"
+     "alg": "ES256",
+     "crv": "P-256",
+     "kty": "EC",
+     "x": "fsjHQujKrtGxrw4LTpLqIhGVd1i7J7aOIlOxnDoefa8",
+     "y": "eGOSyJ_fT1xduW-K4aZwh2BBvRGAaTm_jiMB9EWW6oQ"
+   },
+   {
+    "kid": "#encryption-key-1",
+    "alg": "ECDH-ES",
+    "crv": "P-256",
+    "kty": "EC",
+    "x": "xds4tFXqH6TFXdRxevqR8xEFgUgTGK_Of0QhGlmg4DY",
+    "y": "2EpP5ef2-YWmi2aIZcFADG88PyNfRoApfzN81i5aZuE"
+   }]
+}
+```
 
 ## Connect Health Wallet to Issuer Account
 
-In this step, the issuer learns about the end-user's DID. To accomplish this, the issuer initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect profile we use is called ["DID SIOP"](https://identity.foundation/did-siop/).
+In this step, the issuer learns about the end-user's signing key. To accomplish this, the issuer initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect feature is called ["SIOP"](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued).
 
-!!! info "**Discovering DIDs for issuers**"
-    To ensure that all parties can maintain an up-to-date list of DIDs for known issuers, each issuer [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
+!!! info "**Discovering Keys for issuers**"
+    To ensure that all parties can maintain an up-to-date list of keys known issuers, each issuer hosts a `/.well-known/jwks.json` file on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of keys for each domain.
 
 ```mermaid
 sequenceDiagram
@@ -226,8 +173,8 @@ sequenceDiagram
 participant Device as User's Device
 participant Issuer
 
-Device ->> Device: Create users DID:ION: keys
-Issuer ->> Issuer: Create DID:ION: keys
+Device ->> Device: Create users keys
+Issuer ->> Issuer: Create keys
 
 note over Device: Later, either [A], [B] or [C]...
 Issuer -->> Device: [A] Click `openid://` link on issuer's portal
@@ -239,25 +186,25 @@ Device ->> Device: Validate prompt
 
 note over Device: Ask user to connect
 Device ->> Issuer: Issue request to `request_uri`
-Issuer ->> Issuer: Generate DID SIOP request with Issuer's keys
-Issuer ->> Device: Return DID SIOP Request
-Device ->> Device: Validate DID SIOP JWT
+Issuer ->> Issuer: Generate SIOP request with Issuer's keys
+Issuer ->> Device: Return SIOP Request
+Device ->> Device: Validate SIOP JWT
 
 note over Device: Ask user to share keys
-Device ->> Device: Formulate DID SIOP Response
+Device ->> Device: Formulate SIOP Response
 Device ->> Issuer: Submit response ([C] with Authorization header)
 Issuer ->> Issuer: Store keys to user account
 Issuer ->> Device: Ack
 ```
 
-### DID SIOP Request Discovery
+### SIOP Request Discovery
 
-The issuer constructs an OIDC request, which is displayed to the user (newlines and spaces added for clarity):
+The issuer constructs an OIDC SIOP request, which is displayed to the user (newlines and spaces added for clarity):
 
 ```
 openid://?
   response_type=id_token
-  &scope=did_authn
+  &scope=healthcards_authn
   &request_uri=<<URL where request object can be found>>
   &client_id=<<URL where response object will be posted>>
 ```
@@ -297,7 +244,7 @@ By using this URI-based approach, the issuer can choose to display a static QR c
     This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into an issuer portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
 
 
-### DID SIOP Request
+### SIOP Request
 
 The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **DID SIOP Request**. This is a signed _JWT_ that will have a **DID** as its `kid`.
 
@@ -306,17 +253,17 @@ With a header like:
 {
   "alg": "ES256",
   "typ": "JWT",
-  "kid": "did:ion:<<identifier for issuer>>#<<verification-key-id>>"
+  "kid": "<<signing-key-kid-from-jwks>>"
 }
 ```
 
 And a payload like:
 ```json
 {
-  "iss": "did:ion:<<identifier for issuer>>",
+  "iss": "<<Public URL for Issuer>>",
   "response_type": "id_token",
   "client_id": "<<URL where response object will be posted>>",
-  "scope": "openid did_authn",
+  "scope": "openid healthcards_authn",
   "response_mode" : "form_post",
   "response_context": "wallet",
   "nonce": "<<unique value>>",
@@ -325,13 +272,11 @@ And a payload like:
     "id_token_signed_response_alg" : "ES256",
     "id_token_encrypted_response_alg": "ECDH-ES",
     "id_token_encrypted_response_enc": "A256GCM",
-    "client_uri": "<<base URL for issuer>>"
   }
 }
 ```
 
 The `id_token_encrypted_response_*` parameters are optional and, if present, signal that the response to this request should be encrypted, not just signed.
-
 
 #### Request Options
 
@@ -339,21 +284,18 @@ The `id_token_encrypted_response_*` parameters are optional and, if present, sig
 * `response_context` of `wallet` allows the relying party to indicate that the wallet can issue a response in its own user agent context, effectively performing a "headless" submission and keeping the user in the wallet at the end of the interaction rather than redirecting back to the relying party.
 > Note: The `wallet` response context is only suitable in combination with a SMART on FHIR or other authenticated API connection, to prevent session fixation attacks. Otherwise, the relying party must receive its response in the system browser context, and must verify that the session where the request was generated and the session where the response was provided are both sessions for the same end-user.
 
-#### DID SIOP Request Validation
+#### SIOP Request Validation
 
-In addition to the [regular DID SIOP request validation](https://identity.foundation/did-siop/#siop-request-validation), the Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.client_uri` and verifies that the `kid` in the request header is a DID associated with the domain.
-
-> **Bug in spec:** Do NOT attempt to validate according to [OIDC Core 7.5](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssuedValidation) because this applies to the response, not the request.
+Te Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.iss` and verifies that the `kid` in the request header is present and has been used to sign this JWT.
 
 
-### DID SIOP Response
+### SIOP Response
 
-The Health Wallet displays a message to the user asking something like "Connect to issuer.example.com?" (based on the `registration.client_uri` value). If the user agrees, the Health Wallet constructs a DID SIOP Response object with a header like:
+The Health Wallet displays a message to the user asking something like "Connect to issuer.example.com?" (based on the `.iss` value). If the user agrees, the Health Wallet constructs a SIOP Response object with a header like:
 ```json
 {
   "alg": "ES256",
   "typ": "JWT",
-  "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>"
 }
 ```
 
@@ -361,14 +303,13 @@ And a payload like:
 ```json
 {
   "iss": "https://self-issued.me",
-  "did": "did:ion:<<identifier for user>>",
+  "sub": "<<pairwise identifier created by health wallet for this issuer>>",
   "aud": "<<client_id from the request>>",
   "nonce": "<<unique value>>",
   "exp": <<expiration time as JSON number of seconds since epoch>>,
   "iat": <<issuance time as JSON number of seconds since epoch>>,
   "sub_jwk": {
     "crv": "P-256",
-    "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>",
     "kty": "EC",
     "x": "<<curve's X coordinate>>",
     "y": "<<curve's Y coordinate>>"
@@ -376,8 +317,7 @@ And a payload like:
 }
 ```
 
-The response is signed as a JWS with the user's DID and optionally encrypted using the issuer's DID (if the request specified `id_token_encrypted_response_*`).
-The latter step requires looking inside the DID Document for an encryption key, which can be used for encrypting a payload for this party.
+The response is signed as a JWS with the key from `sub_jwk` and optionally encrypted using the issuer's encryption key (if the request specified `id_token_encrypted_response_*`).
 
 > TODO: Show the header for the JWE around it
 
@@ -387,11 +327,11 @@ POST <<URL where response object will be posted>>
 Content-type: application/x-www-form-urlencoded
 
 id_token=<<DID SIOP Response Object as JWS or JWE>>
-&state=<<state value from DID SIOP Request Object, if any>>
+&state=<<state value from SIOP Request Object, if any>>
 ```
 
 !!! info "Authorizing FHIR Operations"
-    If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the DID SIOP is authorized by including the SMART on FHIR bearer token in an `Authorization` header.
+    If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the SIOP is authorized by including the SMART on FHIR bearer token in an `Authorization` header.
 
 
 ## Issuer Generates Results
@@ -404,14 +344,14 @@ participant Holder
 participant Issuer
 
 note over Holder, Issuer: Earlier...
-Issuer ->> Issuer: Generate Issuer's DID
-Holder -->> Issuer:  Upload DID
+Issuer ->> Issuer: Generate Issuer's keys
+Holder -->> Issuer:  Establish SIOP connection
 Issuer ->> Issuer: If health card data for holder already exist: re-generate VCs
 
 note over Issuer, Holder: Data Created
 Issuer ->> Issuer: Generate FHIR Representation
 Issuer ->> Issuer: Generate VC Representation
-Issuer ->> Issuer: Generate JWT Payload including Holder DID (if known) and sign
+Issuer ->> Issuer: Generate JWT Payload and sign
 Issuer ->> Issuer: Store on holder's account
 
 note over Issuer, Holder: Later...
@@ -432,10 +372,9 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
     "VerifiableCredential",
     "https://smarthealth.cards#covid19",
   ],
-  "issuer": "<<did:ion identifier for issuer>>",
+  "issuer": "<<identifier for issuer>>",
   "issuanceDate": "2020-05-01T11:59:00-07:00",
   "credentialSubject": {
-    "id": "<<did:identifier for holder if known>>",
     "fhirVersion": "<<FHIR Version>>",
     "fhirBundle": {
       "resourceType": "Bundle",
@@ -450,10 +389,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
 
 ## Health Card is ready to save
 
-In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWTs, which MAY be either JWE or JWS, at the issuer's discretion:
-
-- in the case where the user has NOT connected a wallet to the issuer in advance, these will necessarily be JWS values, since no encryption key is known
-- in the case where the user has connected a health wallet to the issuer, the issuer MAY choose to encrypt the `.fhir-backed-vc` file using a key from the Health Wallet's registered DID
+In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWSs:
 
 ```json
 {
@@ -502,20 +438,6 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-
-    An optional `encryptForKeyId` parameter can specify an encryption key ID from the connected DID:
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter": [{
-        "name": "encryptForKeyId",
-        "valueString": "#encryption-key-1"
-      }]
-    }
-    ```
-     
-    If no `encryptForKeyId` parameter is supplied, then the signed VC is returned unencrypted. To request encryption, the client includes an `encryptForKeyId` parameter with a `valueString`, indicating the requested encryption key ID, starting with `#`. This ensures that even if the client's DID document includes more than one encryption key, the server will know which one to use for encrypting this payload.
-
    
     The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
     
@@ -525,7 +447,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       "parameter":[{
         "name": "verifiableCredential",
         "valueAttachment":{
-          "data":"<<base64 encoded VC JWS or JWE>>"
+          "data":"<<base64 encoded VC JWS>>"
         }
       }]
     }
@@ -548,30 +470,10 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
       }]
     }
     ```
-     
-    If a client calls `$HealthWallet.issueVc` when no DID has been bound to the Patient record, the server responds with a FHIR `OperationOutcome` including the "no-did-bound" code:
-    
-    ```json
-    {
-      "resourceType": "OperationOutcome",
-      "issue": [{
-        "severity": "error",
-        "code": "processing",
-        "details": {
-          "coding": [{
-            "system": "https://smarthealth.cards",
-            "code": "no-did-bound",
-            "display": "No DID is bound to the requested Patient account"
-          }]
-        }
-      }]
-    }
-    ```
-
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the DID SIOP protocol.
+In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the SIOP protocol.
 
 ### Initiate the Presentation
 
@@ -608,8 +510,8 @@ Holder ->> Verifier: send encrypted VC
 Verifier ->> Verifier: decrypt VC
 
 note over Holder, Verifier: Verify VC
+Verifier ->> Verifier: resolve issuer's JWKS
 Verifier ->> Verifier: validate JWT
-Verifier ->> Verifier: extract issuer's DID and resolve
 Verifier ->> Verifier: ...
 ```
 
@@ -622,10 +524,10 @@ The process begins with a QR code or `openid://` link. The only differences from
 
     ```json
     {
-      "iss": "did:ion:<<identifier for verifier>>",
+      "iss": "<<Public URL for issuer>>",
       "response_type": "id_token",
       "client_id": "<<URL where response object will be posted>>",
-      "scope": "openid did_authn",
+      "scope": "openid healthcards_authn",
       "response_mode" : "form_post",
       "response_context": "wallet",
       "nonce": "<<unique value>>",
@@ -634,7 +536,6 @@ The process begins with a QR code or `openid://` link. The only differences from
         "id_token_signed_response_alg" : "ES256",
         "id_token_encrypted_response_alg": "ECDH-ES",
         "id_token_encrypted_response_enc": "A256GCM",
-        "client_uri": "<<base URL for issuer>>"
       },
       "claims": {
         "id_token": {
@@ -646,18 +547,16 @@ The process begins with a QR code or `openid://` link. The only differences from
 
 2. Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://www.w3.org/TR/vc-data-model/#presentations-0).
 
-3. The `id_token` constituting the DID SIOP Response includes a `.vp.verifiableCredential` array:
+3. The `id_token` constituting the SIOP Response includes a `.vp.verifiableCredential` array:
     ```json
     {
       "iss": "https://self-issued.me",
-      "did": "did:ion:<<identifier for user>>",
       "aud": "<<client_id from the request>>",
       "nonce": "<<unique value>>",
       "exp": <<expiration time as JSON number of seconds since epoch>>,
       "iat": <<issuance time as JSON number of seconds since epoch>>,
       "sub_jwk": {
         "crv": "P-256",
-        "kid": "did:ion:<<identifer for user>>#<<verification-key-id>>",
         "kty": "EC",
         "x": "<<curve's X coordinate>>",
         "y": "<<curve's Y coordinate>>"
@@ -694,17 +593,4 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 ### Fallback for smartphone-based offline presentation
 
-We should be able to specify additional "return paths" in the DID SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
-
-### Fallback for users without a smartphone
-
-While it's hard to provide the same level of functionality and convenience without a mobile phone, there are still steps we can take to allow broader use of these verifiable credentials. Here's one possibleS approach to graceful degradation:
-
-* Issuer generates VCs that aren't bound to any specific user DID
-* Issuer makes VCs available for download
-* User prints a QR Code conveying the VC, or a link to a hosted copy of the VC (optionally protected by a password or PIN)
-* Verifier scans the barcode, retrieves the VC, and verifies signatures -- then relies on out-of band relationship with the user to match the VC to a real-world identity. For example, the user may be an employee or customer of the verifier, and thus the user's name and phone number may be known by the verifier in advance. The verifier must compare the identity attributes inside the VC with the attributes they have verified out of band.
-
-
-
-[well-known]: https://identity.foundation/.well-known/resources/did-configuration/
+We should be able to specify additional "return paths" in the SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
