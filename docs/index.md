@@ -75,9 +75,8 @@ This section outlines higher-level design considerations. See ["Protocol Details
 
 Each step in the flow must have well-defined inputs and outputs. For each step we define at least one required data transfer method to establish a basis for interoperability.
 
-### Connecting Health Wallet to Issuer
-* Required method: OpenID Connect (OIDC) redirect + `form_post` flow
-* Optional entry point: FHIR `$HealthWallet.connect` operation to begin the OIDC flow
+### Connecting Health Wallet to Issuer (optional)
+* Establish a SMART on FHIR authorization with an Issuer including the `__HealthWallet.*` scope
 
 ### Getting credentials into Health Wallet
 * Required method: File download
@@ -118,21 +117,22 @@ This framework defines a general approach to **representing demographic and clin
 
 # Protocol Details
 
-## Install a “Health Wallet” app
 
-In this step, the user installs a standards-based mobile app. The app generates a decentralized identifier on behalf of the user, including:
 
-* a key of type `JsonWebKey2020` to enable verification of JWT signatures created by the wallet, using the `"alg": "ES256"` signature algorithm
-* a key of type `JsonWebKey2020` to enable encryption of JWE payloads created for this wallet, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
+## Generating keys
+
+Each health wallet, issuer, and verifier must be able to generate cryptographic keys including:
+
+* a JWK to enable verification of JWT signatures created by the wallet, using the `"alg": "ES256"` signature algorithm
+* a JWK to enable encryption of JWE payloads created for this wallet, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
 
 !!! question "**Signature and encryption algorithms**"
 
     There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
  
-
 ### Determining keys and service endpoints from a JWKS file
 
-Given a JWKS URL, any participant can dereference the URL to identify:
+Issuers MUST publish keys as JSON Web Key Sets; Verifiers MAY publish keys as JSON Web Key Sets. Given a JWKS URL, any participant can dereference the URL to identify:
 
 * **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ECDH-ES"` and `use` is `enc`.
 * **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ES256"`  and `use` is `sig
@@ -162,176 +162,20 @@ Given a JWKS URL, any participant can dereference the URL to identify:
 
 ## Connect Health Wallet to Issuer Account
 
-In this step, the issuer learns about the end-user's signing key. To accomplish this, the issuer initiates an OpenID Connect request associated with the user's account (e.g., by displaying a link or a QR code in the portal, or by hosting a FHIR API endpoint that allows a third-party app to initiate an OIDC request). The specific OpenID Connect feature is called ["SIOP"](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued).
+For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization for the `__HealthWallet.*` scope. This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
-!!! info "**Discovering Keys for issuers**"
-    To ensure that all parties can maintain an up-to-date list of keys known issuers, each issuer hosts a `/.well-known/jwks.json` file on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of keys for each domain.
-
-```mermaid
-sequenceDiagram
-
-participant Device as User's Device
-participant Issuer
-
-Device ->> Device: Create users keys
-Issuer ->> Issuer: Create keys
-
-note over Device: Later, either [A], [B] or [C]...
-Issuer -->> Device: [A] Click `openid://` link on issuer's portal
-Issuer -->> Device: [B] Scan QR code or NFC tag with `openid://` link
-Device -->> Issuer: [C] FHIR $HealthWallet.connect
-Issuer -->> Device: [C] Return `openid://` link in FHIR Parameters resource
-Device ->> Device: React to `openid` link
-Device ->> Device: Validate prompt
-
-note over Device: Ask user to connect
-Device ->> Issuer: Issue request to `request_uri`
-Issuer ->> Issuer: Generate SIOP request with Issuer's keys
-Issuer ->> Device: Return SIOP Request
-Device ->> Device: Validate SIOP JWT
-
-note over Device: Ask user to share keys
-Device ->> Device: Formulate SIOP Response
-Device ->> Issuer: Submit response ([C] with Authorization header)
-Issuer ->> Issuer: Store keys to user account
-Issuer ->> Device: Ack
-```
-
-### SIOP Request Discovery
-
-The issuer constructs an OIDC SIOP request, which is displayed to the user (newlines and spaces added for clarity):
+A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
 
 ```
-openid://?
-  response_type=id_token
-  &scope=healthcards_authn
-  &request_uri=<<URL where request object can be found>>
-  &client_id=<<URL where response object will be posted>>
-```
-
-By using this URI-based approach, the issuer can choose to display a static QR code printed on a sticker at the check-in counter, generating the signed request objects dynamically each time a client dereferences the `request_uri`.
-
-!!! info "Simplifying the workflow when a FHIR API connection exists"
-    A SMART on FHIR Server can advertise support for issuing VCs according to this specification by adding the `health-cards` capability and the `__HealthWallet.*` scope to its `.well-known/smart-configuration` JSON file. For example:
-
-    ```
-    {
-    "authorization_endpoint": "https://ehr.example.com/auth/authorize",
-    "token_endpoint": "https://ehr.example.com/auth/token",
-    "token_endpoint_auth_methods_supported": ["client_secret_basic"],
-    "scopes_supported": ["__HealthWallet.*", "launch", "launch/patient", "patient/*.*", "offline_access"],
-    "response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
-    "capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
-    }
-    ```
-
-    If the Health Wallet app already has a FHIR API connection to the issuer that includes the `__HealthWallet.*` scope, the app can begin an OIDC connection by invoking the `$HealthWallet.connect` operation:
-    
-        GET /Patient/:id/$HealthWallet.connect
-        
-    The operation returns a FHIR `Parameters` resource with the OIDC request URL:
-    
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter": [{
-        "name": "openidUrl",
-        "valueUri": "openid://?response_type=..."
-      }]
-    }
-    ```
-    
-    This allows the Health Wallet to begin the connection workflow directly, without requiring the user to sign into an issuer portal or take any extra steps. This is an optional entry point for the connection workflow; it does not change the subsequent steps.
-
-
-### SIOP Request
-
-The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **DID SIOP Request**. This is a signed _JWT_ that will have a **DID** as its `kid`.
-
-With a header like:
-```json
 {
-  "alg": "ES256",
-  "typ": "JWT",
-  "kid": "<<signing-key-kid-from-jwks>>"
+"authorization_endpoint": "https://ehr.example.com/auth/authorize",
+"token_endpoint": "https://ehr.example.com/auth/token",
+"token_endpoint_auth_methods_supported": ["client_secret_basic"],
+"scopes_supported": ["__HealthWallet.*", "launch", "launch/patient", "patient/*.*", "offline_access"],
+"response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
+"capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
 }
 ```
-
-And a payload like:
-```json
-{
-  "iss": "<<Public URL for Issuer>>",
-  "response_type": "id_token",
-  "client_id": "<<URL where response object will be posted>>",
-  "scope": "openid healthcards_authn",
-  "response_mode" : "form_post",
-  "response_context": "wallet",
-  "nonce": "<<unique value>>",
-  "state": "<<client-supplied value, possibly empty>>",
-  "registration":  {
-    "id_token_signed_response_alg" : "ES256",
-    "id_token_encrypted_response_alg": "ECDH-ES",
-    "id_token_encrypted_response_enc": "A256GCM",
-  }
-}
-```
-
-The `id_token_encrypted_response_*` parameters are optional and, if present, signal that the response to this request should be encrypted, not just signed.
-
-#### Request Options
-
-* `response_mode`: the Health Wallet should recognize and support `form_post` and `fragment` modes.
-* `response_context` of `wallet` allows the relying party to indicate that the wallet can issue a response in its own user agent context, effectively performing a "headless" submission and keeping the user in the wallet at the end of the interaction rather than redirecting back to the relying party.
-> Note: The `wallet` response context is only suitable in combination with a SMART on FHIR or other authenticated API connection, to prevent session fixation attacks. Otherwise, the relying party must receive its response in the system browser context, and must verify that the session where the request was generated and the session where the response was provided are both sessions for the same end-user.
-
-#### SIOP Request Validation
-
-Te Health Wallet retrieves the [well-known configuration][well-known] from the domain corresponding to `registration.iss` and verifies that the `kid` in the request header is present and has been used to sign this JWT.
-
-
-### SIOP Response
-
-The Health Wallet displays a message to the user asking something like "Connect to issuer.example.com?" (based on the `.iss` value). If the user agrees, the Health Wallet constructs a SIOP Response object with a header like:
-```json
-{
-  "alg": "ES256",
-  "typ": "JWT",
-}
-```
-
-And a payload like:
-```json
-{
-  "iss": "https://self-issued.me",
-  "sub": "<<pairwise identifier created by health wallet for this issuer>>",
-  "aud": "<<client_id from the request>>",
-  "nonce": "<<unique value>>",
-  "exp": <<expiration time as JSON number of seconds since epoch>>,
-  "iat": <<issuance time as JSON number of seconds since epoch>>,
-  "sub_jwk": {
-    "crv": "P-256",
-    "kty": "EC",
-    "x": "<<curve's X coordinate>>",
-    "y": "<<curve's Y coordinate>>"
-  },
-}
-```
-
-The response is signed as a JWS with the key from `sub_jwk` and optionally encrypted using the issuer's encryption key (if the request specified `id_token_encrypted_response_*`).
-
-> TODO: Show the header for the JWE around it
-
-Finally, the Health Wallet submits the  `id_token` and `state` values back to the client's URL (conveyed in the `client_id` request field). If `response_context` is `wallet`, the Health Wallet may issue an HTTP call directly to the client's URL. Otherwise, the Health Wallet submits a response in the context of the system browser. For example, if `response_mode` is `form_post` and `response_context` is `wallet`, the response might be sumitted as:
-```
-POST <<URL where response object will be posted>>
-Content-type: application/x-www-form-urlencoded
-
-id_token=<<DID SIOP Response Object as JWS or JWE>>
-&state=<<state value from SIOP Request Object, if any>>
-```
-
-!!! info "Authorizing FHIR Operations"
-    If the Health Wallet received the `openid` link via the FHIR `$HealthWallet.connect` operation, the SIOP is authorized by including the SMART on FHIR bearer token in an `Authorization` header.
 
 
 ## Issuer Generates Results
@@ -517,60 +361,124 @@ Verifier ->> Verifier: ...
 
 ### Presentation Protocol Details
 
-The process begins with a QR code or `openid://` link. The only differences from the SIOP workflow for connecting to an Issuer are:
 
-1. The SIOP Request Object includes a `claims` object asking for relevant Verifiable Credentials to be included in the response:
+### SIOP Request Discovery
+
+The verifier constructs an OIDC request, which is parsed by the Health Wallet and turned into a prompt for the user (newlines and spaces added for clarity):
+
+```
+openid://?
+  response_type=id_token
+  &scope=did_authn
+  &request_uri=<<URL where request object can be found>>
+  &client_id=<<URL where response object will be posted>>
+```
+
+By using this URI-based approach, the verifier create a clickable link, or can display a QR code for the user to scan within the Health Wallet. The QR code can even be a statically printed sticker, if the verifier generates a signed request object dynamically each time a client dereferences the `request_uri`.
 
 
-    ```json
-    {
-      "iss": "<<Public URL for issuer>>",
-      "response_type": "id_token",
-      "client_id": "<<URL where response object will be posted>>",
-      "scope": "openid healthcards_authn",
-      "response_mode" : "form_post",
-      "response_context": "wallet",
-      "nonce": "<<unique value>>",
-      "state": "<<client-supplied value, possibly empty>>",
-      "registration":  {
-        "id_token_signed_response_alg" : "ES256",
-        "id_token_encrypted_response_alg": "ECDH-ES",
-        "id_token_encrypted_response_enc": "A256GCM",
-      },
-      "claims": {
-        "id_token": {
-          "https://smarthealth.cards#covid19": {"essential": true},
-        }
-      }
+### SIOP Request
+
+The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **SIOP Request**. This is a signed _JWT_.
+
+The reques header takes the form:
+```json
+{
+  "alg": "ES256",
+  "typ": "JWT",
+  "kid": "<<signing-key-kid-from-jwks>>"
+}
+```
+
+And a payload like thath includes any required claim types as full URL keys on the `claims.id_token` object:
+```json
+{
+  "iss": "<<Public URL for Verifier>>",
+  "response_type": "id_token",
+  "client_id": "<<URL where response object will be posted>>",
+  "scope": "openid healthcards_authn",
+  "response_mode" : "form_post",
+  "response_context": "wallet",
+  "nonce": "<<unique value>>",
+  "state": "<<client-supplied value, possibly empty>>",
+  "registration":  {
+    "id_token_signed_response_alg" : "ES256",
+    "id_token_encrypted_response_alg": "ECDH-ES",
+    "id_token_encrypted_response_enc": "A256GCM",
+  },
+  "claims": {
+    "id_token": {
+      "https://smarthealth.cards#covid19": {"essential": true},
     }
-    ```
+  }
+}
+```
 
-2. Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://www.w3.org/TR/vc-data-model/#presentations-0).
+The `id_token_encrypted_response_*` parameters are optional and, if present, signal that the response to this request should be encrypted, not just signed.
 
-3. The `id_token` constituting the SIOP Response includes a `.vp.verifiableCredential` array:
-    ```json
-    {
-      "iss": "https://self-issued.me",
-      "aud": "<<client_id from the request>>",
-      "nonce": "<<unique value>>",
-      "exp": <<expiration time as JSON number of seconds since epoch>>,
-      "iat": <<issuance time as JSON number of seconds since epoch>>,
-      "sub_jwk": {
-        "crv": "P-256",
-        "kty": "EC",
-        "x": "<<curve's X coordinate>>",
-        "y": "<<curve's Y coordinate>>"
-      },
-      "vp": {
-        "@context": ["https://www.w3.org/2018/credentials/v1"],
-        "type": ["VerifiablePresentation"],
-        "verifiableCredential": [
-          "<<Verifiable Credential as JWS>>",
-          "<<Verifiable Credential as JWS>>"
-        ]
-      }
-    }
-    ```
+#### Request Options
+
+* `response_mode`: the Health Wallet should recognize and support `form_post` and `fragment` modes.
+* `response_context` of `wallet` allows the relying party to indicate that the wallet can issue a response in its own user agent context, effectively performing a "headless" submission and keeping the user in the wallet at the end of the interaction rather than redirecting back to the relying party.
+> Note: The `wallet` response context is only suitable in combination with a SMART on FHIR or other authenticated API connection, to prevent session fixation attacks. Otherwise, the relying party must receive its response in the system browser context, and must verify that the session where the request was generated and the session where the response was provided are both sessions for the same end-user.
+
+#### SIOP Request Validation
+
+To Health Wallet retrieves a JSON Web Key Set URI by dereferencing the `iss` payload parameter + `.well-known/jwks.json`
+
+
+### SIOP Response
+
+The Health Wallet displays a message to the user asking something like "Share with verifier.example.com?" (based on the `.iss` value).  
+
+Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://www.w3.org/TR/vc-data-model/#presentations-0).
+with a header like:
+
+```json
+{
+  "alg": "ES256",
+  "typ": "JWT",
+}
+```
+
+And a payload like the following, which includes a `.vp.verifiableCredential` array to convey the Health Cards that the user has decided to share:
+```json
+{
+  "iss": "https://self-issued.me",
+  "sub": "<<thumbprint for sub_jwk>>",
+  "aud": "<<client_id from the request>>",
+  "nonce": "<<unique value>>",
+  "exp": <<expiration time as JSON number of seconds since epoch>>,
+  "iat": <<issuance time as JSON number of seconds since epoch>>,
+  "sub_jwk": {
+    "crv": "P-256",
+    "kty": "EC",
+    "x": "<<curve's X coordinate>>",
+    "y": "<<curve's Y coordinate>>"
+  },      
+  "vp": {
+    "@context": ["https://www.w3.org/2018/credentials/v1"],
+    "type": ["VerifiablePresentation"],
+    "verifiableCredential": [
+      "<<Verifiable Credential as JWS>>",
+      "<<Verifiable Credential as JWS>>"
+    ]
+  }
+}
+```
+
+The response is signed as a JWS with the key from `sub_jwk` and optionally encrypted using the verifier's encryption key (if the request specified `id_token_encrypted_response_*`).
+
+Finally, the Health Wallet submits the  `id_token` and `state` values back to the client's URL (conveyed in the `client_id` request field). If `response_context` is `wallet`, the Health Wallet may issue an HTTP call directly to the client's URL. Otherwise, the Health Wallet submits a response in the context of the system browser. For example, if `response_mode` is `form_post` and `response_context` is `wallet`, the response might be sumitted as:
+
+```
+POST <<URL where response object will be posted>>
+Content-type: application/x-www-form-urlencoded
+
+id_token=<<DID SIOP Response Object as JWS or JWE>>
+&state=<<state value from SIOP Request Object, if any>>
+```
+
 ---
 
 # FAQ
