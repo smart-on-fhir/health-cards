@@ -132,7 +132,7 @@ Each health wallet, issuer, and verifier must be able to generate cryptographic 
  
 ### Determining keys and service endpoints from a JWKS file
 
-Issuers MUST publish keys as JSON Web Key Sets; Verifiers MAY publish keys as JSON Web Key Sets. Given a JWKS URL, any participant can dereference the URL to identify:
+Issuers MUST publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)); Verifiers MAY publish keys as JSON Web Key Sets. Given a JWKS URL, any participant can dereference the URL to identify:
 
 * **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ECDH-ES"` and `use` is `enc`.
 * **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ES256"`  and `use` is `sig
