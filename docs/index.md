@@ -220,6 +220,8 @@ In this step, the issuer learns about the end-user's DID. To accomplish this, th
 !!! info "**Discovering DIDs for issuers**"
     To ensure that all parties can maintain an up-to-date list of DIDs for known issuers, each issuer [hosts a `/.well-known/did-configuration.json` file][well-known] on the same domain as `.registration.client_uri` lives on, so parties such as the Health Wallet app can maintain a list of DIDs for each domain.
 
+    For ease of interoperability, all Health Card issuers must encode their DID<>domain connection, technically a [`DomainLinkageCredential` VC](https://identity.foundation/.well-known/resources/did-configuration/#domain-linkage-credential), in [JWS format](https://identity.foundation/.well-known/resources/did-configuration/#json-web-token-proof-format).
+
 ```mermaid
 sequenceDiagram
 
