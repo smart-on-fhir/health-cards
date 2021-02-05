@@ -369,7 +369,7 @@ The verifier constructs an OIDC request, which is parsed by the Health Wallet an
 ```
 openid://?
   response_type=id_token
-  &scope=did_authn
+  &scope=healthcards_authn
   &request_uri=<<URL where request object can be found>>
   &client_id=<<URL where response object will be posted>>
 ```
@@ -475,7 +475,7 @@ Finally, the Health Wallet submits the  `id_token` and `state` values back to th
 POST <<URL where response object will be posted>>
 Content-type: application/x-www-form-urlencoded
 
-id_token=<<DID SIOP Response Object as JWS or JWE>>
+id_token=<<SIOP Response Object as JWS or JWE>>
 &state=<<state value from SIOP Request Object, if any>>
 ```
 
