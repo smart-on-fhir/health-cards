@@ -253,13 +253,13 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
 
 ## Health Card is ready to save
 
-In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.fhir-backed-vc` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWSs:
+In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.smart-health-card` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:
 
 ```json
 {
   "verifiableCredential": [
-    "<<Verifiable Credential as JWE or JWS (see above)>>",
-    "<<Verifiable Credential as JWE or JWS (see above)>>"
+    "<<Verifiable Credential as JWS>>",
+    "<<Verifiable Credential as JWS>>"
   ]
 }
 ```
