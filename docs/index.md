@@ -83,7 +83,7 @@ Each step in the flow must have well-defined inputs and outputs. For each step w
 * Optional method: [FHIR API Access](#healthwalletissuevc-operation)
 
 ### Presenting credentials to Verifier
-* Required method: OpenID Connect (OIDC) redirect + `form_post` flow (assumes devices are online)
+* Required method: OpenID Connect Self-Issued Flow ("SIOP", see [OpenID Core](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued)) redirect + `form_post` flow (assumes devices are online)
 * Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)
 * Optional method: Direct device-to-device connections (e.g. Bluetooth, NFC -- out of scope in the short term)
 
@@ -118,45 +118,65 @@ This framework defines a general approach to **representing demographic and clin
 # Protocol Details
 
 
+## Generating and resolving cryptographic keys
 
-## Generating keys
+The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
 
-Each health wallet, issuer, and verifier must be able to generate cryptographic keys including:
+* **Signing Keys**
+  * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
+  * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+  * Signing Health Cards (a.k.a. Verifiable Credentials)
+    * Issuers sign Health Card VCs with a signing key (private key)
+    * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
+    * Wallets and Verifers validate Issuer signatures on Health Cards
+  * Signing [SIOP Requests](#siop-request) (requests for presentation of Health Cards)
+    * Verifiers sign SIOP request objects with a signing key
+    * Verifiers publish their signing keys  (public key) at `.well-known/jwks.json`
+    * Wallets validate Verifier signatures on SIOP requests
+  * Signing SIOP Responses(#siop-response) (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
+    * Wallets sign SIOP Responses a signing key (private key)
+    * Wallets include their signing keys in the body of the `id_token` using the `sub_jwk` parameter
+    * Verifiers validate signatures on SIOP Responses
+  
+* **Encryption Keys**
+  * MUST have `"kty": "EC"`, `"use": "enc"`, `"alg": "ECDH-ES"` and `"enc": "A256GCM"` 
+  * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+  * Verifiers publish their encryption keys (public key) at `.well-known/jwks.json`
+  * Encrypting SIOP Responses(#siop-response) (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
+    * Verifiers can request encrypted SIOP response with `id_token_encrypted_response_*` request parameters
+    * Wallets encrypt Verifiable Presentations (`id_token`s) to a verifier's encryption key upon request
+    * Verifiers decrypt SIOP Responses when they are encrypted
 
-* a JWK to enable verification of JWT signatures created by the wallet, using the `"alg": "ES256"` signature algorithm
-* a JWK to enable encryption of JWE payloads created for this wallet, using the `"alg": "ECDH-ES"` and `"enc": "A256GCM"` encryption algorithm
+### Determining keys associated with an issuer or a verifier
 
-!!! question "**Signature and encryption algorithms**"
+Issuers and Verifiers MUSt publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`:
 
-    There are different cryptographic algorithms, with trade-offs. It's useful to pick algorithms for consistent implementations -- so we're starting with `ES256` for verification and `ECDH-ES` + `A256GCM` for encryption, but should continue to evaluate this choice as requirements emerge.
+* **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
+* **Encryption keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, `alg`, and `enc`)
  
-### Determining keys and service endpoints from a JWKS file
-
-Issuers MUST publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)); Verifiers MAY publish keys as JSON Web Key Sets. Given a JWKS URL, any participant can dereference the URL to identify:
-
-* **Encryption keys** used for key agreement when performing `ECDH-ES` encryption. Encryption keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ECDH-ES"` and `use` is `enc`.
-* **Signing keys** used for `ES256` signatures. Signing keys can be identified as entries in the `.keys[]` array whose `.alg` is `"ES256"`  and `use` is `sig
- 
- For example, the following fragment of a JWKS contains one signing key and  one encryption key:
+ For example, the following fragment of a JWKS for contains one signing key and one encryption key:
 ```
 {
-  "keys": [
-   {
-     "kid": "signing-key-1"
-     "alg": "ES256",
-     "crv": "P-256",
-     "kty": "EC",
-     "x": "fsjHQujKrtGxrw4LTpLqIhGVd1i7J7aOIlOxnDoefa8",
-     "y": "eGOSyJ_fT1xduW-K4aZwh2BBvRGAaTm_jiMB9EWW6oQ"
-   },
-   {
-    "kid": "#encryption-key-1",
-    "alg": "ECDH-ES",
-    "crv": "P-256",
-    "kty": "EC",
-    "x": "xds4tFXqH6TFXdRxevqR8xEFgUgTGK_Of0QhGlmg4DY",
-    "y": "2EpP5ef2-YWmi2aIZcFADG88PyNfRoApfzN81i5aZuE"
-   }]
+  "keys":[
+    {
+      "kty": "EC",
+      "kid": "_IY9W2kRRFUigDfSB9r8jHgMRrT0w4p5KN93nGThdH8",
+      "use": "sig",
+      "alg": "ES256",
+      "crv": "P-256",
+      "x": "7xbC_9ZmFwKqOHpwX6-LnlhIh5SMIuNwl0PW1yVI_sk",
+      "y": "7k2fdIRNDHdf93vL76wxdXEPtj_GiMTTyecm7EUUMQo",
+    },
+    {
+      "kty": "EC",
+      "kid": "8Wh65n79eVGWGrhaXYFyxNpUvkcMgZr-W9KOfepZnq4",
+      "use": "enc",
+      "alg": "ECDH-ES",
+      "crv": "P-256",
+      "x": "FFCTbFBzzLTahhcAeKbIcspRjTdypqgJPTyfpkVPZpE",
+      "y": "rIOCxmDUIB9FXOQZnm6uypD5_M1yC5I68lVNEpK03z4",
+    }
+  ]
 }
 ```
 
@@ -379,7 +399,7 @@ By using this URI-based approach, the verifier create a clickable link, or can d
 
 ### SIOP Request
 
-The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **SIOP Request**. This is a signed _JWT_.
+The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **SIOP Request**. This is a signed _JWT_, where the header's `kid` is the thumbprint of a key discoverable via `iss` + `.well-known/jwks.json`.
 
 The reques header takes the form:
 ```json
@@ -390,7 +410,7 @@ The reques header takes the form:
 }
 ```
 
-And a payload like thath includes any required claim types as full URL keys on the `claims.id_token` object:
+And a payload like that includes any required claim types as full URL keys on the `claims.id_token` object:
 ```json
 {
   "iss": "<<Public URL for Verifier>>",
@@ -479,6 +499,7 @@ id_token=<<SIOP Response Object as JWS or JWE>>
 &state=<<state value from SIOP Request Object, if any>>
 ```
 
+
 ---
 
 # FAQ
@@ -502,3 +523,8 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 ### Fallback for smartphone-based offline presentation
 
 We should be able to specify additional "return paths" in the SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
+
+
+# References
+
+[SIOP]: https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued
