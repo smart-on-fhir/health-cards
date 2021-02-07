@@ -113,7 +113,7 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
 
-  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG"](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main)
+  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main)
 
 # Protocol Details
 
@@ -125,15 +125,15 @@ The following key types are used in the Health Cards Framework, represented as J
 * **Signing Keys**
   * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
   * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
-  * Signing Health Cards (a.k.a. Verifiable Credentials)
+  * Signing *Health Cards* (a.k.a. Verifiable Credentials)
     * Issuers sign Health Card VCs with a signing key (private key)
     * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
     * Wallets and Verifers validate Issuer signatures on Health Cards
-  * Signing [SIOP Requests](#siop-request) (requests for presentation of Health Cards)
+  * Signing *[SIOP Requests](#siop-request)* (requests for presentation of Health Cards)
     * Verifiers sign SIOP request objects with a signing key
     * Verifiers publish their signing keys  (public key) at `.well-known/jwks.json`
     * Wallets validate Verifier signatures on SIOP requests
-  * Signing SIOP Responses(#siop-response) (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
+  * Signing *[SIOP Responses](#siop-response)* (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
     * Wallets sign SIOP Responses a signing key (private key)
     * Wallets include their signing keys in the body of the `id_token` using the `sub_jwk` parameter
     * Verifiers validate signatures on SIOP Responses
@@ -142,7 +142,7 @@ The following key types are used in the Health Cards Framework, represented as J
   * MUST have `"kty": "EC"`, `"use": "enc"`, `"alg": "ECDH-ES"` and `"enc": "A256GCM"` 
   * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
   * Verifiers publish their encryption keys (public key) at `.well-known/jwks.json`
-  * Encrypting SIOP Responses(#siop-response) (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
+  * Encrypting *[SIOP Responses](#siop-response)* (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
     * Verifiers can request encrypted SIOP response with `id_token_encrypted_response_*` request parameters
     * Wallets encrypt Verifiable Presentations (`id_token`s) to a verifier's encryption key upon request
     * Verifiers decrypt SIOP Responses when they are encrypted
@@ -507,7 +507,7 @@ id_token=<<SIOP Response Object as JWS or JWE>>
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
 * Each use case will define specific data profiles.
-  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG"](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
+  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
 * When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
   * decision-making rules may change over time as our understanding of the clinical science improves
   * decision-making rules may be determined or influenced by international, national and local health authorities
@@ -527,4 +527,7 @@ We should be able to specify additional "return paths" in the SIOP workflow that
 
 # References
 
-[SIOP]: https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued
+* JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517
+* JSON Web Key (JWK) Thumbprint: https://tools.ietf.org/html/rfc7638
+* Self-Issued OpenID Provider (SIOP): https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued
+* SMART Health Cards Vaccination IG: http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main
