@@ -253,7 +253,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
 
 ## Health Card is ready to save
 
-In this step, the user learns that a new health card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.smart-health-card` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:
+In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.smart-health-card` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:
 
 ```json
 {
@@ -263,6 +263,8 @@ In this step, the user learns that a new health card is available (e.g., by rece
   ]
 }
 ```
+
+Alternatively, issuers can make the Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [Health Cards in QR Codes](#health-cards-in-qr-codes) for details.
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
@@ -517,6 +519,47 @@ id_token=<<SIOP Response Object as JWS or JWE>>
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
 Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
 
+## Health Cards in QR Codes
+
+We define a standard way to represent a Health Card in a QR Code. The same strings that appears as `.verifiableCredential[]` entries in a `.smart-health.card` file can be directly represented as QR codes. This approach:
+
+* Allows basic storage and sharing of health cards for users without a smartphone
+* Allow smartphone-enabled users to print a usable backup
+* Allows full health card contents to be shared with a verifier
+
+The following limitations apply when presenting Health Card as QR codes, rather than engaging in a "verifiable presentation" workflow:
+* Does not capture a digital record of a signed request (no SIOP Request flow)
+  * Verifier cannot include requirements in-band
+  * Verifeir cannot include purposes of use in-band
+* Does not capture a digital record of the presentation  (no SIOP Response flow)
+
+To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
+
+* payload is minified (i.e., all optional whitespace is stripped)
+* payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
+* `zip: "DEF"` is specified in the JWS header
+* `kid` in the JWS header is omitted
+* `.vc.credentialSubject.fhirBundle` in the JWS payload is:
+  * created without `Resource.id` elements
+  * created without `Resource.meta` elements
+  * created without `Resource.text` elements
+  * created without `CodeableConcept.text` elements
+  * created without `Coding.display` elements
+
+When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 35mmx35mm. This constraint allows us to use QR codes up to Version 30, at 137x137 modules. Therefore, Issuers SHOUDL ensure that the total string length of any Health Card **JWS is <= 1732 bytes**. If it is not possible to include the full `fhirBundle` in a JWS of <1732 bytes, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
+
+* Generate a random "Health Card Set" uuid
+* Partition the `fhirBundle.entry` resources into N groups
+* Create a distinct Health Card JWS for each of the N groups
+  * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
+  * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
+  * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
+
+Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.
+
+At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a `fhirBundleSplit` attribute. When receiving a Health Card with `fhirBundleSplit`, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and `fhirBundleSet` value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.
+
+When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as text using the default (ISO 8859-1) encoding; the only characters present will be the characters in the base64url encoding character set plus `.` (for a total of 65 distinct characters).
 
 ## Potential Extensions
 
@@ -527,6 +570,7 @@ We should be able to specify additional "return paths" in the SIOP workflow that
 
 # References
 
+* DEFLATE Compression: https://www.ietf.org/rfc/rfc1951.txt
 * JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517
 * JSON Web Key (JWK) Thumbprint: https://tools.ietf.org/html/rfc7638
 * Self-Issued OpenID Provider (SIOP): https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued
