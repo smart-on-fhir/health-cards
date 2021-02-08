@@ -328,16 +328,18 @@ The following limitations apply when presenting Health Card as QR codes, rather 
 
 To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
 
-* payload is minified (i.e., all optional whitespace is stripped)
-* payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
-* `zip: "DEF"` is specified in the JWS header
-* `kid` in the JWS header is omitted
-* `.vc.credentialSubject.fhirBundle` in the JWS payload is:
-  * created without `Resource.id` elements
-  * created without `Resource.meta` elements
-  * created without `Resource.text` elements
-  * created without `CodeableConcept.text` elements
-  * created without `Coding.display` elements
+* JWS Header
+  * header includes `zip: "DEF"`
+  * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+* JWS Payload
+  * payload is minified (i.e., all optional whitespace is stripped)
+  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
+  * payload `.vc.credentialSubject.fhirBundle` is created:
+    * without `Resource.id` elements
+    * without `Resource.meta` elements
+    * without `Resource.text` elements
+    * without `CodeableConcept.text` elements
+    * without `Coding.display` elements
 
 When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1204 characters** (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full `fhirBundle` in a JWS of <1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
 
