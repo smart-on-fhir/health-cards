@@ -80,12 +80,12 @@ Each step in the flow must have well-defined inputs and outputs. For each step w
 
 ### Getting credentials into Health Wallet
 * Required method: File download
+* Required method: QR scan
 * Optional method: [FHIR API Access](#healthwalletissuevc-operation)
 
 ### Presenting credentials to Verifier
-* Required method: OpenID Connect Self-Issued Flow ("SIOP", see [OpenID Core](https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued)) redirect + `form_post` flow (assumes devices are online)
+* Optional method: QR presentation
 * Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)
-* Optional method: Direct device-to-device connections (e.g. Bluetooth, NFC -- out of scope in the short term)
 
 ## Trust
 
@@ -129,32 +129,14 @@ The following key types are used in the Health Cards Framework, represented as J
     * Issuers sign Health Card VCs with a signing key (private key)
     * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
     * Wallets and Verifers validate Issuer signatures on Health Cards
-  * Signing *[SIOP Requests](#siop-request)* (requests for presentation of Health Cards)
-    * Verifiers sign SIOP request objects with a signing key
-    * Verifiers publish their signing keys  (public key) at `.well-known/jwks.json`
-    * Wallets validate Verifier signatures on SIOP requests
-  * Signing *[SIOP Responses](#siop-response)* (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
-    * Wallets sign SIOP Responses a signing key (private key)
-    * Wallets include their signing keys in the body of the `id_token` using the `sub_jwk` parameter
-    * Verifiers validate signatures on SIOP Responses
-  
-* **Encryption Keys**
-  * MUST have `"kty": "EC"`, `"use": "enc"`, `"alg": "ECDH-ES"` and `"enc": "A256GCM"` 
-  * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
-  * Verifiers publish their encryption keys (public key) at `.well-known/jwks.json`
-  * Encrypting *[SIOP Responses](#siop-response)* (a.k.a Verifiable Presentations, a.k.a. `id_token`s)
-    * Verifiers can request encrypted SIOP response with `id_token_encrypted_response_*` request parameters
-    * Wallets encrypt Verifiable Presentations (`id_token`s) to a verifier's encryption key upon request
-    * Verifiers decrypt SIOP Responses when they are encrypted
 
-### Determining keys associated with an issuer or a verifier
+### Determining keys associated with an issuer
 
-Issuers and Verifiers MUSt publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`:
+Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`:
 
 * **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
-* **Encryption keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, `alg`, and `enc`)
  
- For example, the following fragment of a JWKS for contains one signing key and one encryption key:
+ For example, the following fragment of a JWKS for contains one signing key:
 ```
 {
   "keys":[
@@ -166,24 +148,89 @@ Issuers and Verifiers MUSt publish keys as JSON Web Key Sets (see [RFC7517](http
       "crv": "P-256",
       "x": "7xbC_9ZmFwKqOHpwX6-LnlhIh5SMIuNwl0PW1yVI_sk",
       "y": "7k2fdIRNDHdf93vL76wxdXEPtj_GiMTTyecm7EUUMQo",
-    },
-    {
-      "kty": "EC",
-      "kid": "8Wh65n79eVGWGrhaXYFyxNpUvkcMgZr-W9KOfepZnq4",
-      "use": "enc",
-      "alg": "ECDH-ES",
-      "crv": "P-256",
-      "x": "FFCTbFBzzLTahhcAeKbIcspRjTdypqgJPTyfpkVPZpE",
-      "y": "rIOCxmDUIB9FXOQZnm6uypD5_M1yC5I68lVNEpK03z4",
     }
   ]
 }
 ```
 
-## Connect Health Wallet to Issuer Account
+## Issuer Generates Results
 
-For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
+When the issuer is ready to genearte a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the (QR Embedding requirements)[every-health-card-can-be-embedded-in-a-qr-code].
 
+```mermaid
+sequenceDiagram
+participant Holder
+participant Issuer
+
+note over Holder, Issuer: Earlier...
+Issuer ->> Issuer: Generate Issuer's keys
+Issuer ->> Issuer: If health card data for holder already exist: re-generate VCs
+
+note over Issuer, Holder: Data Created
+Issuer ->> Issuer: Generate FHIR Representation
+Issuer ->> Issuer: Generate VC Representation
+Issuer ->> Issuer: Generate JWT Payload and sign
+
+note over Issuer, Holder: Later...
+Issuer ->> Holder: Holder receives Health Card
+```
+
+See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for details. The overall VC structure looks like the following:
+
+!!! info "VCs look different when represented as JWTs"
+    The example below shows a VC using the "vanilla" JSON representation. When packaging a VC into a JSON Web Token payload, there are a few differences, to retain compatibility with standard JWT claims. For example, compare [this "vanilla" JSON representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc.json) with its [corresponding JWT payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json). Note that in the JWT payload, most properties have been pushed into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context` or `@type` property, because these are all ahcnored inside the `.vc` claim. The overall structure is:
+
+```json
+{
+  "iss": "<<Issuer URL>>",
+  "iat": 1591037940,
+  "vc": {
+    "@context": ["https://www.w3.org/2018/credentials/v1"],
+    "type": [
+      "VerifiableCredential",
+      "https://smarthealth.cards#health-card",
+      "<<Additional Types>>",
+    ],
+    "credentialSubject": {
+      "fhirVersion": "<<FHIR Version, e.g. '4.0.1'>>",
+      "fhirBundle":{
+        "resourceType": "Bundle",
+        "type": "collection",
+        "entry": ["<<FHIR Resource>>", "<<FHIR Resource>>", "..."]
+      }
+    }
+  }
+}
+```
+
+## User Retrieves Health Cards
+
+In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.
+
+### via File Download
+
+To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.smart-health-card` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:
+
+```json
+{
+  "verifiableCredential": [
+    "<<Verifiable Credential as JWS>>",
+    "<<Verifiable Credential as JWS>>"
+  ]
+}
+```
+
+### via QR (Print or Scan)
+
+Alternatively, issuers can make the Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [Health Cards in QR Codes](#health-cards-in-qr-codes) for details.
+
+Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
+
+### via FHIR `$HealthWallet.issueVc` Operation
+
+For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined here. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
+
+#### Discovery of FHIR Support
 A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `.well-known/smart-configuration` JSON file. For example:
 
 ```
@@ -197,341 +244,87 @@ A SMART on FHIR Server advertises support for issuing VCs according to this spec
 }
 ```
 
+<a name="healthwalletissuevc-operation"></a>
+#### `$HealthWallet.issueVc` Operation
 
-## Issuer Generates Results
-
-When the issuer performs tests and the results come in, the issuer creates a FHIR payload and a corresponding VC.
-
-```mermaid
-sequenceDiagram
-participant Holder
-participant Issuer
-
-note over Holder, Issuer: Earlier...
-Issuer ->> Issuer: Generate Issuer's keys
-Holder -->> Issuer:  Establish SIOP connection
-Issuer ->> Issuer: If health card data for holder already exist: re-generate VCs
-
-note over Issuer, Holder: Data Created
-Issuer ->> Issuer: Generate FHIR Representation
-Issuer ->> Issuer: Generate VC Representation
-Issuer ->> Issuer: Generate JWT Payload and sign
-Issuer ->> Issuer: Store on holder's account
-
-note over Issuer, Holder: Later...
-Issuer ->> Holder: Holder downloads VCs
-```
-
-See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for details. The overall VC structure looks like the following:
-
-!!! info "VCs look different when represented as JWTs"
-    The example below shows a VC using the "vanilla" JSON representation. When packaging a VC into a JSON Web Token payload, there are a few differences, to retain compatibility with standard JWT claims. For example, compare [this "vanilla" JSON representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc.json) with its [corresponding JWT payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json). Note that in the JWT payload, most properties have been pushed into a `.vc` claim.
+A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
 
 ```json
 {
-  "@context": [
-    "https://www.w3.org/2018/credentials/v1"
-  ],
-  "type": [
-    "VerifiableCredential",
-    "https://smarthealth.cards#covid19",
-  ],
-  "issuer": "<<identifier for issuer>>",
-  "issuanceDate": "2020-05-01T11:59:00-07:00",
-  "credentialSubject": {
-    "fhirVersion": "<<FHIR Version>>",
-    "fhirBundle": {
-      "resourceType": "Bundle",
-      "type": "collection",
-      "entry": [
-        <<FHIR Resources>>
-      ]
-    }
-  }
+  "resourceType": "Parameters",
+  "parameter": [{
+    "name": "credentialType",
+    "valueUri": "https://smarthealth.cards#covid19"
+  }]
 }
 ```
 
-## Health Card is ready to save
-
-In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification). To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file should be served with a `.smart-health-card` file extension, so the Health Wallet app can be configured to recognize this extension. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:
+The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
 
 ```json
 {
-  "verifiableCredential": [
-    "<<Verifiable Credential as JWS>>",
-    "<<Verifiable Credential as JWS>>"
-  ]
+  "resourceType": "Parameters",
+  "parameter": [{
+    "name": "credentialType",
+    "valueUri": "https://smarthealth.cards#covid19"
+  }, {
+    "name": "includeIdentityClaim",
+    "valueString": "Patient.name"
+  }]
 }
 ```
 
-Alternatively, issuers can make the Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [Health Cards in QR Codes](#health-cards-in-qr-codes) for details.
+The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
 
-Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
-
-
-!!! info "Requesting VCs through the FHIR API"
-
-    The file download is the lowest common denominator. For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined here.
-    
-    FHIR API Example Approach
-    
-    <a name="healthwalletissuevc-operation"></a>
-    #### `$HealthWallet.issueVc` Operation
-    
-    A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
-    
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter": [{
-        "name": "credentialType",
-        "valueUri": "https://smarthealth.cards#covid19"
-      }]
+```json
+{
+  "resourceType": "Parameters",
+  "parameter":[{
+    "name": "verifiableCredential",
+    "valueAttachment":{
+      "data":"<<base64 encoded VC JWS>>"
     }
-    ```
-    
-    The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
-    
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter": [{
-        "name": "credentialType",
-        "valueUri": "https://smarthealth.cards#covid19"
+  }]
+}
+```
+
+In the response, an optional repeating `resourceLink` parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential:
+
+```json
+{
+  "resourceType": "Parameters",
+  "parameter": [{
+    "name": "resourceLink",
+    "part": [{
+        "name": "bundledResource",
+        "valueUri": "urn:uuid:4fe4f8d4-9b6e-4780-8ea5-6b5791230c85"
       }, {
-        "name": "includeIdentityClaim",
-        "valueString": "Patient.name"
-      }]
-    }
-    ```
-   
-    The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
-    
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter":[{
-        "name": "verifiableCredential",
-        "valueAttachment":{
-          "data":"<<base64 encoded VC JWS>>"
-        }
-      }]
-    }
-    ```
-
-    In the response, an optional repeating `resourceLink` parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential:
-
-    ```json
-    {
-      "resourceType": "Parameters",
-      "parameter": [{
-        "name": "resourceLink",
-        "part": [{
-            "name": "bundledResource",
-            "valueUri": "urn:uuid:4fe4f8d4-9b6e-4780-8ea5-6b5791230c85"
-          }, {
-            "name": "hostedResource",
-            "valueUri": "https://fhir.example.org/Immunization/123"
-        }]
-      }]
-    }
-    ```
+        "name": "hostedResource",
+        "valueUri": "https://fhir.example.org/Immunization/123"
+    }]
+  }]
+}
+```
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. The overall flow is similar to ["Connect Health Wallet to Issuer account"](#connect-health-wallet-to-issuer-account) above, in that it follows the SIOP protocol.
+In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uplaoding a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
 
-### Initiate the Presentation
+## Every Health Card can be embedded in a QR Code
 
-This step can happen in person or online.
+Our standard representation of a Health Card ensures that every Health Cards can be embedded as a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
 
-```mermaid
-sequenceDiagram
-participant Holder
-participant Verifier
-
-Verifier ->> Verifier: generate openid:// link with upload URL, public key and presentation context
-
-note over Holder, Verifier: In Person Presentation
-Verifier ->> Verifier: Display openid:// link in QR code
-Verifier ->> Holder: Holder scans QR code
-
-note over Holder, Verifier: Online Presentation
-Verifier ->> Verifier: redirect with openid:// link
-Verifier ->> Holder: process redirect
-```
-
-### Complete the Presentation
-
-```mermaid
-sequenceDiagram
-participant Holder
-participant Verifier
-
-Holder ->> Holder: find VCs suitable for presentation context
-Holder ->> Holder: let user pick VC to share
-Holder ->> Holder: confirm sharing
-Holder ->> Holder: encrypt VC with Verifier's public key
-Holder ->> Verifier: send encrypted VC
-Verifier ->> Verifier: decrypt VC
-
-note over Holder, Verifier: Verify VC
-Verifier ->> Verifier: resolve issuer's JWKS
-Verifier ->> Verifier: validate JWT
-Verifier ->> Verifier: ...
-```
-
-### Presentation Protocol Details
-
-
-### SIOP Request Discovery
-
-The verifier constructs an OIDC request, which is parsed by the Health Wallet and turned into a prompt for the user (newlines and spaces added for clarity):
-
-```
-openid://?
-  response_type=id_token
-  &scope=healthcards_authn
-  &request_uri=<<URL where request object can be found>>
-  &client_id=<<URL where response object will be posted>>
-```
-
-By using this URI-based approach, the verifier create a clickable link, or can display a QR code for the user to scan within the Health Wallet. The QR code can even be a statically printed sticker, if the verifier generates a signed request object dynamically each time a client dereferences the `request_uri`.
-
-
-### SIOP Request
-
-The `<<URL where request object can be found>>` in `request_uri` can be dereferened to a **SIOP Request**. This is a signed _JWT_, where the header's `kid` is the thumbprint of a key discoverable via `iss` + `.well-known/jwks.json`.
-
-The reques header takes the form:
-```json
-{
-  "alg": "ES256",
-  "typ": "JWT",
-  "kid": "<<signing-key-kid-from-jwks>>"
-}
-```
-
-And a payload like that includes any required claim types as full URL keys on the `claims.id_token` object:
-```json
-{
-  "iss": "<<Public URL for Verifier>>",
-  "response_type": "id_token",
-  "client_id": "<<URL where response object will be posted>>",
-  "scope": "openid healthcards_authn",
-  "response_mode" : "form_post",
-  "response_context": "wallet",
-  "nonce": "<<unique value>>",
-  "state": "<<client-supplied value, possibly empty>>",
-  "registration":  {
-    "id_token_signed_response_alg" : "ES256",
-    "id_token_encrypted_response_alg": "ECDH-ES",
-    "id_token_encrypted_response_enc": "A256GCM",
-  },
-  "claims": {
-    "id_token": {
-      "https://smarthealth.cards#covid19": {"essential": true},
-    }
-  }
-}
-```
-
-The `id_token_encrypted_response_*` parameters are optional and, if present, signal that the response to this request should be encrypted, not just signed.
-
-#### Request Options
-
-* `response_mode`: the Health Wallet should recognize and support `form_post` and `fragment` modes.
-* `response_context` of `wallet` allows the relying party to indicate that the wallet can issue a response in its own user agent context, effectively performing a "headless" submission and keeping the user in the wallet at the end of the interaction rather than redirecting back to the relying party.
-> Note: The `wallet` response context is only suitable in combination with a SMART on FHIR or other authenticated API connection, to prevent session fixation attacks. Otherwise, the relying party must receive its response in the system browser context, and must verify that the session where the request was generated and the session where the response was provided are both sessions for the same end-user.
-
-#### SIOP Request Validation
-
-To Health Wallet retrieves a JSON Web Key Set URI by dereferencing the `iss` payload parameter + `.well-known/jwks.json`
-
-
-### SIOP Response
-
-The Health Wallet displays a message to the user asking something like "Share with verifier.example.com?" (based on the `.iss` value).  
-
-Based on the requested claims, the Health Wallet prompts the user to share specific verifiable credentials (in the example above: Health Cards). The selected credentials are packaged into a Verifiable Presentation according to [W3C Verifiable Presentations](https://www.w3.org/TR/vc-data-model/#presentations-0).
-with a header like:
-
-```json
-{
-  "alg": "ES256",
-  "typ": "JWT",
-}
-```
-
-And a payload like the following, which includes a `.vp.verifiableCredential` array to convey the Health Cards that the user has decided to share:
-```json
-{
-  "iss": "https://self-issued.me",
-  "sub": "<<thumbprint for sub_jwk>>",
-  "aud": "<<client_id from the request>>",
-  "nonce": "<<unique value>>",
-  "exp": <<expiration time as JSON number of seconds since epoch>>,
-  "iat": <<issuance time as JSON number of seconds since epoch>>,
-  "sub_jwk": {
-    "crv": "P-256",
-    "kty": "EC",
-    "x": "<<curve's X coordinate>>",
-    "y": "<<curve's Y coordinate>>"
-  },      
-  "vp": {
-    "@context": ["https://www.w3.org/2018/credentials/v1"],
-    "type": ["VerifiablePresentation"],
-    "verifiableCredential": [
-      "<<Verifiable Credential as JWS>>",
-      "<<Verifiable Credential as JWS>>"
-    ]
-  }
-}
-```
-
-The response is signed as a JWS with the key from `sub_jwk` and optionally encrypted using the verifier's encryption key (if the request specified `id_token_encrypted_response_*`).
-
-Finally, the Health Wallet submits the  `id_token` and `state` values back to the client's URL (conveyed in the `client_id` request field). If `response_context` is `wallet`, the Health Wallet may issue an HTTP call directly to the client's URL. Otherwise, the Health Wallet submits a response in the context of the system browser. For example, if `response_mode` is `form_post` and `response_context` is `wallet`, the response might be sumitted as:
-
-```
-POST <<URL where response object will be posted>>
-Content-type: application/x-www-form-urlencoded
-
-id_token=<<SIOP Response Object as JWS or JWE>>
-&state=<<state value from SIOP Request Object, if any>>
-```
-
-
----
-
-# FAQ
-
-## Which clinical data should be considered in decision-making?
-* The data in Health Cards should focus on communicating "immutable clinical facts".
-* Each use case will define specific data profiles.
-  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
-* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
-  * decision-making rules may change over time as our understanding of the clinical science improves
-  * decision-making rules may be determined or influenced by international, national and local health authorities
-  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
-
-
-## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
-Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
-
-## Health Cards in QR Codes
-
-We define a standard way to represent a Health Card in a QR Code. The JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file can be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)). This approach:
+Ensuring Health Cards can be presented as QR Codes:
 
 * Allows basic storage and sharing of health cards for users without a smartphone
 * Allow smartphone-enabled users to print a usable backup
 * Allows full health card contents to be shared with a verifier
 
-The following limitations apply when presenting Health Card as QR codes, rather than engaging in a "verifiable presentation" workflow:
-* Does not capture a digital record of a signed request (no SIOP Request flow)
+The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:
+* Does not capture a digital record of a request for presentation
   * Verifier cannot include requirements in-band
-  * Verifeir cannot include purposes of use in-band
-* Does not capture a digital record of the presentation  (no SIOP Response flow)
+  * Verifier cannot include purposes of use in-band
+* Does not capture a digital record of the presentation
 
 To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
 
@@ -566,17 +359,32 @@ When printing or displaying a Health Card as a QR code, the the JWS string value
 
 (The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)
 
+---
+
+# FAQ
+
+## Which clinical data should be considered in decision-making?
+* The data in Health Cards should focus on communicating "immutable clinical facts".
+* Each use case will define specific data profiles.
+  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
+* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
+  * decision-making rules may change over time as our understanding of the clinical science improves
+  * decision-making rules may be determined or influenced by international, national and local health authorities
+  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
+
+
+## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
+Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
+
+
+
 ## Potential Extensions
 
-### Fallback for smartphone-based offline presentation
-
-We should be able to specify additional "return paths" in the SIOP workflow that don't depend on an HTTP upload but instead rely on local transfer (e.g., via NFC or bluetooth)
-
+### Standardized presentation workflows
+The spec is currently focused on representing Health Cards in a standardized data payload. This allows many simple patterns for sharing, but future work can introduce standardized presentation exchange flows (e.g., OpenID Self-Issued Identity Provider, a.k.a. SIOP)
 
 # References
 
 * DEFLATE Compression: https://www.ietf.org/rfc/rfc1951.txt
 * JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517
 * JSON Web Key (JWK) Thumbprint: https://tools.ietf.org/html/rfc7638
-* Self-Issued OpenID Provider (SIOP): https://openid.net/specs/openid-connect-core-1_0.html#SelfIssued
-* SMART Health Cards Vaccination IG: http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main
