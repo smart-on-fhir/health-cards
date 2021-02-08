@@ -175,10 +175,11 @@ note over Issuer, Holder: Later...
 Issuer ->> Holder: Holder receives Health Card
 ```
 
-See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for details. The overall VC structure looks like the following:
+### Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)
 
-!!! info "VCs look different when represented as JWTs"
-    The example below shows a VC using the "vanilla" JSON representation. When packaging a VC into a JSON Web Token payload, there are a few differences, to retain compatibility with standard JWT claims. For example, compare [this "vanilla" JSON representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc.json) with its [corresponding JWT payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json). Note that in the JWT payload, most properties have been pushed into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context` or `@type` property, because these are all ahcnored inside the `.vc` claim. The overall structure is:
+The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at https://www.w3.org/TR/vc-data-model/#jwt-encoding. Specifically: in the JWT payload, most properties have been "pushed down" into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context`, `@type`, or `credentialSubject` property, because these fields are either mapped into standard JWT claims (for `iss`, `iat`) or included within the `.vc` claim (for `@context`, `@type`, `@credentialSubject`).
+
+Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#every-health-card-can-be-embedded-in-a-qr-code)):
 
 ```json
 {
@@ -202,6 +203,7 @@ See [Modeling Verifiable Credentials in FHIR](./credential-modeling/) for detail
   }
 }
 ```
+
 
 ## User Retrieves Health Cards
 
