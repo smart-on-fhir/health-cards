@@ -171,7 +171,7 @@ Issuer ->> Holder: Holder receives Health Card
 
 The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at https://www.w3.org/TR/vc-data-model/#jwt-encoding. Specifically: in the JWT payload, most properties have been "pushed down" into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context`, `@type`, or `credentialSubject` property, because these fields are either mapped into standard JWT claims (for `iss`, `iat`) or included within the `.vc` claim (for `@context`, `@type`, `@credentialSubject`).
 
-Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#every-health-card-can-be-embedded-in-a-qr-code)):
+Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#health-cards-are-small)):
 
 ```json
 {
@@ -196,6 +196,37 @@ Hence, the overall JWS payload matches the following structure (before it is [mi
 }
 ```
 
+### Health Cards are Small
+
+To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
+
+* JWS Header
+  * header includes `zip: "DEF"`
+  * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+* JWS Payload
+  * payload is minified (i.e., all optional whitespace is stripped)
+  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
+  * payload `.vc.credentialSubject.fhirBundle` is created:
+    * without `Resource.id` elements
+    * without `Resource.meta` elements
+    * without `Resource.text` elements
+    * without `CodeableConcept.text` elements
+    * without `Coding.display` elements
+
+When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1204 characters** (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full `fhirBundle` in a JWS of <1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
+
+* Generate a random "Health Card Set" uuid
+* Partition the `fhirBundle.entry` resources into N groups
+* Create a distinct Health Card JWS for each of the N groups
+  * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
+  * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
+  * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
+
+Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.
+
+At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a `fhirBundleSplit` attribute. When receiving a Health Card with `fhirBundleSplit`, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and `fhirBundleSet` value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.
+
+For details about how to embed Health Cards in a QR code, [see below](#every-health-card-can-be-embedded-in-a-qr-code).
 
 ## User Retrieves Health Cards
 
@@ -306,7 +337,7 @@ In this step, the verifier asks the user to share a COVID-19 result. The overall
 
 ## Every Health Card can be embedded in a QR Code
 
-Our standard representation of a Health Card ensures that every Health Cards can be embedded as a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
+Our standard representation of a Health Card ensures that every Health Cards can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
@@ -319,34 +350,6 @@ The following limitations apply when presenting Health Card as QR codes, rather 
   * Verifier cannot include requirements in-band
   * Verifier cannot include purposes of use in-band
 * Does not capture a digital record of the presentation
-
-To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
-
-* JWS Header
-  * header includes `zip: "DEF"`
-  * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
-* JWS Payload
-  * payload is minified (i.e., all optional whitespace is stripped)
-  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
-  * payload `.vc.credentialSubject.fhirBundle` is created:
-    * without `Resource.id` elements
-    * without `Resource.meta` elements
-    * without `Resource.text` elements
-    * without `CodeableConcept.text` elements
-    * without `Coding.display` elements
-
-When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1204 characters** (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full `fhirBundle` in a JWS of <1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
-
-* Generate a random "Health Card Set" uuid
-* Partition the `fhirBundle.entry` resources into N groups
-* Create a distinct Health Card JWS for each of the N groups
-  * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
-  * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
-  * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
-
-Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.
-
-At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a `fhirBundleSplit` attribute. When receiving a Health Card with `fhirBundleSplit`, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and `fhirBundleSet` value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.
 
 
 ### Numerical Encoding
