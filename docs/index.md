@@ -60,15 +60,7 @@ Despite this broad scope, our *short-term definition of success* requires that w
 ## Demo
 Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
 
-#### Demo Mobile Wallet: Home Screen
-![](https://i.imgur.com/pMuA3N9.png)
-
-#### Demo Mobile Wallet Approval Screen
-![](https://i.imgur.com/fDdem2h.png)
-
-
 # Design Considerations
-
 This section outlines higher-level design considerations. See ["Protocol Details"](#protocol-details) below for technical details.
 
 ## Data Flow
