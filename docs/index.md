@@ -562,7 +562,8 @@ At presentation time, a verifier can recognize that a Health Card is part of a H
 
 ### Numerical Encoding
 
-When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as Numeric Mode value consisting of the characters 0-9. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`.
+When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as a Numeric Mode value consisting of the characters `0`-`9`. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`. (The constant "45" appears here because it is the ordinal value of `-`, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)
+
 ## Potential Extensions
 
 ### Fallback for smartphone-based offline presentation
