@@ -546,7 +546,7 @@ To ensure that all Health Cards can be represented in QR Codes, the following co
   * created without `CodeableConcept.text` elements
   * created without `Coding.display` elements
 
-When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 35mmx35mm. This constraint allows us to use QR codes up to Version 30, at 137x137 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 2079 characters**. If it is not possible to include the full `fhirBundle` in a JWS of <2079 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
+When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1204 characters** (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full `fhirBundle` in a JWS of <1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
 
 * Generate a random "Health Card Set" uuid
 * Partition the `fhirBundle.entry` resources into N groups
