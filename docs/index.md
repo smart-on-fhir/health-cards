@@ -521,7 +521,7 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 ## Health Cards in QR Codes
 
-We define a standard way to represent a Health Card in a QR Code. The same strings that appears as `.verifiableCredential[]` entries in a `.smart-health.card` file can be directly represented as QR codes. This approach:
+We define a standard way to represent a Health Card in a QR Code. The JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file can be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)). This approach:
 
 * Allows basic storage and sharing of health cards for users without a smartphone
 * Allow smartphone-enabled users to print a usable backup
@@ -546,7 +546,7 @@ To ensure that all Health Cards can be represented in QR Codes, the following co
   * created without `CodeableConcept.text` elements
   * created without `Coding.display` elements
 
-When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 35mmx35mm. This constraint allows us to use QR codes up to Version 30, at 137x137 modules. Therefore, Issuers SHOUDL ensure that the total string length of any Health Card **JWS is <= 1732 bytes**. If it is not possible to include the full `fhirBundle` in a JWS of <1732 bytes, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
+When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 35mmx35mm. This constraint allows us to use QR codes up to Version 30, at 137x137 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 2079 characters**. If it is not possible to include the full `fhirBundle` in a JWS of <2079 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:
 
 * Generate a random "Health Card Set" uuid
 * Partition the `fhirBundle.entry` resources into N groups
@@ -559,8 +559,10 @@ Issuers SHOULD choose "N" as the smallest integer that allows each health card t
 
 At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a `fhirBundleSplit` attribute. When receiving a Health Card with `fhirBundleSplit`, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and `fhirBundleSet` value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.
 
-When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as text using the default (ISO 8859-1) encoding; the only characters present will be the characters in the base64url encoding character set plus `.` (for a total of 65 distinct characters).
 
+### Numerical Encoding
+
+When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as Numeric Mode value consisting of the characters 0-9. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`.
 ## Potential Extensions
 
 ### Fallback for smartphone-based offline presentation
