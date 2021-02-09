@@ -309,9 +309,7 @@ The **response** is a `Parameters` resource that includes one more more `verifia
   "resourceType": "Parameters",
   "parameter":[{
     "name": "verifiableCredential",
-    "valueAttachment":{
-      "data":"<<base64 encoded VC JWS>>"
-    }
+    "valueString": "<<Health Cards as JWS>>"
   }]
 }
 ```
@@ -325,7 +323,7 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
     "name": "resourceLink",
     "part": [{
         "name": "bundledResource",
-        "valueUri": "urn:uuid:4fe4f8d4-9b6e-4780-8ea5-6b5791230c85"
+        "valueUri": "resource:2"
       }, {
         "name": "hostedResource",
         "valueUri": "https://fhir.example.org/Immunization/123"
