@@ -1,0 +1,1071 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>SMART Health Cards Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.39b8e14a.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="style.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="." title="SMART Health Cards Framework" class="md-header-nav__button md-logo" aria-label="SMART Health Cards Framework">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            SMART Health Cards Framework
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Protocol
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/smart-on-fhir/health-cards/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="SMART Health Cards Framework" class="md-nav__button md-logo" aria-label="SMART Health Cards Framework">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    SMART Health Cards Framework
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/smart-on-fhir/health-cards/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Protocol
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Protocol
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-model" class="md-nav__link">
+    Conceptual Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-goals" class="md-nav__link">
+    Design Goals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-small-think-big" class="md-nav__link">
+    Start Small -- Think Big
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience" class="md-nav__link">
+    User Experience
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    Demo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-considerations" class="md-nav__link">
+    Design Considerations
+  </a>
+  
+    <nav class="md-nav" aria-label="Design Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    Data Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust" class="md-nav__link">
+    Trust
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    Privacy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-model" class="md-nav__link">
+    Data Model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protocol-details" class="md-nav__link">
+    Protocol Details
+  </a>
+  
+    <nav class="md-nav" aria-label="Protocol Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-and-resolving-cryptographic-keys" class="md-nav__link">
+    Generating and resolving cryptographic keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issuer-generates-results" class="md-nav__link">
+    Issuer Generates Results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-retrieves-health-cards" class="md-nav__link">
+    User Retrieves Health Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presenting-health-cards-to-a-verifier" class="md-nav__link">
+    Presenting Health Cards to a Verifier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#every-health-card-can-be-embedded-in-a-qr-code" class="md-nav__link">
+    Every Health Card can be embedded in a QR Code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    FAQ
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-clinical-data-should-be-considered-in-decision-making" class="md-nav__link">
+    Which clinical data should be considered in decision-making?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results" class="md-nav__link">
+    How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#potential-extensions" class="md-nav__link">
+    Potential Extensions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="credential-modeling/" class="md-nav__link">
+        Credentials
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulary/" class="md-nav__link">
+        Vocabulary
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-model" class="md-nav__link">
+    Conceptual Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-goals" class="md-nav__link">
+    Design Goals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-small-think-big" class="md-nav__link">
+    Start Small -- Think Big
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience" class="md-nav__link">
+    User Experience
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    Demo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-considerations" class="md-nav__link">
+    Design Considerations
+  </a>
+  
+    <nav class="md-nav" aria-label="Design Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    Data Flow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust" class="md-nav__link">
+    Trust
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    Privacy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-model" class="md-nav__link">
+    Data Model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#protocol-details" class="md-nav__link">
+    Protocol Details
+  </a>
+  
+    <nav class="md-nav" aria-label="Protocol Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-and-resolving-cryptographic-keys" class="md-nav__link">
+    Generating and resolving cryptographic keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issuer-generates-results" class="md-nav__link">
+    Issuer Generates Results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-retrieves-health-cards" class="md-nav__link">
+    User Retrieves Health Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presenting-health-cards-to-a-verifier" class="md-nav__link">
+    Presenting Health Cards to a Verifier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#every-health-card-can-be-embedded-in-a-qr-code" class="md-nav__link">
+    Every Health Card can be embedded in a QR Code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    FAQ
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-clinical-data-should-be-considered-in-decision-making" class="md-nav__link">
+    Which clinical data should be considered in decision-making?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results" class="md-nav__link">
+    How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#potential-extensions" class="md-nav__link">
+    Potential Extensions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/smart-on-fhir/health-cards/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Protocol</h1>
+                
+                <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<h4>Status</h4>
+<p>Draft implementation guide authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.</p>
+<h4>Contributing</h4>
+<p>To propose changes, please use GitHub <a href="https://github.com/smart-on-fhir/health-cards/issues">Issues</a> or create a <a href="https://github.com/smart-on-fhir/health-cards/pulls">Pull Request</a>.</p>
+<h4>Overview Video (November 2020)</h4>
+<ul>
+<li><a href="https://youtu.be/UdlmRoJK1Yg">https://youtu.be/UdlmRoJK1Yg</a></li>
+</ul>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and <strong>present these results to another party in a verifiable manner</strong>. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.</p>
+<p>Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. </p>
+<h3 id="conceptual-model">Conceptual Model<a class="headerlink" href="#conceptual-model" title="Permanent link">&para;</a></h3>
+<p><img alt="Figure" src="https://i.imgur.com/T8RHjlJ.png" /></p>
+<ul>
+<li><strong>Issuer</strong> (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials </li>
+<li><strong>Holder</strong> stores credentials and presents them at will</li>
+<li><strong>Verifier</strong> receives credentials from holder and ensures they are properly signed</li>
+</ul>
+<h3 id="design-goals">Design Goals<a class="headerlink" href="#design-goals" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Support <strong>end-to-end workflow</strong> where users receive and present relevant healthcare data</li>
+<li>Enable workflow with <strong>open standards</strong></li>
+<li>Support strong <strong>cryptographic signatures</strong></li>
+<li>Enable <strong>privacy preserving</strong> data presentations for specific use cases</li>
+</ul>
+<h3 id="start-small-think-big">Start Small -- Think Big<a class="headerlink" href="#start-small-think-big" title="Permanent link">&para;</a></h3>
+<p>We enable Health Cards  by defining building blocks that can be used across healthcare. The core building block allows us to aggregate data into meaningful sets, signed by an issuer, and stored/presented by a consumer as needed. The broader set of use cases might eventually include:</p>
+<ul>
+<li>Managing an immunization record that can be shared with schools or employers, or for travel</li>
+<li>Sharing verifiable health history data with clinical research studies</li>
+<li>Sharing voluntary data with public health agencies</li>
+<li>Sharing questionnaire responses with healthcare providers</li>
+</ul>
+<p>Despite this broad scope, our <em>short-term definition of success</em> requires that we:</p>
+<ul>
+<li>Represent "Health Cards" in a "Health Wallet", focusing on COVID-19 status</li>
+<li>Ensure that each role (issuer, holder, app) can be implemented by any organization following open standards, provided they sign on to the relevant trust framework</li>
+</ul>
+<h3 id="user-experience">User Experience<a class="headerlink" href="#user-experience" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Install</strong> a "Health Wallet" app</li>
+<li><strong>Connect</strong> the Health Wallet to an account with the Issuer (optional step)</li>
+<li><strong>Save</strong> a Health Card from the Issuer into the Health Wallet</li>
+<li><strong>Present</strong> a Health Card to a Verifier</li>
+</ol>
+<p>The presentation step incluldes explicit user opt-in and approval. The Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation).</p>
+<h3 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link">&para;</a></h3>
+<p>Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see <a href="https://c19.cards/">c19.cards</a> (source code <a href="https://github.com/microsoft-healthcare-madison/health-wallet-demo">on GitHub</a> -- and if you want to learn how to test your own components against the demo site, see <a href="https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components">README.md</a>).</p>
+<h2 id="design-considerations">Design Considerations<a class="headerlink" href="#design-considerations" title="Permanent link">&para;</a></h2>
+<p>This section outlines higher-level design considerations. See <a href="#protocol-details">Protocol Details</a> below for technical details.</p>
+<h3 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h3>
+<h4>Connecting Health Wallet to Issuer (optional)</h4>
+<ul>
+<li>Establish a SMART on FHIR authorization with an Issuer including read access to any resources that will be present in Health Cards (e.g., Patient, Immunization, Observation, DiagnosticReport).</li>
+</ul>
+<h4>Getting credentials into Health Wallet</h4>
+<ul>
+<li>Required method: File download</li>
+<li>Required method: QR scan</li>
+<li>Optional method: <a href="#healthwalletissuevc-operation">FHIR API Access</a></li>
+</ul>
+<h4>Presenting credentials to Verifier</h4>
+<ul>
+<li>Optional method: QR presentation</li>
+<li>Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)</li>
+</ul>
+<h3 id="trust">Trust<a class="headerlink" href="#trust" title="Permanent link">&para;</a></h3>
+<p>Which issuers can participate, which test results should be considered, and how do verifiers learn this information?</p>
+<p>At a <em>pilot project level</em>:</p>
+<h4>Which Issuers can participate?</h4>
+<ul>
+<li>We'll work with a willing set of issuers and define expectations/requirements</li>
+<li>Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL</li>
+<li>Verifiers will discover public keys associated with an issuer via <code>.well-known/jwks.json</code> URLs</li>
+<li>For transparency, we'll publish a list of participating organizations in a public directory</li>
+<li>In a <em>post-pilot deployment</em>, a network of participants would define and agree to a formal Trust Framework</li>
+</ul>
+<h3 id="privacy">Privacy<a class="headerlink" href="#privacy" title="Permanent link">&para;</a></h3>
+<p>It is an explicit design goal to let the holder <strong>only disclose a minimum amount of information</strong> to a verifier. The information <em>required</em> to be disclosed is use-case dependent, and -- particularly in a healthcare setting -- it can be difficult for lay people to judge which data elements are necessary to be shared.</p>
+<p>To start, the granularity of information disclosure will be at the level of an entire credential (i.e., a user can select "which cards" to share from a Health Wallet, and each card is shared wholesale). The credentials are designed to only include the minimum information necessary for a given use case.</p>
+<p>If we identify <em>optional</em> data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to sumamrize results in a just-in-time fashion.</p>
+<h3 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
+<p>This framework defines a general approach to <strong>representing demographic and clinical data in FHIR</strong>, outlined in <a href="./credential-modeling/">Modeling Verifiable Credentials in FHIR</a>. Specific use cases for Health Cards will define specific data profiles.</p>
+<ul>
+<li><strong>COVID-19 Vaccination Credentials</strong>: See <a href="http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main">SMART Health Cards: Vaccination IG</a></li>
+</ul>
+<h2 id="protocol-details">Protocol Details<a class="headerlink" href="#protocol-details" title="Permanent link">&para;</a></h2>
+<h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
+<p>The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
+<ul>
+<li><strong>Signing Keys</strong></li>
+<li>MUST have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
+<li>MUST have <code>"kid"</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>Signing <em>Health Cards</em> (a.k.a. Verifiable Credentials)<ul>
+<li>Issuers sign Health Card VCs with a signing key (private key)</li>
+<li>Issuer publish their signing keys (public key) at <code>.well-known/jwks.json</code></li>
+<li>Wallets and Verifers validate Issuer signatures on Health Cards</li>
+</ul>
+</li>
+</ul>
+<h4>Determining keys associated with an issuer</h4>
+<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>.well-known/jwks.json</code>:</p>
+<ul>
+<li><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</li>
+</ul>
+<p>For example, the following fragment of a JWKS for contains one signing key:
+<div class="highlight"><pre><span></span><code>{
+  &quot;keys&quot;:[
+    {
+      &quot;kty&quot;: &quot;EC&quot;,
+      &quot;kid&quot;: &quot;_IY9W2kRRFUigDfSB9r8jHgMRrT0w4p5KN93nGThdH8&quot;,
+      &quot;use&quot;: &quot;sig&quot;,
+      &quot;alg&quot;: &quot;ES256&quot;,
+      &quot;crv&quot;: &quot;P-256&quot;,
+      &quot;x&quot;: &quot;7xbC_9ZmFwKqOHpwX6-LnlhIh5SMIuNwl0PW1yVI_sk&quot;,
+      &quot;y&quot;: &quot;7k2fdIRNDHdf93vL76wxdXEPtj_GiMTTyecm7EUUMQo&quot;,
+    }
+  ]
+}
+</code></pre></div></p>
+<h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
+<p>When the issuer is ready to genearte a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the (QR Embedding requirements)[every-health-card-can-be-embedded-in-a-qr-code].</p>
+<div class="mermaid">sequenceDiagram
+participant Holder
+participant Issuer
+
+note over Holder, Issuer: Earlier...
+Issuer -&gt;&gt; Issuer: Generate Issuer's keys
+Issuer -&gt;&gt; Issuer: If health card data for holder already exist: re-generate VCs
+
+note over Issuer, Holder: Data Created
+Issuer -&gt;&gt; Issuer: Generate FHIR Representation
+Issuer -&gt;&gt; Issuer: Generate VC Representation
+Issuer -&gt;&gt; Issuer: Generate JWT Payload and sign
+
+note over Issuer, Holder: Later...
+Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
+<h4>Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)</h4>
+<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at https://www.w3.org/TR/vc-data-model/#jwt-encoding. Specifically: in the JWT payload, most properties have been "pushed down" into a <code>.vc</code> claim; there is no top-level <code>issuer</code>, <code>issuanceDate</code>, <code>@context</code>, <code>@type</code>, or <code>credentialSubject</code> property, because these fields are either mapped into standard JWT claims (for <code>iss</code>, <code>iat</code>) or included within the <code>.vc</code> claim (for <code>@context</code>, <code>@type</code>, <code>@credentialSubject</code>).</p>
+<p>Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;iat&quot;</span><span class="p">:</span> <span class="mi">1591037940</span><span class="p">,</span>
+  <span class="nt">&quot;vc&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://www.w3.org/2018/credentials/v1&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;VerifiableCredential&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;https://smarthealth.cards#health-card&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&lt;&lt;Additional Types&gt;&gt;&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;credentialSubject&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;fhirVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;FHIR Version, e.g. &#39;4.0.1&#39;&gt;&gt;&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fhirBundle&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Bundle&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;collection&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&lt;&lt;FHIR Resource&gt;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;&lt;FHIR Resource&gt;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>Health Cards are Small</h4>
+<p>To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:</p>
+<ul>
+<li>JWS Header</li>
+<li>header includes <code>zip: "DEF"</code></li>
+<li>header includes <code>kid</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>JWS Payload</li>
+<li>payload is minified (i.e., all optional whitespace is stripped)</li>
+<li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed</li>
+<li>payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
+<li>without <code>Resource.id</code> elements</li>
+<li>without <code>Resource.meta</code> elements</li>
+<li>without <code>Resource.text</code> elements</li>
+<li>without <code>CodeableConcept.text</code> elements</li>
+<li>without <code>Coding.display</code> elements</li>
+<li>with <code>Bundle.entry.fullUrl</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"fullUrl": "resource:0}</code>)</li>
+<li>with <code>Reference.reference</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"patient": {"reference": "resource:0"}}</code>)</li>
+</ul>
+</li>
+</ul>
+<p>When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card <strong>JWS is &lt;= 1204 characters</strong> (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full <code>fhirBundle</code> in a JWS of &lt;1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:</p>
+<ul>
+<li>Generate a random "Health Card Set" uuid</li>
+<li>Partition the <code>fhirBundle.entry</code> resources into N groups</li>
+<li>Create a distinct Health Card JWS for each of the N groups</li>
+<li>Populate each card's <code>.vc.credentialSubject.fhirBundleSplit</code> with the same integer value N</li>
+<li>Populate each card's <code>.vc.credentialSubject.fhirBundleSet</code> with the same Health Card Set uuid</li>
+<li>Ensure that <code>fhirBundle.entry.fullUrl</code> values are unique across all entries in the Health Card Set</li>
+</ul>
+<p>Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.</p>
+<p>At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a <code>fhirBundleSplit</code> attribute. When receiving a Health Card with <code>fhirBundleSplit</code>, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and <code>fhirBundleSet</code> value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.</p>
+<p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
+<h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
+<p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.</p>
+<h4>via File Download</h4>
+<p>To facilitate this workflow, the issuer can include a link to help the user download the credentials directly, e.g., from at a login-protected page in the Issuer's patient portal. The file SHALL be served with a <code>.smart-health-card</code> file extension and SHALL be provided with a MIME type of <code>application/smart-health-card</code> (e.g., web servers SHALL include <code>Content-Type: application/smart-health-card</code> as an HTTP Response containing a Health Card), so the Health Wallet app can be configured to recognize this extension and/or MIME type. Contents should be a JSON object containing an array of Verifiable Credential JWS strings:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;verifiableCredential&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;&lt;&lt;Verifiable Credential as JWS&gt;&gt;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&lt;&lt;Verifiable Credential as JWS&gt;&gt;&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4>via QR (Print or Scan)</h4>
+<p>Alternatively, issuers can make the Health Card available <strong>embedded in a QR code</strong> (for instance, printed on a paper-based vaccination record or after-visit summary document). See <a href="#every-health-card-can-be-embedded-in-a-qr-code">details</a>.</p>
+<p>Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.</p>
+<h4>via FHIR <code>$HealthWallet.issueVc</code> Operation</h4>
+<p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$HealthWallet.issueVc</code> operation defined here. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
+<h5>Discovery of FHIR Support</h5>
+<p>A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the <code>health-cards</code> capability to its <code>.well-known/smart-configuration</code> JSON file. For example:</p>
+<div class="highlight"><pre><span></span><code>{
+&quot;authorization_endpoint&quot;: &quot;https://ehr.example.com/auth/authorize&quot;,
+&quot;token_endpoint&quot;: &quot;https://ehr.example.com/auth/token&quot;,
+&quot;token_endpoint_auth_methods_supported&quot;: [&quot;client_secret_basic&quot;],
+&quot;scopes_supported&quot;: [&quot;launch&quot;, &quot;launch/patient&quot;, &quot;patient/*.*&quot;, &quot;offline_access&quot;],
+&quot;response_types_supported&quot;: [&quot;code&quot;, &quot;code id_token&quot;, &quot;id_token&quot;, &quot;refresh_token&quot;],
+&quot;capabilities&quot;: [&quot;health-cards&quot;, &quot;launch-standalone&quot;, &quot;context-standalone-patient&quot;, &quot;client-confidential-symmetric&quot;]
+}
+</code></pre></div>
+<p><a name="healthwalletissuevc-operation"></a></p>
+<h5><code>$HealthWallet.issueVc</code> Operation</h5>
+<p>A Health Wallet can <code>POST /Patient/:id/$HealthWallet.issueVc</code> to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>credentialType</code> parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more <code>includeIdentityClaim</code>s, which will limit the claims included in the VC. For example, to request that only name be included:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;includeIdentityClaim&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueString&quot;</span><span class="p">:</span> <span class="s2">&quot;Patient.name&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <strong>response</strong> is a <code>Parameters</code> resource that includes one more more <code>verifiableCredential</code> values like:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;verifiableCredential&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueString&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Health Cards as JWS&gt;&gt;&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;resourceLink&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;part&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;bundledResource&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;resource:2&quot;</span>
+      <span class="p">},</span> <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;hostedResource&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://fhir.example.org/Immunization/123&quot;</span>
+    <span class="p">}]</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
+<p>In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uplaoding a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
+<h3 id="every-health-card-can-be-embedded-in-a-qr-code">Every Health Card can be embedded in a QR Code<a class="headerlink" href="#every-health-card-can-be-embedded-in-a-qr-code" title="Permanent link">&para;</a></h3>
+<p>Our standard representation of a Health Card ensures that every Health Cards can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as <code>.verifiableCredential[]</code> entries in a <code>.smart-health.card</code> file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#numerical-encoding">"Numerical Encoding"</a>).</p>
+<p>Ensuring Health Cards can be presented as QR Codes:</p>
+<ul>
+<li>Allows basic storage and sharing of health cards for users without a smartphone</li>
+<li>Allow smartphone-enabled users to print a usable backup</li>
+<li>Allows full health card contents to be shared with a verifier</li>
+</ul>
+<p>The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:
+* Does not capture a digital record of a request for presentation
+  * Verifier cannot include requirements in-band
+  * Verifier cannot include purposes of use in-band
+* Does not capture a digital record of the presentation</p>
+<h4>Numerical Encoding</h4>
+<p>When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as a Numeric Mode value consisting of the characters <code>0</code>-<code>9</code>. Each character "c" of the JWS is converted into a sequence of two digits as by taking <code>Ord(c)-45</code> and treating the result as a two-digit base ten number. For example, <code>'X'</code> is encoded as <code>43</code>, since <code>Ord('X')</code> is <code>88</code>, and <code>88-45</code> is <code>43</code>. (The constant "45" appears here because it is the ordinal value of <code>-</code>, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)</p>
+<p>(The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)</p>
+<hr />
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
+<h3 id="which-clinical-data-should-be-considered-in-decision-making">Which clinical data should be considered in decision-making?<a class="headerlink" href="#which-clinical-data-should-be-considered-in-decision-making" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The data in Health Cards should focus on communicating "immutable clinical facts".</li>
+<li>Each use case will define specific data profiles.</li>
+<li>For COVID-19 Vaccination Credentials, the <a href="http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main">SMART Health Cards: Vaccination IG</a> defines requirements</li>
+<li>When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply</li>
+<li>decision-making rules may change over time as our understanding of the clinical science improves</li>
+<li>decision-making rules may be determined or influenced by international, national and local health authorities</li>
+<li>decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")</li>
+</ul>
+<h3 id="how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results">How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?<a class="headerlink" href="#how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results" title="Permanent link">&para;</a></h3>
+<p>Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.</p>
+<h3 id="potential-extensions">Potential Extensions<a class="headerlink" href="#potential-extensions" title="Permanent link">&para;</a></h3>
+<h4>Standardized presentation workflows</h4>
+<p>The spec is currently focused on representing Health Cards in a standardized data payload. This allows many simple patterns for sharing, but future work can introduce standardized presentation exchange flows (e.g., OpenID Self-Issued Identity Provider, a.k.a. SIOP)</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>DEFLATE Compression: https://www.ietf.org/rfc/rfc1951.txt</li>
+<li>JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517</li>
+<li>JSON Web Key (JWK) Thumbprint: https://tools.ietf.org/html/rfc7638</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+        
+          <a href="credential-modeling/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Credentials
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: ".",
+          features: [],
+          search: Object.assign({
+            worker: "assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://unpkg.com/mermaid@8.7.0/dist/mermaid.min.js"></script>
+      
+        <script src="mermaid.js"></script>
+      
+    
+  </body>
+</html>
