@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0
+
+Significant API overhaul to reduce scope and simplify dependencies. See [PR#64](https://github.com/smart-on-fhir/health-cards/pull/64) for details.
+
+* Remove user DIDs from the picture. They were already optional, and in some of our most important flows unlikely to be available.
+
+* Remove the need to bind an issuer to a holder ahead of time. SMART on FHIR clients can now call $HealthWallet.issueVc without having to call $HealthWallet.connect first
+
+* Update $HealthWallet.issueVc response to use `valueString` (avoids the need for base64 encoding in the FHIR Parameters resource)
+
+* Replace DID-based key discovery with hosted JSON Web Key. Establish the requirement that Issuers host `.well-known/jwks.json`
+
+* Define requirements for keeping Health Cards' JWS representation small (small enough to fit in a QR code) -- including size limits and a method for splitting a Health Card into a Health Card Set when the size limit cannot be met
+
+* Document process for embedding Health Cards in QR codes
+
+* Update file extension and MIME type for representing Health Cards as downloadable files (`.smart-health-card` and `application/smart-health-card`)
+
+* Remove SIOP flow For Verifier::Holder communications
+
+
 ## 0.0.12
 
 Add optional `resourceLink` response parameter on `$HealthWallet.issueVc`
