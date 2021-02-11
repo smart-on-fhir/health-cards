@@ -39,37 +39,24 @@ Resulting payload structure:
 
 ## Modeling a "Health Card"
 
-A "Health Card" is a VC that conveys results about one discrete condition -- **in this case a single COVID-19 serology study**, encompassing IgG and IgM detection. Other cards could convey details of a RT-PCR test for COVID-19, a clinical diagnosis of COVID-19, TDAP vaccination, and so on.
+A "Health Card" is a VC that conveys results about one discrete topic -- **in this example, a COVID-19 immunization card**, encompassing details about doses given. Other cards could convey details of a RT-PCR test for COVID-19, a clinical diagnosis of COVID-19, TDAP vaccination, and so on.
 
 According to the procedure above, we start with decisions about FHIR content resources and identity resources:
 
 * Which **FHIR content resources** need to be conveyed in a package? For the diagnostic results, we need:
-    * `Observation` with effectiveTime and a COVID-19 IgM result
-    * `Observation` with effectiveTime and a COVID-19 IgG result
-    * `DiagnosticReport` from COVID-19 testing, that conveys an overall conclusion (optional)
+    * `Immunization` with details about a first dose (product, date of administration, and location reference)
+    * `Immunization` with details about a second dose (product, date of administration, and location reference)
+    * `Location`(s) indicating where a dose was administered
 
-* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource:
-
-    * First name
-    * Middle initial
-    * Last Name
-    * Suffix
-    * Gender
-    * Mobile phone
-    * Email address
-    * Date of birth
-
-    * Overall "level of assurance" indicating whether these elements have been verified (question: do we also want to convey element-specific level of assurance?)
+* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource. The resource includes an overall "level of assurance" indicating whether these demographi elements have been verified.
 
     * Best practices
-        * Each party should attempt to verify the mobile phone number (e.g., using an SMS with a confirmation link or one-time code)
         * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
-        * Verifiers should not expect all elements in the VC to match their own records, but can still use elements conveyed in the VC. For example, if a user has registered a verifier-specific email addresses in the VC, the verifier might use the email address inside the VC as a second factor in a verifiaction workflow
+        * Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.
 
 ### Health Card Examples
 
-* [Example VC in expanded form](https://github.com/microsoft-healthcare-madison/did-siop-vc/blob/master/src/fixtures/vc.json)
-* [JWT representation](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json)
+* [Example VC payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-covid-immunization.json)
 
 [vc]: https://w3c.github.io/vc-data-model/
 [fhir]: https://hl7.org/fhir
