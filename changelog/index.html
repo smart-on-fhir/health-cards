@@ -278,20 +278,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#010" class="md-nav__link">
-    0.1.0
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#0012" class="md-nav__link">
-    0.0.12
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#0011" class="md-nav__link">
     0.0.11
   </a>
@@ -405,20 +391,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#010" class="md-nav__link">
-    0.1.0
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#0012" class="md-nav__link">
-    0.0.12
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#0011" class="md-nav__link">
     0.0.11
   </a>
@@ -513,36 +485,6 @@
                   <h1>Changelog</h1>
                 
                 <h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
-<h3 id="010">0.1.0<a class="headerlink" href="#010" title="Permanent link">&para;</a></h3>
-<p>Significant API overhaul to reduce scope and simplify dependencies. See <a href="https://github.com/smart-on-fhir/health-cards/pull/64">PR#64</a> for details.</p>
-<ul>
-<li>
-<p>Remove user DIDs from the picture. They were already optional, and in some of our most important flows unlikely to be available.</p>
-</li>
-<li>
-<p>Remove the need to bind an issuer to a holder ahead of time. SMART on FHIR clients can now call $HealthWallet.issueVc without having to call $HealthWallet.connect first</p>
-</li>
-<li>
-<p>Update $HealthWallet.issueVc response to use <code>valueString</code> (avoids the need for base64 encoding in the FHIR Parameters resource)</p>
-</li>
-<li>
-<p>Replace DID-based key discovery with hosted JSON Web Key. Establish the requirement that Issuers host <code>.well-known/jwks.json</code></p>
-</li>
-<li>
-<p>Define requirements for keeping Health Cards' JWS representation small (small enough to fit in a QR code) -- including size limits and a method for splitting a Health Card into a Health Card Set when the size limit cannot be met</p>
-</li>
-<li>
-<p>Document process for embedding Health Cards in QR codes</p>
-</li>
-<li>
-<p>Update file extension and MIME type for representing Health Cards as downloadable files (<code>.smart-health-card</code> and <code>application/smart-health-card</code>)</p>
-</li>
-<li>
-<p>Remove SIOP flow For Verifier::Holder communications</p>
-</li>
-</ul>
-<h3 id="0012">0.0.12<a class="headerlink" href="#0012" title="Permanent link">&para;</a></h3>
-<p>Add optional <code>resourceLink</code> response parameter on <code>$HealthWallet.issueVc</code></p>
 <h3 id="0011">0.0.11<a class="headerlink" href="#0011" title="Permanent link">&para;</a></h3>
 <p>Change canonical domain to https://smarthealth.cards (from https://healthwallet.cards)</p>
 <h3 id="0010">0.0.10<a class="headerlink" href="#0010" title="Permanent link">&para;</a></h3>

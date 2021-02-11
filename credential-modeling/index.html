@@ -391,14 +391,14 @@
 <p>Resulting payload structure:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://www.w3.org/2018/credentials/v1&quot;</span><span class="p">],</span>
-  <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+  <span class="err">...</span>
   <span class="nt">&quot;credentialSubject&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;fhirVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;4.0.1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;fhirBundle&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Bundle&quot;</span><span class="p">,</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;collection&quot;</span><span class="p">,</span>
       <span class="nt">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;...&quot;</span>
+        <span class="err">...</span>
       <span class="p">]</span>
     <span class="p">}</span>
   <span class="p">}</span>
@@ -408,23 +408,39 @@
 <p>Below we focus on the Health Card use case, but the same approach to forming VCs out of FHIR can be applied to other use cases, too.</p>
 </blockquote>
 <h3 id="modeling-a-health-card">Modeling a "Health Card"<a class="headerlink" href="#modeling-a-health-card" title="Permanent link">&para;</a></h3>
-<p>A "Health Card" is a VC that conveys results about one discrete topic -- <strong>in this example, a COVID-19 immunization card</strong>, encompassing details about doses given. Other cards could convey details of a RT-PCR test for COVID-19, a clinical diagnosis of COVID-19, TDAP vaccination, and so on.</p>
+<p>A "Health Card" is a VC that conveys results about one discrete condition -- <strong>in this case a single COVID-19 serology study</strong>, encompassing IgG and IgM detection. Other cards could convey details of a RT-PCR test for COVID-19, a clinical diagnosis of COVID-19, TDAP vaccination, and so on.</p>
 <p>According to the procedure above, we start with decisions about FHIR content resources and identity resources:</p>
 <ul>
 <li>
 <p>Which <strong>FHIR content resources</strong> need to be conveyed in a package? For the diagnostic results, we need:</p>
 <ul>
-<li><code>Immunization</code> with details about a first dose (product, date of administration, and location reference)</li>
-<li><code>Immunization</code> with details about a second dose (product, date of administration, and location reference)</li>
-<li><code>Location</code>(s) indicating where a dose was administered</li>
+<li><code>Observation</code> with effectiveTime and a COVID-19 IgM result</li>
+<li><code>Observation</code> with effectiveTime and a COVID-19 IgG result</li>
+<li><code>DiagnosticReport</code> from COVID-19 testing, that conveys an overall conclusion (optional)</li>
 </ul>
 </li>
 <li>
-<p>What <strong>FHIR identity resources</strong> do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR <code>Patient</code> resource. The resource includes an overall "level of assurance" indicating whether these demographi elements have been verified.</p>
+<p>What <strong>FHIR identity resources</strong> do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR <code>Patient</code> resource:</p>
 <ul>
-<li>Best practices<ul>
+<li>First name</li>
+<li>Middle initial</li>
+<li>Last Name</li>
+<li>Suffix</li>
+<li>Gender</li>
+<li>Mobile phone</li>
+<li>Email address</li>
+<li>
+<p>Date of birth</p>
+</li>
+<li>
+<p>Overall "level of assurance" indicating whether these elements have been verified (question: do we also want to convey element-specific level of assurance?)</p>
+</li>
+<li>
+<p>Best practices</p>
+<ul>
+<li>Each party should attempt to verify the mobile phone number (e.g., using an SMS with a confirmation link or one-time code)</li>
 <li>Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes</li>
-<li>Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.</li>
+<li>Verifiers should not expect all elements in the VC to match their own records, but can still use elements conveyed in the VC. For example, if a user has registered a verifier-specific email addresses in the VC, the verifier might use the email address inside the VC as a second factor in a verifiaction workflow</li>
 </ul>
 </li>
 </ul>
@@ -432,7 +448,8 @@
 </ul>
 <h4>Health Card Examples</h4>
 <ul>
-<li><a href="https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-covid-immunization.json">Example VC payload</a></li>
+<li><a href="https://github.com/microsoft-healthcare-madison/did-siop-vc/blob/master/src/fixtures/vc.json">Example VC in expanded form</a></li>
+<li><a href="https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-jwt-payload.json">JWT representation</a></li>
 </ul>
                 
               
