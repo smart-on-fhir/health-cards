@@ -2,7 +2,7 @@
 
 ### Status
 
-Exploratory draft removing DID dependencies. Not tested or reviewed.
+Draft implementation guide authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
 
 ### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
