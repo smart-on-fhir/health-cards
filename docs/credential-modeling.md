@@ -21,14 +21,14 @@ Resulting payload structure:
 ```json
 {
   "@context": ["https://www.w3.org/2018/credentials/v1"],
-  ...
+  "...",
   "credentialSubject": {
     "fhirVersion": "4.0.1",
     "fhirBundle": {
       "resourceType": "Bundle",
       "type": "collection",
       "entry": [
-        ...
+        "..."
       ]
     }
   }
