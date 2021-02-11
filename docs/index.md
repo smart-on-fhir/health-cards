@@ -54,6 +54,7 @@ Despite this broad scope, our *short-term definition of success* requires that w
 2. **Connect** the Health Wallet to an account with the Issuer (optional step)
 3. **Save** a Health Card from the Issuer into the Health Wallet
 4. **Present** a Health Card to a Verifier
+
   * Presentation incluldes explicit user opt-in and approval
   * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
@@ -61,11 +62,9 @@ Despite this broad scope, our *short-term definition of success* requires that w
 Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
 
 # Design Considerations
-This section outlines higher-level design considerations. See ["Protocol Details"](#protocol-details) below for technical details.
+This section outlines higher-level design considerations. See [Protocol Details](#protocol-details) below for technical details.
 
 ## Data Flow
-
-Each step in the flow must have well-defined inputs and outputs. For each step we define at least one required data transfer method to establish a basis for interoperability.
 
 ### Connecting Health Wallet to Issuer (optional)
 * Establish a SMART on FHIR authorization with an Issuer including read access to any resources that will be present in Health Cards (e.g., Patient, Immunization, Observation, DiagnosticReport).
