@@ -57,7 +57,7 @@ export class Signer {
     const bodyString = JSON.stringify(idTokenPayload);
 
     const fields = deflate ? { zip: 'DEF' } : {};
-    const body = deflate ? pako.deflate(bodyString) : bodyString;
+    const body = deflate ? pako.deflateRaw(bodyString) : bodyString;
 
     const signed = await jose.JWS.createSign({ format: 'compact', fields }, this.signingKey)
       .update(Buffer.from(body))
