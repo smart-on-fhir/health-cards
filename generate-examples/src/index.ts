@@ -66,7 +66,7 @@ export class Signer {
   }
 }
 
-async function toHealthCardPayload(bundleIn: Bundle) {
+async function trimBundleForHealthCard(bundleIn: Bundle) {
   const bundle: Bundle = JSON.parse(JSON.stringify(bundleIn)) as Bundle;
   delete bundle.id;
   delete bundle.meta;
@@ -117,9 +117,8 @@ async function toHealthCardPayload(bundleIn: Bundle) {
   return bundle;
 }
 
-async function createHealthCardFile(fhirBundle: Bundle): Promise<Record<string, any>> {
-  const signer = new Signer({ signingKey: await JWK.asKey(issuerPrivateKeys.keys[0]) });
-  const signed = await signer.signJws({
+function createHealthCardJwsPayload(fhirBundle: Bundle): Record<string, unknown> {
+  return {
     iss: ISSUER_URL,
     iat: new Date().getTime() / 1000,
     vc: {
@@ -135,7 +134,12 @@ async function createHealthCardFile(fhirBundle: Bundle): Promise<Record<string, 
         fhirBundle,
       },
     },
-  });
+  };
+}
+
+async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promise<Record<string, any>> {
+  const signer = new Signer({ signingKey: await JWK.asKey(issuerPrivateKeys.keys[0]) });
+  const signed = await signer.signJws(jwsPayload);
   return {
     verifiableCredential: [signed],
   };
@@ -151,8 +155,9 @@ const toNumericQr = (jws: string): string =>
 
 async function processExampleBundle(exampleBundleUrl: string) {
   const exampleBundleRetrieved = (await got(exampleBundleUrl).json()) as Bundle;
-  const exampleBundleHealthCardPayload = await toHealthCardPayload(exampleBundleRetrieved);
-  const exampleBundleHealthCardFile = await createHealthCardFile(exampleBundleHealthCardPayload);
+  const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
+  const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard);
+  const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload);
   const exampleBundleHealthCardNumericQr = toNumericQr(exampleBundleHealthCardFile.verifiableCredential[0]);
 
   const exampleQrCode: string = await new Promise((resolve, reject) =>
@@ -167,7 +172,8 @@ async function processExampleBundle(exampleBundleUrl: string) {
   );
 
   return {
-    payload: exampleBundleHealthCardPayload,
+    fhirBundle: exampleBundleTrimmedForHealthCard,
+    payload: exampleJwsPayload,
     file: exampleBundleHealthCardFile,
     qrNumeric: exampleBundleHealthCardNumericQr,
     qrSvg: exampleQrCode,
@@ -183,17 +189,19 @@ async function generate(options: { outdir: string }) {
     });
     const outputPrefix = `example-${exNum}-`;
     const example = await processExampleBundle(url);
-    const fileA = `${outputPrefix}a-payload.json`;
-    const fileB = `${outputPrefix}b-jws.txt`;
-    const fileC = `${outputPrefix}c.smart-health.card`;
-    const fileD = `${outputPrefix}d-qr-code-numeric.txt`;
-    const fileE = `${outputPrefix}e-qr-code.svg`;
+    const fileA = `${outputPrefix}a-fhirBundle.json`;
+    const fileB = `${outputPrefix}b-jwsPayload.json`;
+    const fileC = `${outputPrefix}c-jws.txt`;
+    const fileD = `${outputPrefix}d.smart-health.card`;
+    const fileE = `${outputPrefix}e-qr-code-numeric.txt`;
+    const fileF = `${outputPrefix}f-qr-code.svg`;
 
-    fs.writeFileSync(`${options.outdir}/${fileA}`, JSON.stringify(example.payload));
-    fs.writeFileSync(`${options.outdir}/${fileB}`, example.file.verifiableCredential[0]);
-    fs.writeFileSync(`${options.outdir}/${fileC}`, JSON.stringify(example.file, null, 2));
-    fs.writeFileSync(`${options.outdir}/${fileD}`, example.qrNumeric);
-    fs.writeFileSync(`${options.outdir}/${fileE}`, example.qrSvg);
+    fs.writeFileSync(`${options.outdir}/${fileA}`, JSON.stringify(example.fhirBundle));
+    fs.writeFileSync(`${options.outdir}/${fileB}`, JSON.stringify(example.payload));
+    fs.writeFileSync(`${options.outdir}/${fileC}`, example.file.verifiableCredential[0]);
+    fs.writeFileSync(`${options.outdir}/${fileD}`, JSON.stringify(example.file, null, 2));
+    fs.writeFileSync(`${options.outdir}/${fileE}`, example.qrNumeric);
+    fs.writeFileSync(`${options.outdir}/${fileF}`, example.qrSvg);
 
     const exampleEntry: string[] = [];
     exampleEntry.push(fileA);
@@ -201,6 +209,7 @@ async function generate(options: { outdir: string }) {
     exampleEntry.push(fileC);
     exampleEntry.push(fileD);
     exampleEntry.push(fileE);
+    exampleEntry.push(fileF);
     exampleIndex.push(exampleEntry);
   });
 
