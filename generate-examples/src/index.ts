@@ -190,18 +190,20 @@ async function generate(options: { outdir: string }) {
     const outputPrefix = `example-${exNum}-`;
     const example = await processExampleBundle(url);
     const fileA = `${outputPrefix}a-fhirBundle.json`;
-    const fileB = `${outputPrefix}b-jwsPayload.json`;
-    const fileC = `${outputPrefix}c-jws.txt`;
-    const fileD = `${outputPrefix}d.smart-health.card`;
-    const fileE = `${outputPrefix}e-qr-code-numeric.txt`;
-    const fileF = `${outputPrefix}f-qr-code.svg`;
+    const fileB = `${outputPrefix}b-jws-payload-expanded.json`;
+    const fileC = `${outputPrefix}c-jws-payload-minified.json`;
+    const fileD = `${outputPrefix}d-jws.txt`;
+    const fileE = `${outputPrefix}e-file.smart-health.card`;
+    const fileF = `${outputPrefix}f-qr-code-numeric.txt`;
+    const fileG = `${outputPrefix}g-qr-code.svg`;
 
-    fs.writeFileSync(`${options.outdir}/${fileA}`, JSON.stringify(example.fhirBundle));
-    fs.writeFileSync(`${options.outdir}/${fileB}`, JSON.stringify(example.payload));
-    fs.writeFileSync(`${options.outdir}/${fileC}`, example.file.verifiableCredential[0]);
-    fs.writeFileSync(`${options.outdir}/${fileD}`, JSON.stringify(example.file, null, 2));
-    fs.writeFileSync(`${options.outdir}/${fileE}`, example.qrNumeric);
-    fs.writeFileSync(`${options.outdir}/${fileF}`, example.qrSvg);
+    fs.writeFileSync(`${options.outdir}/${fileA}`, JSON.stringify(example.fhirBundle, null, 2));
+    fs.writeFileSync(`${options.outdir}/${fileB}`, JSON.stringify(example.payload, null, 2));
+    fs.writeFileSync(`${options.outdir}/${fileC}`, JSON.stringify(example.payload));
+    fs.writeFileSync(`${options.outdir}/${fileD}`, example.file.verifiableCredential[0]);
+    fs.writeFileSync(`${options.outdir}/${fileE}`, JSON.stringify(example.file, null, 2));
+    fs.writeFileSync(`${options.outdir}/${fileF}`, example.qrNumeric);
+    fs.writeFileSync(`${options.outdir}/${fileG}`, example.qrSvg);
 
     const exampleEntry: string[] = [];
     exampleEntry.push(fileA);
@@ -210,7 +212,8 @@ async function generate(options: { outdir: string }) {
     exampleEntry.push(fileD);
     exampleEntry.push(fileE);
     exampleEntry.push(fileF);
-    exampleIndex.push(exampleEntry);
+    exampleEntry.push(fileG);
+    exampleIndex[i] = exampleEntry;
   });
 
   await Promise.all(writeExamples);
