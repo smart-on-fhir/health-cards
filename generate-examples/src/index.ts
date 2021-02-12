@@ -4,7 +4,7 @@ import fs from 'fs';
 import got from 'got';
 import jose, { JWK } from 'node-jose';
 import pako from 'pako';
-import QrCode from 'qrcode';
+import QrCode, { QRCodeSegment } from 'qrcode';
 import issuerPrivateKeys from './config/issuer.jwks.private.json';
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://smarthealth.cards/examples/issuer';
@@ -146,29 +146,32 @@ async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promis
 }
 
 const SMALLEST_B64_CHAR_CODE = 45; // "-".charCodeAt(0) === 45
-const toNumericQr = (jws: string): string =>
-  jws
-    .split('')
-    .map((c) => c.charCodeAt(0) - SMALLEST_B64_CHAR_CODE)
-    .flatMap((c) => [Math.floor(c / 10), c % 10])
-    .join('');
+const toNumericQr = (jws: string): QRCodeSegment[] => [
+  { data: 'VC://', mode: 'alphanumeric' },
+  {
+    data: jws
+      .split('')
+      .map((c) => c.charCodeAt(0) - SMALLEST_B64_CHAR_CODE)
+      .flatMap((c) => [Math.floor(c / 10), c % 10])
+      .join(''),
+    mode: 'numeric',
+  },
+];
 
 async function processExampleBundle(exampleBundleUrl: string) {
   const exampleBundleRetrieved = (await got(exampleBundleUrl).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
   const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard);
   const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload);
-  const exampleBundleHealthCardNumericQr = toNumericQr(exampleBundleHealthCardFile.verifiableCredential[0]);
+
+  const qrSegments = toNumericQr(exampleBundleHealthCardFile.verifiableCredential[0]);
+  const exampleBundleHealthCardNumericQr = qrSegments.map(({ data }) => data).join('');
 
   const exampleQrCode: string = await new Promise((resolve, reject) =>
-    QrCode.toString(
-      [{ data: exampleBundleHealthCardNumericQr, mode: 'numeric' }],
-      { type: 'svg' },
-      function (err: any, result: string) {
-        if (err) return reject(err);
-        resolve(result as string);
-      },
-    ),
+    QrCode.toString(qrSegments, { type: 'svg' }, function (err: any, result: string) {
+      if (err) return reject(err);
+      resolve(result as string);
+    }),
   );
 
   return {
