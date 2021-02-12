@@ -1,0 +1,31 @@
+name: Publish docs via GitHub Pages
+on:
+  push:
+    branches:
+      - with-examples
+
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v1
+      - name: Build examples
+        run: |
+          cd generate-examples
+          npm ci
+          npm run generate-examples
+      - name: Build MkDocs
+        uses: docker://squidfunk/mkdocs-material:6.2.8
+        with:
+          args: build
+      - name: Replace .well-known
+        run: |
+          sudo chown -R $USER site
+          cp -r generate-examples/issuer/ site/examples/issuer
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          folder: site
+          branch: gh-pages
