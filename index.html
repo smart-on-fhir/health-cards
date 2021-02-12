@@ -873,7 +873,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>header includes <code>kid</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>JWS Payload</li>
 <li>payload is minified (i.e., all optional whitespace is stripped)</li>
-<li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed</li>
+<li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)</li>
 <li>payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
 <li>without <code>Resource.id</code> elements</li>
 <li>without <code>Resource.meta</code> elements</li>
