@@ -193,7 +193,7 @@ async function generate(options: { outdir: string }) {
     const fileB = `${outputPrefix}b-jws-payload-expanded.json`;
     const fileC = `${outputPrefix}c-jws-payload-minified.json`;
     const fileD = `${outputPrefix}d-jws.txt`;
-    const fileE = `${outputPrefix}e-file.smart-health.card`;
+    const fileE = `${outputPrefix}e-file.smart-health-card`;
     const fileF = `${outputPrefix}f-qr-code-numeric.txt`;
     const fileG = `${outputPrefix}g-qr-code.svg`;
 
