@@ -785,7 +785,7 @@
 <h3 id="privacy">Privacy<a class="headerlink" href="#privacy" title="Permanent link">&para;</a></h3>
 <p>It is an explicit design goal to let the holder <strong>only disclose a minimum amount of information</strong> to a verifier. The information <em>required</em> to be disclosed is use-case dependent, and -- particularly in a healthcare setting -- it can be difficult for lay people to judge which data elements are necessary to be shared.</p>
 <p>To start, the granularity of information disclosure will be at the level of an entire credential (i.e., a user can select "which cards" to share from a Health Wallet, and each card is shared wholesale). The credentials are designed to only include the minimum information necessary for a given use case.</p>
-<p>If we identify <em>optional</em> data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to sumamrize results in a just-in-time fashion.</p>
+<p>If we identify <em>optional</em> data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to summarize results in a just-in-time fashion.</p>
 <h3 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
 <p>This framework defines a general approach to <strong>representing demographic and clinical data in FHIR</strong>, outlined in <a href="./credential-modeling/">Modeling Verifiable Credentials in FHIR</a>. Specific use cases for Health Cards will define specific data profiles.</p>
 <ul>
@@ -826,7 +826,7 @@
 }
 </code></pre></div></p>
 <h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
-<p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the <a href="every-health-card-can-be-embedded-in-a-qr-code">QR Embedding requirements</a>.</p>
+<p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the <a href="#every-health-card-can-be-embedded-in-a-qr-code">QR Embedding requirements</a>.</p>
 <div class="mermaid">sequenceDiagram
 participant Holder
 participant Issuer
