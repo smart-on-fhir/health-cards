@@ -50,11 +50,10 @@ Despite this broad scope, our *short-term definition of success* requires that w
 
 ## User Experience
 
-1. **Install** a "Health Wallet" app
-2. **Connect** the Health Wallet to an account with the Issuer (optional step)
-3. **Save** a Health Card from the Issuer into the Health Wallet
-4. **Present** a Health Card to a Verifier
-
+* **Install** a "Health Wallet" app
+* **Connect** the Health Wallet to an account with the Issuer (optional step)
+* **Save** a Health Card from the Issuer into the Health Wallet
+* **Present** a Health Card to a Verifier
   * Presentation incluldes explicit user opt-in and approval
   * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
