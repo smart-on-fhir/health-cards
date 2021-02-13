@@ -7,6 +7,7 @@ nav:
   - Protocol: index.md
   - Credentials: credential-modeling.md
   - Vocabulary: vocabulary.md
+  - Examples: examples/index.md
   - Changelog: changelog.md
 
 theme:

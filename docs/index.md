@@ -50,11 +50,10 @@ Despite this broad scope, our *short-term definition of success* requires that w
 
 ## User Experience
 
-1. **Install** a "Health Wallet" app
-2. **Connect** the Health Wallet to an account with the Issuer (optional step)
-3. **Save** a Health Card from the Issuer into the Health Wallet
-4. **Present** a Health Card to a Verifier
-
+* **Install** a "Health Wallet" app
+* **Connect** the Health Wallet to an account with the Issuer (optional step)
+* **Save** a Health Card from the Issuer into the Health Wallet
+* **Present** a Health Card to a Verifier
   * Presentation incluldes explicit user opt-in and approval
   * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
@@ -204,7 +203,7 @@ To ensure that all Health Cards can be represented in QR Codes, the following co
   * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
 * JWS Payload
   * payload is minified (i.e., all optional whitespace is stripped)
-  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed
+  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
   * payload `.vc.credentialSubject.fhirBundle` is created:
     * without `Resource.id` elements
     * without `Resource.meta` elements
@@ -337,12 +336,12 @@ In this step, the verifier asks the user to share a COVID-19 result. The overall
 
 ## Every Health Card can be embedded in a QR Code
 
-Our standard representation of a Health Card ensures that every Health Cards can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
+Our standard representation of a Health Card ensures that every Health Card can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
 * Allows basic storage and sharing of health cards for users without a smartphone
-* Allow smartphone-enabled users to print a usable backup
+* Allows smartphone-enabled users to print a usable backup
 * Allows full health card contents to be shared with a verifier
 
 The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:
@@ -366,11 +365,11 @@ When printing or displaying a Health Card as a QR code, the the JWS string value
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
 * Each use case will define specific data profiles.
-  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
-* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
-  * decision-making rules may change over time as our understanding of the clinical science improves
-  * decision-making rules may be determined or influenced by international, national and local health authorities
-  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
+  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements.
+* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:
+  * decision-making rules may change over time as our understanding of the clinical science improves.
+  * decision-making rules may be determined or influenced by international, national and local health authorities.
+  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?").
 
 
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?

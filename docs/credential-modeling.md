@@ -56,7 +56,7 @@ According to the procedure above, we start with decisions about FHIR content res
 
 ### Health Card Examples
 
-* [Example VC payload](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/src/fixtures/vc-covid-immunization.json)
+* [Example VC payloads](https://smarthealth.cards/examples/)
 
 [vc]: https://w3c.github.io/vc-data-model/
 [fhir]: https://hl7.org/fhir
