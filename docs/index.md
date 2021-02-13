@@ -97,7 +97,7 @@ It is an explicit design goal to let the holder **only disclose a minimum amount
 
 To start, the granularity of information disclosure will be at the level of an entire credential (i.e., a user can select "which cards" to share from a Health Wallet, and each card is shared wholesale). The credentials are designed to only include the minimum information necessary for a given use case.
 
-If we identify *optional* data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to sumamrize results in a just-in-time fashion.
+If we identify *optional* data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to summarize results in a just-in-time fashion.
 
 ## Data Model
 
@@ -145,7 +145,7 @@ Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.iet
 
 ## Issuer Generates Results
 
-When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the [QR Embedding requirements](every-health-card-can-be-embedded-in-a-qr-code).
+When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the [QR Embedding requirements](#every-health-card-can-be-embedded-in-a-qr-code).
 
 ```mermaid
 sequenceDiagram
