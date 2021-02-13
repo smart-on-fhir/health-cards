@@ -55,7 +55,8 @@ Despite this broad scope, our *short-term definition of success* requires that w
 3. **Save** a Health Card from the Issuer into the Health Wallet
 4. **Present** a Health Card to a Verifier
 
-The presentation step incluldes explicit user opt-in and approval. The Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation).
+  * Presentation incluldes explicit user opt-in and approval
+  * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
 ## Demo
 Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
@@ -145,7 +146,7 @@ Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.iet
 
 ## Issuer Generates Results
 
-When the issuer is ready to genearte a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the (QR Embedding requirements)[every-health-card-can-be-embedded-in-a-qr-code].
+When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the [QR Embedding requirements](every-health-card-can-be-embedded-in-a-qr-code).
 
 ```mermaid
 sequenceDiagram
@@ -332,19 +333,20 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uplaoding a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
+In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
 
 ## Every Health Card can be embedded in a QR Code
 
-Our standard representation of a Health Card ensures that every Health Cards can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
+Our standard representation of a Health Card ensures that every Health Card can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
 * Allows basic storage and sharing of health cards for users without a smartphone
-* Allow smartphone-enabled users to print a usable backup
+* Allows smartphone-enabled users to print a usable backup
 * Allows full health card contents to be shared with a verifier
 
 The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:
+
 * Does not capture a digital record of a request for presentation
   * Verifier cannot include requirements in-band
   * Verifier cannot include purposes of use in-band
@@ -364,11 +366,11 @@ When printing or displaying a Health Card as a QR code, the the JWS string value
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
 * Each use case will define specific data profiles.
-  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements
-* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply
-  * decision-making rules may change over time as our understanding of the clinical science improves
-  * decision-making rules may be determined or influenced by international, national and local health authorities
-  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?")
+  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements.
+* When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:
+  * decision-making rules may change over time as our understanding of the clinical science improves.
+  * decision-making rules may be determined or influenced by international, national and local health authorities.
+  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?").
 
 
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
