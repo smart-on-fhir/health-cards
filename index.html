@@ -1020,11 +1020,11 @@
 </ul>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
 <p>This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and <strong>present these results to another party in a verifiable manner</strong>. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.</p>
-<p>Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. </p>
+<p>Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure.</p>
 <h3 id="conceptual-model">Conceptual Model<a class="headerlink" href="#conceptual-model" title="Permanent link">&para;</a></h3>
 <p><img alt="Figure" src="https://i.imgur.com/T8RHjlJ.png" /></p>
 <ul>
-<li><strong>Issuer</strong> (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials </li>
+<li><strong>Issuer</strong> (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials</li>
 <li><strong>Holder</strong> stores credentials and presents them at will</li>
 <li><strong>Verifier</strong> receives credentials from holder and ensures they are properly signed</li>
 </ul>
@@ -1101,13 +1101,15 @@
 <h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
 <p>The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
 <ul>
-<li><strong>Signing Keys</strong></li>
+<li><strong>Signing Keys</strong><ul>
 <li>MUST have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
 <li>MUST have <code>"kid"</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>Signing <em>Health Cards</em> (a.k.a. Verifiable Credentials)<ul>
 <li>Issuers sign Health Card VCs with a signing key (private key)</li>
 <li>Issuer publish their signing keys (public key) at <code>.well-known/jwks.json</code></li>
-<li>Wallets and Verifers validate Issuer signatures on Health Cards</li>
+<li>Wallets and Verifiers validate Issuer signatures on Health Cards</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1116,7 +1118,7 @@
 <ul>
 <li><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</li>
 </ul>
-<p>For example, the following fragment of a JWKS for contains one signing key:
+<p>For example, the following is a fragment of a jwks.json file with one signing key:
 <div class="highlight"><pre><span></span><code>{
   &quot;keys&quot;:[
     {
@@ -1149,7 +1151,7 @@ Issuer -&gt;&gt; Issuer: Generate JWT Payload and sign
 note over Issuer, Holder: Later...
 Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws">Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)<a class="headerlink" href="#health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws" title="Permanent link">&para;</a></h4>
-<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at https://www.w3.org/TR/vc-data-model/#jwt-encoding. Specifically: in the JWT payload, most properties have been "pushed down" into a <code>.vc</code> claim; there is no top-level <code>issuer</code>, <code>issuanceDate</code>, <code>@context</code>, <code>@type</code>, or <code>credentialSubject</code> property, because these fields are either mapped into standard JWT claims (for <code>iss</code>, <code>iat</code>) or included within the <code>.vc</code> claim (for <code>@context</code>, <code>@type</code>, <code>@credentialSubject</code>).</p>
+<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>. Specifically: in the JWT payload, most properties have been "pushed down" into a <code>.vc</code> claim; there is no top-level <code>issuer</code>, <code>issuanceDate</code>, <code>@context</code>, <code>@type</code>, or <code>credentialSubject</code> property, because these fields are either mapped into standard JWT claims (for <code>iss</code>, <code>iat</code>) or included within the <code>.vc</code> claim (for <code>@context</code>, <code>@type</code>, <code>@credentialSubject</code>).</p>
 <p>Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
