@@ -17,7 +17,7 @@ markdown_extensions:
   - toc:
       permalink: true
       baselevel: 2
-      toc_depth: 3
+      toc_depth: 4
   - admonition:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
