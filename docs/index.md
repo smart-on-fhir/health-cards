@@ -199,19 +199,19 @@ Hence, the overall JWS payload matches the following structure (before it is [mi
 To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
 
 * JWS Header
-  * header includes `zip: "DEF"`
-  * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    * header includes `zip: "DEF"`
+    * header includes `kid` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
 * JWS Payload
-  * payload is minified (i.e., all optional whitespace is stripped)
-  * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
-  * payload `.vc.credentialSubject.fhirBundle` is created:
-    * without `Resource.id` elements
-    * without `Resource.meta` elements
-    * without `Resource.text` elements
-    * without `CodeableConcept.text` elements
-    * without `Coding.display` elements
-    * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0}`)
-    * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
+    * payload is minified (i.e., all optional whitespace is stripped)
+    * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
+    * payload `.vc.credentialSubject.fhirBundle` is created:
+        * without `Resource.id` elements
+        * without `Resource.meta` elements
+        * without `Resource.text` elements
+        * without `CodeableConcept.text` elements
+        * without `Coding.display` elements
+        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0}`)
+        * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
     
 
 When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1197 characters**. If it is not possible to fit the full `fhirBundle` in a JWS of 1197 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:
@@ -219,9 +219,9 @@ When representing a Health Card in a QR code, we aim to ensure that printed (or 
 * Generate a random "Health Card Set" uuid
 * Partition the `fhirBundle.entry` resources into N groups
 * Create a distinct Health Card JWS for each of the N groups
-  * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
-  * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
-  * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
+    * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
+    * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
+    * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
 
 Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.
 
