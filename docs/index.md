@@ -14,14 +14,14 @@ To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/
 
 This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
 
-Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure. 
+Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure.
 
 
 ## Conceptual Model
 
 ![Figure](https://i.imgur.com/T8RHjlJ.png)
 
-* **Issuer** (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials 
+* **Issuer** (e.g., a lab, pharmacy, healthcare provider, EHR, public health department, or immunization information system) generates verifiable credentials
 * **Holder** stores credentials and presents them at will
 * **Verifier** receives credentials from holder and ensures they are properly signed
 
@@ -113,20 +113,20 @@ This framework defines a general approach to **representing demographic and clin
 The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
 
 * **Signing Keys**
-  * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
-  * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
-  * Signing *Health Cards* (a.k.a. Verifiable Credentials)
-    * Issuers sign Health Card VCs with a signing key (private key)
-    * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
-    * Wallets and Verifers validate Issuer signatures on Health Cards
+    * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
+    * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    * Signing *Health Cards* (a.k.a. Verifiable Credentials)
+        * Issuers sign Health Card VCs with a signing key (private key)
+        * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
+        * Wallets and Verifiers validate Issuer signatures on Health Cards
 
 ### Determining keys associated with an issuer
 
 Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`:
 
 * **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
- 
- For example, the following fragment of a JWKS for contains one signing key:
+
+ For example, the following is a fragment of a jwks.json file with one signing key:
 ```
 {
   "keys":[
@@ -167,7 +167,7 @@ Issuer ->> Holder: Holder receives Health Card
 
 ### Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)
 
-The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at https://www.w3.org/TR/vc-data-model/#jwt-encoding. Specifically: in the JWT payload, most properties have been "pushed down" into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context`, `@type`, or `credentialSubject` property, because these fields are either mapped into standard JWT claims (for `iss`, `iat`) or included within the `.vc` claim (for `@context`, `@type`, `@credentialSubject`).
+The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at [https://www.w3.org/TR/vc-data-model/#jwt-encoding](https://www.w3.org/TR/vc-data-model/#jwt-encoding). Specifically: in the JWT payload, most properties have been "pushed down" into a `.vc` claim; there is no top-level `issuer`, `issuanceDate`, `@context`, `@type`, or `credentialSubject` property, because these fields are either mapped into standard JWT claims (for `iss`, `iat`) or included within the `.vc` claim (for `@context`, `@type`, `@credentialSubject`).
 
 Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#health-cards-are-small)):
 
@@ -212,7 +212,7 @@ To ensure that all Health Cards can be represented in QR Codes, the following co
     * without `Coding.display` elements
     * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0}`)
     * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
-    
+
 
 When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1197 characters**. If it is not possible to fit the full `fhirBundle` in a JWS of 1197 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:
 
