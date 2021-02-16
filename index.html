@@ -886,7 +886,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </ul>
 </li>
 </ul>
-<p>When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card <strong>JWS is &lt;= 1204 characters</strong> (note this is not a typo: 1204 is the limit, not 1024). If it is not possible to include the full <code>fhirBundle</code> in a JWS of &lt;1204 characters, Issuers SHOULD use the following techniqe to split a Health Card into a Health Card Set:</p>
+<p>When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card <strong>JWS is &lt;= 1197 characters</strong>. If it is not possible to fit the full <code>fhirBundle</code> in a JWS of 1197 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:</p>
 <ul>
 <li>Generate a random "Health Card Set" uuid</li>
 <li>Partition the <code>fhirBundle.entry</code> resources into N groups</li>
@@ -896,7 +896,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>Ensure that <code>fhirBundle.entry.fullUrl</code> values are unique across all entries in the Health Card Set</li>
 </ul>
 <p>Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.</p>
-<p>At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a <code>fhirBundleSplit</code> attribute. When receiving a Health Card with <code>fhirBundleSplit</code>, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and <code>fhirBundleSet</code> value) are received, and should create a merged bundle before processing otherwise data integrity cannot be ensured.</p>
+<p>At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a <code>fhirBundleSplit</code> attribute. When receiving a Health Card with <code>fhirBundleSplit</code>, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and <code>fhirBundleSet</code> value) are presented; SHALL independently validate the signature on each Health Card; and SHALL create a merged FHIR bundle (including all <code>fhirBundle.entry</code>s from the individual Health Cards) before processing, otherwise data integrity cannot be ensured.</p>
 <p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
 <h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
 <p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.</p>
@@ -990,8 +990,17 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>Does not capture a digital record of the presentation</li>
 </ul>
 <h4>Numerical Encoding</h4>
-<p>When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as a Numeric Mode value consisting of the characters <code>0</code>-<code>9</code>. Each character "c" of the JWS is converted into a sequence of two digits as by taking <code>Ord(c)-45</code> and treating the result as a two-digit base ten number. For example, <code>'X'</code> is encoded as <code>43</code>, since <code>Ord('X')</code> is <code>88</code>, and <code>88-45</code> is <code>43</code>. (The constant "45" appears here because it is the ordinal value of <code>-</code>, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)</p>
+<p>When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as two segments:</p>
+<ol>
+<li>
+<p>A segment encoded with <code>bytes</code> mode consisting of the fixed string <code>shc:</code></p>
+</li>
+<li>
+<p>A segment encoded with <code>numeric</code> mode consisting of the characters <code>0</code>-<code>9</code>. Each character "c" of the JWS is converted into a sequence of two digits as by taking <code>Ord(c)-45</code> and treating the result as a two-digit base ten number. For example, <code>'X'</code> is encoded as <code>43</code>, since <code>Ord('X')</code> is <code>88</code>, and <code>88-45</code> is <code>43</code>. (The constant "45" appears here because it is the ordinal value of <code>-</code>, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)</p>
+</li>
+</ol>
 <p>(The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)</p>
+<p>When reading a QR code, scanning software can recognize a SMART Health Card from the <code>shc:</code> prefix. Stripping this six-character prefix and decoding the remaining pairs of numerals yields a JWS.</p>
 <hr />
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
 <h3 id="which-clinical-data-should-be-considered-in-decision-making">Which clinical data should be considered in decision-making?<a class="headerlink" href="#which-clinical-data-should-be-considered-in-decision-making" title="Permanent link">&para;</a></h3>
