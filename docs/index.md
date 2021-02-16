@@ -54,8 +54,8 @@ Despite this broad scope, our *short-term definition of success* requires that w
 * **Connect** the Health Wallet to an account with the Issuer (optional step)
 * **Save** a Health Card from the Issuer into the Health Wallet
 * **Present** a Health Card to a Verifier
-  * Presentation incluldes explicit user opt-in and approval
-  * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
+    * Presentation incluldes explicit user opt-in and approval
+    * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
 ## Demo
 Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
