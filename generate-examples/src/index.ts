@@ -147,7 +147,7 @@ async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promis
 
 const SMALLEST_B64_CHAR_CODE = 45; // "-".charCodeAt(0) === 45
 const toNumericQr = (jws: string): QRCodeSegment[] => [
-  { data: 'shc:', mode: 'bytes' },
+  { data: 'shc:', mode: 'byte' },
   {
     data: jws
       .split('')
