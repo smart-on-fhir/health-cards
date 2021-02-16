@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "iat": 1613502883.46,
+  "iat": 1613509778.756,
   "vc": {
     "@context": [
       "https://www.w3.org/2018/credentials/v1"
@@ -53,7 +53,7 @@
               "occurrenceDateTime": "2021-01-01",
               "primarySource": true,
               "location": {
-                "reference": "Location/Scenario2Location"
+                "reference": "resource:3"
               },
               "lotNumber": "Lot #0000001"
             }
@@ -72,12 +72,12 @@
                 ]
               },
               "patient": {
-                "reference": "resource:0"
+                "reference": "Patient/Scenario2Patient"
               },
               "occurrenceDateTime": "2021-01-29",
               "primarySource": true,
               "location": {
-                "reference": "Location/Scenario2Location"
+                "reference": "resource:3"
               },
               "lotNumber": "Lot #0000007"
             }

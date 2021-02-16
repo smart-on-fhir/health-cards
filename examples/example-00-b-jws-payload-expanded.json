@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "iat": 1613502883.568,
+  "iat": 1613509778.893,
   "vc": {
     "@context": [
       "https://www.w3.org/2018/credentials/v1"
@@ -53,7 +53,7 @@
               "occurrenceDateTime": "2021-01-01",
               "primarySource": true,
               "location": {
-                "reference": "Location/Scenario1Location"
+                "reference": "resource:3"
               },
               "lotNumber": "Lot #0000001"
             }
@@ -77,7 +77,7 @@
               "occurrenceDateTime": "2021-01-29",
               "primarySource": true,
               "location": {
-                "reference": "Location/Scenario1Location"
+                "reference": "resource:3"
               },
               "lotNumber": "Lot #0000007"
             }

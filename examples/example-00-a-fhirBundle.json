@@ -38,7 +38,7 @@
         "occurrenceDateTime": "2021-01-01",
         "primarySource": true,
         "location": {
-          "reference": "Location/Scenario1Location"
+          "reference": "resource:3"
         },
         "lotNumber": "Lot #0000001"
       }
@@ -62,7 +62,7 @@
         "occurrenceDateTime": "2021-01-29",
         "primarySource": true,
         "location": {
-          "reference": "Location/Scenario1Location"
+          "reference": "resource:3"
         },
         "lotNumber": "Lot #0000007"
       }
