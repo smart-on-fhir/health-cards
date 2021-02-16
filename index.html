@@ -1175,10 +1175,12 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-small">Health Cards are Small<a class="headerlink" href="#health-cards-are-small" title="Permanent link">&para;</a></h4>
 <p>To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:</p>
 <ul>
-<li>JWS Header</li>
+<li>JWS Header<ul>
 <li>header includes <code>zip: "DEF"</code></li>
 <li>header includes <code>kid</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
-<li>JWS Payload</li>
+</ul>
+</li>
+<li>JWS Payload<ul>
 <li>payload is minified (i.e., all optional whitespace is stripped)</li>
 <li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)</li>
 <li>payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
@@ -1192,14 +1194,18 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 <p>When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card <strong>JWS is &lt;= 1197 characters</strong>. If it is not possible to fit the full <code>fhirBundle</code> in a JWS of 1197 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:</p>
 <ul>
 <li>Generate a random "Health Card Set" uuid</li>
 <li>Partition the <code>fhirBundle.entry</code> resources into N groups</li>
-<li>Create a distinct Health Card JWS for each of the N groups</li>
+<li>Create a distinct Health Card JWS for each of the N groups<ul>
 <li>Populate each card's <code>.vc.credentialSubject.fhirBundleSplit</code> with the same integer value N</li>
 <li>Populate each card's <code>.vc.credentialSubject.fhirBundleSet</code> with the same Health Card Set uuid</li>
 <li>Ensure that <code>fhirBundle.entry.fullUrl</code> values are unique across all entries in the Health Card Set</li>
+</ul>
+</li>
 </ul>
 <p>Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.</p>
 <p>At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a <code>fhirBundleSplit</code> attribute. When receiving a Health Card with <code>fhirBundleSplit</code>, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and <code>fhirBundleSet</code> value) are presented; SHALL independently validate the signature on each Health Card; and SHALL create a merged FHIR bundle (including all <code>fhirBundle.entry</code>s from the individual Health Cards) before processing, otherwise data integrity cannot be ensured.</p>
