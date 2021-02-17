@@ -58,7 +58,7 @@ Despite this broad scope, our *short-term definition of success* requires that w
     * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
 ## Demo
-Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/microsoft-healthcare-madison/health-wallet-demo) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/microsoft-healthcare-madison/health-wallet-demo/blob/master/README.md#using-the-hosted-demo-components)).
+Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/smart-on-fhir/health-cards-tests) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/smart-on-fhir/health-cards-tests#using-the-hosted-demo-components)).
 
 # Design Considerations
 This section outlines higher-level design considerations. See [Protocol Details](#protocol-details) below for technical details.
