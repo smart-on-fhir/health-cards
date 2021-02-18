@@ -7,9 +7,6 @@ Draft implementation guide authored with input from technology, lab, pharmacy, E
 ### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
 
-### Overview Video (November 2020)
-* [https://youtu.be/UdlmRoJK1Yg](https://youtu.be/UdlmRoJK1Yg)
-
 # Introduction
 
 This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
