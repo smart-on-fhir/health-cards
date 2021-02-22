@@ -269,20 +269,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#fhir-extensions" class="md-nav__link">
-    FHIR Extensions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fhir-codings" class="md-nav__link">
-    FHIR Codings
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -363,20 +349,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#fhir-extensions" class="md-nav__link">
-    FHIR Extensions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fhir-codings" class="md-nav__link">
-    FHIR Codings
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -404,21 +376,9 @@
                 <h2 id="health-wallet-vocab">Health Wallet Vocab<a class="headerlink" href="#health-wallet-vocab" title="Permanent link">&para;</a></h2>
 <h3 id="verifiable-credential-vc-types">Verifiable Credential (VC) Types<a class="headerlink" href="#verifiable-credential-vc-types" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>https://smarthealth.cards#covid19</code>: A VC designed to convey COVID-19 details</li>
-<li><code>https://smarthealth.cards#immunization</code>: A VC designed to convey any immunization details</li>
-<li><code>https://smarthealth.cards#presentation-context-online</code>: A VC designed for online presentation</li>
-<li><code>https://smarthealth.cards#presentation-context-in-person</code>: A VC designed for in-person presentation</li>
-</ul>
-<h3 id="fhir-extensions">FHIR Extensions<a class="headerlink" href="#fhir-extensions" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>https://smarthealth.cards#vc-attachment</code>: Extension that decorates a FHIR "key resource" to attach a VC</li>
-</ul>
-<h3 id="fhir-codings">FHIR Codings<a class="headerlink" href="#fhir-codings" title="Permanent link">&para;</a></h3>
-<p>The following codes are defined in the <code>https://smarthealth.cards</code> system:</p>
-<ul>
-<li><code>no-did-bound</code>: Used for <code>OperationOutcome.issue.code</code> when the <code>Patient/:id/$HealthWallet.issueVc</code> operation fails because no DID is bound to the Patient record</li>
-<li><code>covid19</code>: Used for tagging a FHIR "key resource" as containing a VC of type <code>https://smarthealth.cards#covid19</code>. For use in tagging a FHIR "key resource" (in <code>.meta.tag</code>) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.</li>
-<li><code>immunization</code>: Used for tagging a FHIR "key resource" as containing a VC of type <code>https://smarthealth.cards#immunization</code>. For use in tagging a FHIR "key resource" (in <code>.meta.tag</code>) as containing a specific type of VC. This facilitates search across FHIR resources to find resources with attached VCs.</li>
+<li><code>https://smarthealth.cards#covid19</code>: A VC designed to convey a "Health Card" (i.e. clinical data bound to a subject's identity)</li>
+<li><code>https://smarthealth.cards#covid19</code>: A Health Card designed to convey COVID-19 details</li>
+<li><code>https://smarthealth.cards#immunization</code>: A Health Card designed to convey immunization details</li>
 </ul>
                 
               
