@@ -1304,12 +1304,16 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h3 id="which-clinical-data-should-be-considered-in-decision-making">Which clinical data should be considered in decision-making?<a class="headerlink" href="#which-clinical-data-should-be-considered-in-decision-making" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The data in Health Cards should focus on communicating "immutable clinical facts".</li>
-<li>Each use case will define specific data profiles.</li>
+<li>Each use case will define specific data profiles.<ul>
 <li>For COVID-19 Vaccination Credentials, the <a href="http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main">SMART Health Cards: Vaccination IG</a> defines requirements.</li>
-<li>When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:</li>
+</ul>
+</li>
+<li>When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:<ul>
 <li>decision-making rules may change over time as our understanding of the clinical science improves.</li>
 <li>decision-making rules may be determined or influenced by international, national and local health authorities.</li>
 <li>decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?").</li>
+</ul>
+</li>
 </ul>
 <h3 id="how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results">How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?<a class="headerlink" href="#how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results" title="Permanent link">&para;</a></h3>
 <p>Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.</p>
