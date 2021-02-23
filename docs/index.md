@@ -368,11 +368,11 @@ When reading a QR code, scanning software can recognize a SMART Health Card from
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
 * Each use case will define specific data profiles.
-  * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements.
+    * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements.
 * When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:
-  * decision-making rules may change over time as our understanding of the clinical science improves.
-  * decision-making rules may be determined or influenced by international, national and local health authorities.
-  * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?").
+    * decision-making rules may change over time as our understanding of the clinical science improves.
+    * decision-making rules may be determined or influenced by international, national and local health authorities.
+    * decision-making rules may require many inputs, some of which can be supplied by Health Cards and others of which may come from elsewhere (e.g., by asking the user "are you experiencing any symptoms today?").
 
 
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
