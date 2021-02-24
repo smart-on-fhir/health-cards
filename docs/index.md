@@ -111,7 +111,7 @@ The following key types are used in the Health Cards Framework, represented as J
 
 * **Signing Keys**
     * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
-    * MUST have `"kid"` equal to JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    * MUST have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
     * Signing *Health Cards* (a.k.a. Verifiable Credentials)
         * Issuers sign Health Card VCs with a signing key (private key)
         * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
