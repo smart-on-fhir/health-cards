@@ -1087,7 +1087,7 @@
 <ul>
 <li><strong>Signing Keys</strong><ul>
 <li>MUST have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
-<li>MUST have <code>"kid"</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>MUST have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>Signing <em>Health Cards</em> (a.k.a. Verifiable Credentials)<ul>
 <li>Issuers sign Health Card VCs with a signing key (private key)</li>
 <li>Issuer publish their signing keys (public key) at <code>.well-known/jwks.json</code></li>
