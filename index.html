@@ -1163,7 +1163,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <ul>
 <li>JWS Header<ul>
 <li>header includes <code>zip: "DEF"</code></li>
-<li>header includes <code>kid</code> equal to JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>header includes <code>kid</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 </ul>
 </li>
 <li>JWS Payload<ul>
