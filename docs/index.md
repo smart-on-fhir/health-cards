@@ -380,7 +380,7 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 
 
-## Potential Extensions
+# Potential Extensions
 
 ### Standardized presentation workflows
 The spec is currently focused on representing Health Cards in a standardized data payload. This allows many simple patterns for sharing, but future work can introduce standardized presentation exchange flows (e.g., OpenID Self-Issued Identity Provider, a.k.a. SIOP)
