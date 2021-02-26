@@ -119,9 +119,11 @@ The following key types are used in the Health Cards Framework, represented as J
 
 ### Determining keys associated with an issuer
 
-Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`:
+Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`.
 
-* **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
+The URL at `<<iss value from Signed JWT>>` SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
+
+**Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
 
  For example, the following is a fragment of a jwks.json file with one signing key:
 ```
