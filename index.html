@@ -1098,10 +1098,9 @@
 </li>
 </ul>
 <h4 id="determining-keys-associated-with-an-issuer">Determining keys associated with an issuer<a class="headerlink" href="#determining-keys-associated-with-an-issuer" title="Permanent link">&para;</a></h4>
-<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>.well-known/jwks.json</code>:</p>
-<ul>
-<li><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</li>
-</ul>
+<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>.well-known/jwks.json</code>.</p>
+<p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
+<p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</p>
 <p>For example, the following is a fragment of a jwks.json file with one signing key:
 <div class="highlight"><pre><span></span><code>{
   &quot;keys&quot;:[
