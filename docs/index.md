@@ -359,7 +359,7 @@ When printing or displaying a Health Card as a QR code, the the JWS string value
 
 (The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)
 
-When reading a QR code, scanning software can recognize a SMART Health Card from the `shc:/` prefix. Stripping this six-character prefix and decoding the remaining pairs of numerals yields a JWS.
+When reading a QR code, scanning software can recognize a SMART Health Card from the `shc:/` prefix. Stripping this prefix and decoding the remaining pairs of numerals yields a JWS.
 
 ---
 
