@@ -346,12 +346,13 @@ When a Health Card JWS exceeds 1191 characters, it must be split into multiple Q
 
 During QR generation, the JWS is split into multiple strings or chunks when a Health Card JWS exceeds 1191 characters in length. Consumers of the QR Code SHOULD allow for scanning the multiple QR Codes in any order. Once the full set is scanned, the JWS is assembled and validated. 
 
-When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as four segments:
+When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as two segments:
 
-1. A segment encoded with `bytes` mode consisting of the fixed string `shc:/`
-1. A segment encoded with `bytes` mode consisting of the fixed string `/` and an the ordinal defining the sequence of this QR Code for re-assembly of the Health Card JWS. The ordinal should only be present when multiple QR Codes are used to represent a single Health Card.
-2. A segment encoded with `bytes` mode consisting of the fixed string `/` and a count of the total number of QR Codes that make up the JWS. This count should only be present when multiple QR Codes are used to represent a single Health Card.
-3. A segment encoded with `numeric` mode consisting of the characters `0`-`9`. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`. (The constant "45" appears here because it is the ordinal value of `-`, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)
+1. A segment encoded with `bytes` mode containing:
+   1. the fixed string `shc:/`
+   2. the fixed string `/` and an the ordinal defining the sequence of this QR Code for re-assembly of the Health Card JWS. The ordinal should only be present when multiple QR Codes are used to represent a single Health Card.
+   3. the fixed string `/` and a count of the total number of QR Codes that make up the JWS. This count should only be present when multiple QR Codes are used to represent a single Health Card.
+2. A segment encoded with `numeric` mode consisting of the characters `0`-`9`. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`. (The constant "45" appears here because it is the ordinal value of `-`, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)
 
 (The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)
 
