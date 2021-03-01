@@ -213,19 +213,6 @@ To ensure that all Health Cards can be represented in QR Codes, the following co
         * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
 
 
-When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card **JWS is <= 1195 characters**. If it is not possible to fit the full `fhirBundle` in a JWS of 1195 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:
-
-* Generate a random "Health Card Set" uuid
-* Partition the `fhirBundle.entry` resources into N groups
-* Create a distinct Health Card JWS for each of the N groups
-    * Populate each card's `.vc.credentialSubject.fhirBundleSplit` with the same integer value N
-    * Populate each card's `.vc.credentialSubject.fhirBundleSet` with the same Health Card Set uuid
-    * Ensure that `fhirBundle.entry.fullUrl` values are unique across all entries in the Health Card Set
-
-Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.
-
-At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a `fhirBundleSplit` attribute. When receiving a Health Card with `fhirBundleSplit`, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and `fhirBundleSet` value) are presented; SHALL independently validate the signature on each Health Card; and SHALL create a merged FHIR bundle (including all `fhirBundle.entry`s from the individual Health Cards) before processing, otherwise data integrity cannot be ensured.
-
 For details about how to embed Health Cards in a QR code, [see below](#every-health-card-can-be-embedded-in-a-qr-code).
 
 ## User Retrieves Health Cards
@@ -335,7 +322,7 @@ In this step, the verifier asks the user to share a COVID-19 result. The overall
 
 ## Every Health Card can be embedded in a QR Code
 
-Our standard representation of a Health Card ensures that every Health Card can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Numerical Encoding"](#numerical-encoding)).
+Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 and SHOULD be split into strings <= 1191 characters (see ["Numerical Encoding"](#numerical-encoding)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
@@ -350,18 +337,25 @@ The following limitations apply when presenting Health Card as QR codes, rather 
   * Verifier cannot include purposes of use in-band
 * Does not capture a digital record of the presentation
 
+When a Health Card JWS exceeds 1191 characters, it must be split into multiple QR Codes to ensure readability. Each "chunk" of 1191 characters is numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS. 
+
+## Multi-part QR codes
+
 
 ### Numerical Encoding
 
-When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as two segments:
+During QR generation, the JWS is split into multiple strings or chunks when a Health Card JWS exceeds 1191 characters in length. Consumers of the QR Code SHOULD allow for scanning the multiple QR Codes in any order. Once the full set is scanned, the JWS is assembled and validated. 
+
+When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as four segments:
 
 1. A segment encoded with `bytes` mode consisting of the fixed string `shc:/`
-
-2. A segment encoded with `numeric` mode consisting of the characters `0`-`9`. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`. (The constant "45" appears here because it is the ordinal value of `-`, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)
+1. A segment encoded with `bytes` mode consisting of the fixed string `/` and an the ordinal defining the sequence of this QR Code for re-assembly of the Health Card JWS. The ordinal should only be present when multiple QR Codes are used to represent a single Health Card.
+2. A segment encoded with `bytes` mode consisting of the fixed string `/` and a count of the total number of QR Codes that make up the JWS. This count should only be present when multiple QR Codes are used to represent a single Health Card.
+3. A segment encoded with `numeric` mode consisting of the characters `0`-`9`. Each character "c" of the JWS is converted into a sequence of two digits as by taking `Ord(c)-45` and treating the result as a two-digit base ten number. For example, `'X'` is encoded as `43`, since `Ord('X')` is `88`, and `88-45` is `43`. (The constant "45" appears here because it is the ordinal value of `-`, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)
 
 (The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)
 
-When reading a QR code, scanning software can recognize a SMART Health Card from the `shc:/` prefix. Stripping this prefix and decoding the remaining pairs of numerals yields a JWS.
+When reading a QR code, scanning software can recognize a SMART Health Card from the `shc:/` prefix. Stripping this prefix and the following `<ordinal>/count>/` and decoding the remaining pairs of numerals yields a JWS.
 
 ---
 
