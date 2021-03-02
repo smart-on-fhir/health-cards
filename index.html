@@ -481,12 +481,26 @@
     Every Health Card can be embedded in a QR Code
   </a>
   
-    <nav class="md-nav" aria-label="Every Health Card can be embedded in a QR Code">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" class="md-nav__link">
+    Creating a QR code (or a set of QR codes) from a Health Card JWS
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a QR code (or a set of QR codes) from a Health Card JWS">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#numerical-encoding" class="md-nav__link">
-    Numerical Encoding
+  <a href="#chunking" class="md-nav__link">
+    Chunking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoding-chunks-as-qr-codes" class="md-nav__link">
+    Encoding Chunks as QR Codes
   </a>
   
 </li>
@@ -902,12 +916,26 @@
     Every Health Card can be embedded in a QR Code
   </a>
   
-    <nav class="md-nav" aria-label="Every Health Card can be embedded in a QR Code">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" class="md-nav__link">
+    Creating a QR code (or a set of QR codes) from a Health Card JWS
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a QR code (or a set of QR codes) from a Health Card JWS">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#numerical-encoding" class="md-nav__link">
-    Numerical Encoding
+  <a href="#chunking" class="md-nav__link">
+    Chunking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoding-chunks-as-qr-codes" class="md-nav__link">
+    Encoding Chunks as QR Codes
   </a>
   
 </li>
@@ -1181,19 +1209,6 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </ul>
 </li>
 </ul>
-<p>When representing a Health Card in a QR code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. Therefore, Issuers SHOULD ensure that the total string length of any Health Card <strong>JWS is &lt;= 1195 characters</strong>. If it is not possible to fit the full <code>fhirBundle</code> in a JWS of 1195 characters, Issuers SHOULD use the following technique to split a Health Card into a Health Card Set:</p>
-<ul>
-<li>Generate a random "Health Card Set" uuid</li>
-<li>Partition the <code>fhirBundle.entry</code> resources into N groups</li>
-<li>Create a distinct Health Card JWS for each of the N groups<ul>
-<li>Populate each card's <code>.vc.credentialSubject.fhirBundleSplit</code> with the same integer value N</li>
-<li>Populate each card's <code>.vc.credentialSubject.fhirBundleSet</code> with the same Health Card Set uuid</li>
-<li>Ensure that <code>fhirBundle.entry.fullUrl</code> values are unique across all entries in the Health Card Set</li>
-</ul>
-</li>
-</ul>
-<p>Issuers SHOULD choose "N" as the smallest integer that allows each health card to fit within the size limit.</p>
-<p>At presentation time, a verifier can recognize that a Health Card is part of a Health Card Set by the presence of a <code>fhirBundleSplit</code> attribute. When receiving a Health Card with <code>fhirBundleSplit</code>, a verifier SHALL ensure that N distinct Health Cards (all with the same issuer and <code>fhirBundleSet</code> value) are presented; SHALL independently validate the signature on each Health Card; and SHALL create a merged FHIR bundle (including all <code>fhirBundle.entry</code>s from the individual Health Cards) before processing, otherwise data integrity cannot be ensured.</p>
 <p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
 <h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
 <p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.</p>
@@ -1272,7 +1287,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
 <p>In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
 <h3 id="every-health-card-can-be-embedded-in-a-qr-code">Every Health Card can be embedded in a QR Code<a class="headerlink" href="#every-health-card-can-be-embedded-in-a-qr-code" title="Permanent link">&para;</a></h3>
-<p>Our standard representation of a Health Card ensures that every Health Card can be embedded in a QR Code. When embedding a Health Card in a QR Code, the same JWS strings that appear as <code>.verifiableCredential[]</code> entries in a <code>.smart-health.card</code> file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#numerical-encoding">"Numerical Encoding"</a>).</p>
+<p>Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as <code>.verifiableCredential[]</code> entries in a <code>.smart-health.card</code> file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR Codes"</a>).</p>
 <p>Ensuring Health Cards can be presented as QR Codes:</p>
 <ul>
 <li>Allows basic storage and sharing of health cards for users without a smartphone</li>
@@ -1286,18 +1301,31 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>Verifier cannot include purposes of use in-band</li>
 <li>Does not capture a digital record of the presentation</li>
 </ul>
-<h4 id="numerical-encoding">Numerical Encoding<a class="headerlink" href="#numerical-encoding" title="Permanent link">&para;</a></h4>
-<p>When printing or displaying a Health Card as a QR code, the the JWS string value SHALL be represented as two segments:</p>
+<h3 id="creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws">Creating a QR code (or a set of QR codes) from a Health Card JWS<a class="headerlink" href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" title="Permanent link">&para;</a></h3>
+<h4 id="chunking">Chunking<a class="headerlink" href="#chunking" title="Permanent link">&para;</a></h4>
+<p>Commonly, Health Cards will fit in a single V22 QR code.  Any JWS longer than 1195 characters is split into "chunks" of length 1191 or smaller; each chunk is then encoded as a separate QR code to ensure ease of scanning.  Each chunk is numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below.</p>
+<p>Consumers of the QR Code SHOULD allow for scanning the multiple QR Codes in any order. Once the full set is scanned, the JWS is assembled and validated. </p>
+<h4 id="encoding-chunks-as-qr-codes">Encoding Chunks as QR Codes<a class="headerlink" href="#encoding-chunks-as-qr-codes" title="Permanent link">&para;</a></h4>
+<p>When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value is represented as a QR with two data segments:</p>
 <ol>
-<li>
-<p>A segment encoded with <code>bytes</code> mode consisting of the fixed string <code>shc:/</code></p>
+<li>A segment encoded with <code>bytes</code> mode consisting of <ul>
+<li>the fixed string <code>shc:/</code> </li>
+<li>plus (only if more than one chunk is required)<ul>
+<li>decimal representation of "C" (e.g., <code>1</code> for the first chunk, <code>2</code> for the second chunk, and so on)</li>
+<li>plus the fixed string <code>/</code></li>
+<li>plus decimal representation of "N" (e.g., <code>2</code> if there are two chunks in total, <code>3</code> if there three chunks in total, and so on)</li>
+<li>plus the fixed string <code>/</code></li>
+</ul>
 </li>
-<li>
-<p>A segment encoded with <code>numeric</code> mode consisting of the characters <code>0</code>-<code>9</code>. Each character "c" of the JWS is converted into a sequence of two digits as by taking <code>Ord(c)-45</code> and treating the result as a two-digit base ten number. For example, <code>'X'</code> is encoded as <code>43</code>, since <code>Ord('X')</code> is <code>88</code>, and <code>88-45</code> is <code>43</code>. (The constant "45" appears here because it is the ordinal value of <code>-</code>, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)</p>
+</ul>
 </li>
+<li>A segment encoded with <code>numeric</code> mode consisting of the characters <code>0</code>-<code>9</code>. Each character "c" of the JWS is converted into a sequence of two digits as by taking <code>Ord(c)-45</code> and treating the result as a two-digit base ten number. For example, <code>'X'</code> is encoded as <code>43</code>, since <code>Ord('X')</code> is <code>88</code>, and <code>88-45</code> is <code>43</code>. (The constant "45" appears here because it is the ordinal value of <code>-</code>, the lowest-valued character that can appear in a compact JWS. Subtracting 45 from the ordinal values of valid JWS characters produces a range between 00 and 99, ensuring that each character of the JWS can be represented in exactly two base-10 numeric digits.)</li>
 </ol>
 <p>(The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)</p>
-<p>When reading a QR code, scanning software can recognize a SMART Health Card from the <code>shc:/</code> prefix. Stripping this prefix and decoding the remaining pairs of numerals yields a JWS.</p>
+<p>For example:
+* a single chunk might produce a QR code like <code>shc:/56762909524320603460292437404460&lt;snipped for brevity&gt;</code>
+* in a longer JWS, the second chunk in a set of three might produce a QR code like <code>shc:/2/3/56762909524320603460292437404460&lt;snipped for brevity&gt;</code></p>
+<p>When reading a QR code, scanning software can recognize a SMART Health Card from the <code>shc:/</code> prefix. Stripping this prefix and the following <code>&lt;ordinal&gt;/&lt;count&gt;/</code> and decoding the remaining pairs of numerals yields a JWS.</p>
 <hr />
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
 <h3 id="which-clinical-data-should-be-considered-in-decision-making">Which clinical data should be considered in decision-making?<a class="headerlink" href="#which-clinical-data-should-be-considered-in-decision-making" title="Permanent link">&para;</a></h3>
