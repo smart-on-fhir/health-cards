@@ -345,6 +345,7 @@ The following limitations apply when presenting Health Card as QR codes, rather 
 Commonly, Health Cards will fit in a single V22 QR code.  Any JWS longer than 1195 characters is split into "chunks" of length 1191 or smaller; each chunk is then encoded as a separate QR code to ensure ease of scanning. Each chunk is numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below.
 
 To ensure the best user experience when producing and consuming multiple QR Codes:
+
 * Producers of QR Codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.
 * Consumers of QR Codes SHOULD allow for scanning the multiple QR Codes in any order. Once the full set is scanned, the JWS can be assembled and validated. 
 
