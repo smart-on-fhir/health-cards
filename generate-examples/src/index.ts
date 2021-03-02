@@ -83,11 +83,15 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
   bundle.entry.forEach((e) => {
     e.fullUrl = resourceUrlMap[e.fullUrl.split('/').slice(-2).join('/')];
     function clean(r: any, path: string[] = ['Resource']) {
+
       if (r.resourceType === 'Patient') {
+        // TODO remove these `delete`s once sample bundles are aligned
+        // with the "name + DOB" profiling guidance
         delete r.telecom;
         delete r.communication;
         delete r.address;
       }
+
       if (path.length === 1) {
         delete r.id;
         delete r.meta;
@@ -99,10 +103,7 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
       if (r.coding) {
         delete r.text;
       }
-      // Address bug in hosted examples
-      if (r.system === 'https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.12.292') {
-        r.system = 'http://hl7.org/fhir/sid/cvx';
-      }
+
       if (r.system && r.code) {
         delete r.display;
       }
