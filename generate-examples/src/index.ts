@@ -145,12 +145,11 @@ const splitJwsIntoChunks = (jws: string): string[] => {
     return [jws];
   }
 
-  let chunks = [];
-  for (let i = 0; i < jws.length / MAX_CHUNK_SIZE; i++) {
-    chunks.push(jws.slice(i * MAX_CHUNK_SIZE, (i + 1) * MAX_CHUNK_SIZE))
-  }
-
-  return chunks;
+  // Try to split the chunks into roughly equal sizes.
+  const chunk_count = Math.ceil(jws.length / MAX_CHUNK_SIZE);
+  const chunk_size = Math.ceil(jws.length / chunk_count);
+  const chunks = jws.match(new RegExp(`.{1,${chunk_size}}`, 'g'));
+  return chunks || [];
 }
 
 async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promise<Record<string, any>> {
