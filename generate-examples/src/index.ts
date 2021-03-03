@@ -163,7 +163,7 @@ async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promis
 
 const SMALLEST_B64_CHAR_CODE = 45; // "-".charCodeAt(0) === 45
 const toNumericQr = (jws: string, chunkIndex: number, totalChunks: number): QRCodeSegment[] => [
-  { data: 'shc:/' + ((totalChunks > 1) ? `${chunkIndex+1}/${totalChunks}/` : ``), mode: 'byte' },
+  { data: 'shc:/' + ((totalChunks > 1) ? `${chunkIndex + 1}/${totalChunks}/` : ``), mode: 'byte' },
   {
     data: jws
       .split('')
@@ -192,7 +192,7 @@ async function processExampleBundle(exampleBundleUrl: string): Promise<{ fhirBun
 
   const exampleQrCodes: string[] = await Promise.all(
     qrSet.map((qrSegments): Promise<string> => new Promise((resolve, reject) =>
-      QrCode.toString(qrSegments, { type: 'svg' }, function (err: any, result: string) {
+      QrCode.toString(qrSegments, { type: 'svg', errorCorrectionLevel: 'low' }, function (err: any, result: string) {
         if (err) return reject(err);
         resolve(result as string);
       })
