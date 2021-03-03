@@ -146,9 +146,9 @@ const splitJwsIntoChunks = (jws: string): string[] => {
   }
 
   // Try to split the chunks into roughly equal sizes.
-  const chunk_count = Math.ceil(jws.length / MAX_CHUNK_SIZE);
-  const chunk_size = Math.ceil(jws.length / chunk_count);
-  const chunks = jws.match(new RegExp(`.{1,${chunk_size}}`, 'g'));
+  const chunkCount = Math.ceil(jws.length / MAX_CHUNK_SIZE);
+  const chunkSize = Math.ceil(jws.length / chunkCount);
+  const chunks = jws.match(new RegExp(`.{1,${chunkSize}}`, 'g'));
   return chunks || [];
 }
 
