@@ -271,7 +271,9 @@ A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled 
 }
 ```
 
-The `credentialType` parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
+The `credentialType` parameter is required. The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.
+
+* **`includeIdentityClaims`**. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
 
 ```json
 {
@@ -285,6 +287,23 @@ The `credentialType` parameter is required. By default, the issuer will decide w
   }]
 }
 ```
+
+* **`_since`**. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a `_since` parameter with a `valueInstant`. For example, to request only COVID-19 data since March 2021:
+
+
+```json
+{
+  "resourceType": "Parameters",
+  "parameter": [{
+    "name": "credentialType",
+    "valueUri": "https://smarthealth.cards#covid19"
+  }, {
+    "name": "_since",
+    "valueInstant": "2021-03-01T00:00:00Z"
+  }]
+}
+```
+
 
 The **response** is a `Parameters` resource that includes one more more `verifiableCredential` values like:
 
