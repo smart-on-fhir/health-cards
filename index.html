@@ -1248,7 +1248,10 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The <code>credentialType</code> parameter is required. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more <code>includeIdentityClaim</code>s, which will limit the claims included in the VC. For example, to request that only name be included:</p>
+<p>The <code>credentialType</code> parameter is required. The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.</p>
+<ul>
+<li><strong><code>includeIdentityClaim</code></strong>. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more <code>includeIdentityClaim</code>s, which will limit the claims included in the VC. For example, to request that only name be included:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
@@ -1257,6 +1260,20 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">},</span> <span class="p">{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;includeIdentityClaim&quot;</span><span class="p">,</span>
     <span class="nt">&quot;valueString&quot;</span><span class="p">:</span> <span class="s2">&quot;Patient.name&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong><code>_since</code></strong>. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a <code>_since</code> parameter with a <code>valueDateTime</code> (which is an ISO8601 string at the level of a year, month, day, or specific time of day). For example, to request only COVID-19 data since March 2021:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;_since&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueDateTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2021-03&quot;</span>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
