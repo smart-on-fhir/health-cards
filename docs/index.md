@@ -83,7 +83,7 @@ At a _pilot project level_:
 ### Which Issuers can participate?
 * We'll work with a willing set of issuers and define expectations/requirements
 * Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL
-* Verifiers will discover public keys associated with an issuer via `.well-known/jwks.json` URLs
+* Verifiers will discover public keys associated with an issuer via `/.well-known/jwks.json` URLs
 * For transparency, we'll publish a list of participating organizations in a public directory
 * In a _post-pilot deployment_, a network of participants would define and agree to a formal Trust Framework
 
@@ -114,12 +114,12 @@ The following key types are used in the Health Cards Framework, represented as J
     * MUST have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
     * Signing *Health Cards* (a.k.a. Verifiable Credentials)
         * Issuers sign Health Card VCs with a signing key (private key)
-        * Issuer publish their signing keys (public key) at `.well-known/jwks.json`
+        * Issuer publish their signing keys (public key) at `/.well-known/jwks.json`
         * Wallets and Verifiers validate Issuer signatures on Health Cards
 
 ### Determining keys associated with an issuer
 
-Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `.well-known/jwks.json`.
+Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`.
 
 The URL at `<<iss value from Signed JWT>>` SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
 
@@ -243,7 +243,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined here. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
 #### Discovery of FHIR Support
-A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `.well-known/smart-configuration` JSON file. For example:
+A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `/.well-known/smart-configuration` JSON file. For example:
 
 ```
 {
