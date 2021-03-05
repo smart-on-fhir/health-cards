@@ -1096,7 +1096,7 @@
 <ul>
 <li>We'll work with a willing set of issuers and define expectations/requirements</li>
 <li>Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL</li>
-<li>Verifiers will discover public keys associated with an issuer via <code>.well-known/jwks.json</code> URLs</li>
+<li>Verifiers will discover public keys associated with an issuer via <code>/.well-known/jwks.json</code> URLs</li>
 <li>For transparency, we'll publish a list of participating organizations in a public directory</li>
 <li>In a <em>post-pilot deployment</em>, a network of participants would define and agree to a formal Trust Framework</li>
 </ul>
@@ -1118,7 +1118,7 @@
 <li>MUST have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>Signing <em>Health Cards</em> (a.k.a. Verifiable Credentials)<ul>
 <li>Issuers sign Health Card VCs with a signing key (private key)</li>
-<li>Issuer publish their signing keys (public key) at <code>.well-known/jwks.json</code></li>
+<li>Issuer publish their signing keys (public key) at <code>/.well-known/jwks.json</code></li>
 <li>Wallets and Verifiers validate Issuer signatures on Health Cards</li>
 </ul>
 </li>
@@ -1126,7 +1126,7 @@
 </li>
 </ul>
 <h4 id="determining-keys-associated-with-an-issuer">Determining keys associated with an issuer<a class="headerlink" href="#determining-keys-associated-with-an-issuer" title="Permanent link">&para;</a></h4>
-<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>.well-known/jwks.json</code>.</p>
+<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>.</p>
 <p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
 <p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</p>
 <p>For example, the following is a fragment of a jwks.json file with one signing key:
@@ -1227,7 +1227,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="via-fhir-healthwalletissuevc-operation">via FHIR <code>$HealthWallet.issueVc</code> Operation<a class="headerlink" href="#via-fhir-healthwalletissuevc-operation" title="Permanent link">&para;</a></h4>
 <p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$HealthWallet.issueVc</code> operation defined here. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
 <h5>Discovery of FHIR Support</h5>
-<p>A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the <code>health-cards</code> capability to its <code>.well-known/smart-configuration</code> JSON file. For example:</p>
+<p>A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the <code>health-cards</code> capability to its <code>/.well-known/smart-configuration</code> JSON file. For example:</p>
 <div class="highlight"><pre><span></span><code>{
 &quot;authorization_endpoint&quot;: &quot;https://ehr.example.com/auth/authorize&quot;,
 &quot;token_endpoint&quot;: &quot;https://ehr.example.com/auth/token&quot;,

@@ -33,14 +33,17 @@
           ]
         },
         "patient": {
-          "reference": "resource:0"
+          "reference": "Patient/Scenario2Patient"
         },
         "occurrenceDateTime": "2021-01-01",
-        "primarySource": true,
-        "location": {
-          "reference": "resource:3"
-        },
-        "lotNumber": "Lot #0000001"
+        "lotNumber": "Lot #0000001",
+        "performer": [
+          {
+            "actor": {
+              "display": "ABC General Hospital"
+            }
+          }
+        ]
       }
     },
     {
@@ -61,17 +64,14 @@
         },
         "occurrenceDateTime": "2021-01-29",
         "primarySource": true,
-        "location": {
-          "reference": "resource:3"
-        },
-        "lotNumber": "Lot #0000007"
-      }
-    },
-    {
-      "fullUrl": "resource:3",
-      "resource": {
-        "resourceType": "Location",
-        "name": "ABC Pharmacy"
+        "lotNumber": "Lot #0000007",
+        "performer": [
+          {
+            "actor": {
+              "display": "ABC General Hospital"
+            }
+          }
+        ]
       }
     }
   ]
