@@ -99,6 +99,9 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
       }
       if (resourceUrlMap[r.reference]) {
         r.reference = resourceUrlMap[r.reference];
+      } else if (r?.reference?.startsWith("Patient")) {
+        //TODO remove this branch when DVCI bundles are fixed
+        r.reference = 'resource:0'
       }
       if (r.coding) {
         delete r.text;
