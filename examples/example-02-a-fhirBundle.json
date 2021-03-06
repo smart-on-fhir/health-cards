@@ -22,7 +22,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -79,7 +79,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "collection": {
           "collector": {
@@ -118,7 +118,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "collection": {
           "collector": {
@@ -157,7 +157,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "collection": {
           "collector": {
@@ -273,7 +273,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -319,7 +319,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -365,7 +365,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -415,7 +415,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -471,7 +471,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -527,7 +527,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -573,7 +573,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -619,7 +619,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -649,7 +649,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -705,7 +705,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -735,7 +735,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -791,7 +791,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -821,7 +821,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -867,7 +867,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -897,7 +897,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -953,7 +953,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -983,7 +983,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1122,7 +1122,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1166,7 +1166,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1210,7 +1210,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1254,7 +1254,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1298,7 +1298,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1342,7 +1342,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1386,7 +1386,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1430,7 +1430,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1474,7 +1474,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1528,7 +1528,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1572,7 +1572,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1616,7 +1616,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1660,7 +1660,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1704,7 +1704,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1758,7 +1758,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1802,7 +1802,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1846,7 +1846,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1890,7 +1890,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1934,7 +1934,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -1978,7 +1978,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -2022,7 +2022,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -2066,7 +2066,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "performer": [
           {
@@ -2162,7 +2162,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2196,7 +2196,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2234,7 +2234,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2267,7 +2267,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2305,7 +2305,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2343,7 +2343,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2381,7 +2381,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2415,7 +2415,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",
@@ -2450,7 +2450,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/pat2"
+          "reference": "resource:0"
         },
         "effectiveDateTime": "2015-08-16T06:40:17Z",
         "issued": "2015-08-17T06:40:17Z",

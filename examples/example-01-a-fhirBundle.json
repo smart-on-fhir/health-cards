@@ -33,7 +33,7 @@
           ]
         },
         "patient": {
-          "reference": "Patient/Scenario2Patient"
+          "reference": "resource:0"
         },
         "occurrenceDateTime": "2021-01-01",
         "lotNumber": "Lot #0000001",
@@ -60,7 +60,7 @@
           ]
         },
         "patient": {
-          "reference": "Patient/Scenario2Patient"
+          "reference": "resource:0"
         },
         "occurrenceDateTime": "2021-01-29",
         "primarySource": true,
