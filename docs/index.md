@@ -110,8 +110,8 @@ This framework defines a general approach to **representing demographic and clin
 The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
 
 * **Signing Keys**
-    * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
-    * MUST have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    * SHALL have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
+    * SHALL have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
     * Signing *Health Cards* (a.k.a. Verifiable Credentials)
         * Issuers sign Health Card VCs with a signing key (private key)
         * Issuer publish their signing keys (public key) at `/.well-known/jwks.json`
@@ -195,7 +195,7 @@ Hence, the overall JWS payload matches the following structure (before it is [mi
 
 ### Health Cards are Small
 
-To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
+To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:
 
 * JWS Header
     * header includes `zip: "DEF"`
