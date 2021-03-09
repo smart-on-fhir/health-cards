@@ -1114,8 +1114,8 @@
 <p>The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
 <ul>
 <li><strong>Signing Keys</strong><ul>
-<li>MUST have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
-<li>MUST have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
+<li>SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>Signing <em>Health Cards</em> (a.k.a. Verifiable Credentials)<ul>
 <li>Issuers sign Health Card VCs with a signing key (private key)</li>
 <li>Issuer publish their signing keys (public key) at <code>/.well-known/jwks.json</code></li>
@@ -1186,7 +1186,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="health-cards-are-small">Health Cards are Small<a class="headerlink" href="#health-cards-are-small" title="Permanent link">&para;</a></h4>
-<p>To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:</p>
+<p>To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:</p>
 <ul>
 <li>JWS Header<ul>
 <li>header includes <code>zip: "DEF"</code></li>
@@ -1264,7 +1264,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <span class="p">}</span>
 </code></pre></div>
 <ul>
-<li><strong><code>_since</code></strong>. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a <code>_since</code> parameter with a <code>valueDateTime</code> (which is an ISO8601 string at the level of a year, month, day, or specific time of day). For example, to request only COVID-19 data since March 2021:</li>
+<li><strong><code>_since</code></strong>. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a <code>_since</code> parameter with a <code>valueDateTime</code> (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see <a href="http://hl7.org/fhir/datatypes.html#dateTime">FHIR dateTime datatype</a> for details). For example, to request only COVID-19 data since March 2021:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
@@ -1286,7 +1286,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential:</p>
+<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
