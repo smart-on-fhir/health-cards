@@ -110,8 +110,8 @@ This framework defines a general approach to **representing demographic and clin
 The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
 
 * **Signing Keys**
-    * MUST have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
-    * MUST have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+    * SHALL have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
+    * SHALL have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
     * Signing *Health Cards*
         * Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)
         * Issuer publish their signing keys (public key) at `/.well-known/jwks.json`
@@ -195,7 +195,7 @@ Hence, the overall JWS payload matches the following structure (before it is [mi
 
 ### Health Cards are Small
 
-To ensure that all Health Cards can be represented in QR Codes, the following constraints apply at the time of issuance:
+To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:
 
 * JWS Header
     * header includes `zip: "DEF"`
@@ -288,7 +288,7 @@ The `credentialType` parameter is required. The following parameters are optiona
 }
 ```
 
-* **`_since`**. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a `_since` parameter with a `valueDateTime` (which is an ISO8601 string at the level of a year, month, day, or specific time of day). For example, to request only COVID-19 data since March 2021:
+* **`_since`**. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a `_since` parameter with a `valueDateTime` (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see [FHIR dateTime datatype](http://hl7.org/fhir/datatypes.html#dateTime) for details). For example, to request only COVID-19 data since March 2021:
 
 
 ```json
@@ -317,7 +317,7 @@ The **response** is a `Parameters` resource that includes one more more `verifia
 }
 ```
 
-In the response, an optional repeating `resourceLink` parameter can capture the link between hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential:
+In the response, an optional repeating `resourceLink` parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential:
 
 ```json
 {
