@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+Add optional `vcIndex` param on `$health-cards-issue` response's `resourceLink`
+
 ## 0.3.0
 
 Rename `$HealthWallet.issueVc` to `$health-cards-issue`
