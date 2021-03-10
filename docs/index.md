@@ -238,9 +238,9 @@ Alternatively, issuers can make the Health Card available **embedded in a QR cod
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
-### via FHIR `$HealthWallet.issueVc` Operation
+### via FHIR `$health-cards-issue` Operation
 
-For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$HealthWallet.issueVc` operation defined [here](../artifacts/operation-patient-i-HealthWallet.issueVc.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
+For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$health-cards-issue` operation defined [here](../artifacts/operation-patient-i-health-cards-issue.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
 #### Discovery of FHIR Support
 A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `/.well-known/smart-configuration` JSON file. For example:
@@ -257,9 +257,9 @@ A SMART on FHIR Server advertises support for issuing VCs according to this spec
 ```
 
 <a name="healthwalletissuevc-operation"></a>
-#### `$HealthWallet.issueVc` Operation
+#### `$health-cards-issue` Operation
 
-A Health Wallet can `POST /Patient/:id/$HealthWallet.issueVc` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
+A Health Wallet can `POST /Patient/:id/$health-cards-issue` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
 
 ```json
 {
