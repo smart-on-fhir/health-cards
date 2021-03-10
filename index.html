@@ -458,8 +458,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#via-fhir-healthwalletissuevc-operation" class="md-nav__link">
-    via FHIR $HealthWallet.issueVc Operation
+  <a href="#via-fhir-health-cards-issue-operation" class="md-nav__link">
+    via FHIR $health-cards-issue Operation
   </a>
   
 </li>
@@ -893,8 +893,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#via-fhir-healthwalletissuevc-operation" class="md-nav__link">
-    via FHIR $HealthWallet.issueVc Operation
+  <a href="#via-fhir-health-cards-issue-operation" class="md-nav__link">
+    via FHIR $health-cards-issue Operation
   </a>
   
 </li>
@@ -1224,8 +1224,8 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="via-qr-print-or-scan">via QR (Print or Scan)<a class="headerlink" href="#via-qr-print-or-scan" title="Permanent link">&para;</a></h4>
 <p>Alternatively, issuers can make the Health Card available <strong>embedded in a QR code</strong> (for instance, printed on a paper-based vaccination record or after-visit summary document). See <a href="#every-health-card-can-be-embedded-in-a-qr-code">details</a>.</p>
 <p>Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.</p>
-<h4 id="via-fhir-healthwalletissuevc-operation">via FHIR <code>$HealthWallet.issueVc</code> Operation<a class="headerlink" href="#via-fhir-healthwalletissuevc-operation" title="Permanent link">&para;</a></h4>
-<p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$HealthWallet.issueVc</code> operation defined <a href="../artifacts/operation-patient-i-HealthWallet.issueVc.json">here</a>. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
+<h4 id="via-fhir-health-cards-issue-operation">via FHIR <code>$health-cards-issue</code> Operation<a class="headerlink" href="#via-fhir-health-cards-issue-operation" title="Permanent link">&para;</a></h4>
+<p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$health-cards-issue</code> operation defined <a href="../artifacts/operation-patient-i-health-cards-issue.json">here</a>. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
 <h5>Discovery of FHIR Support</h5>
 <p>A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the <code>health-cards</code> capability to its <code>/.well-known/smart-configuration</code> JSON file. For example:</p>
 <div class="highlight"><pre><span></span><code>{
@@ -1238,8 +1238,8 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 }
 </code></pre></div>
 <p><a name="healthwalletissuevc-operation"></a></p>
-<h5><code>$HealthWallet.issueVc</code> Operation</h5>
-<p>A Health Wallet can <code>POST /Patient/:id/$HealthWallet.issueVc</code> to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:</p>
+<h5><code>$health-cards-issue</code> Operation</h5>
+<p>A Health Wallet can <code>POST /Patient/:id/$health-cards-issue</code> to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
