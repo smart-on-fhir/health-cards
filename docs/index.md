@@ -324,7 +324,7 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
   "resourceType": "Parameters",
   "parameter": [{
     "name": "verifiableCredential",
-    "valueString": "<<Health Cards as JWS>>"
+    "valueString": "<<Health Card as JWS>>"
   }, {
     "name": "resourceLink",
     "part": [{
