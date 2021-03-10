@@ -312,7 +312,7 @@ The **response** is a `Parameters` resource that includes one more more `verifia
   "resourceType": "Parameters",
   "parameter":[{
     "name": "verifiableCredential",
-    "valueString": "<<Health Cards as JWS>>"
+    "valueString": "<<Health Card as JWS>>"
   }]
 }
 ```
