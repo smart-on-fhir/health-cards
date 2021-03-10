@@ -1286,18 +1286,12 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential. The optional <code>vcIndex</code> value on a <code>resourceLink</code> can be used when a response contains more than one VC, to indicate which VC(s) this resource link applies to. The <code>vcIndex</code> is a zero-based index of a <code>verifiableCredential</code> entry within the top-level <code>parameter</code> array.</p>
+<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;verifiableCredential&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;valueString&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Health Cards as JWS&gt;&gt;&quot;</span>
-  <span class="p">},</span> <span class="p">{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;resourceLink&quot;</span><span class="p">,</span>
     <span class="nt">&quot;part&quot;</span><span class="p">:</span> <span class="p">[{</span>
-        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;vcIndex&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;valueInteger&quot;</span><span class="p">:</span> <span class="mi">0</span>
-      <span class="p">},</span> <span class="p">{</span>
         <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;bundledResource&quot;</span><span class="p">,</span>
         <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;resource:2&quot;</span>
       <span class="p">},</span> <span class="p">{</span>

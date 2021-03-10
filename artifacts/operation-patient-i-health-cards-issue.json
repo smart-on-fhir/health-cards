@@ -49,12 +49,6 @@
     "min": 0,
     "max": "*",
     "part": [{
-      "name": "vcIndex",
-      "use": "out",
-      "min": 0,
-      "max": "*",
-      "type": "integer"
-    }, {
       "name": "bundledResource",
       "use": "out",
       "min": 1,
