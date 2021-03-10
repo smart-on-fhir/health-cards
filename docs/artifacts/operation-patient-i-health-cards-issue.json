@@ -52,7 +52,7 @@
       "name": "vcIndex",
       "use": "out",
       "min": 0,
-      "max": "*",
+      "max": "1",
       "type": "integer"
     }, {
       "name": "bundledResource",
