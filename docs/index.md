@@ -122,7 +122,7 @@ Each public key used to verify signatures is represented as a JSON Web Key (see 
 * SHALL have `"crv": "P-256`, and `"x"`, `"y"` equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see [RFC7518](https://tools.ietf.org/html/rfc7518#section-6.2))
 * SHALL NOT have the Elliptic Curve private key parameter `"d"`
 * If the issuer has an X.509 certificate for the public key, SHALL have `"x5c"` equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
-certificate or certificate chain (see [RFC7515](https://tools.ietf.org/html/rfc7515#section-4.1.6)).
+certificate or certificate chain (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-4.7)).
 
 Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`.
 
