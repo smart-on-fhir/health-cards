@@ -165,8 +165,11 @@ of a `uniformResourceIdentifier` entry in the certificate's Subject Alternative 
 
 ### Key Management
 
-When an issuer generates a new key to sign health cards, the public key SHALL be added to the
-issuer's JWK set in its jwks.json file. Older public key entries that are needed to validate previously
+Issuers SHOULD generate new signing keys at least annually. 
+
+When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
+issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
+Older public key entries that are needed to validate previously
 signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
 are clinically relevant. However, if a private signing key is compromised, then the corresponding public key
 SHALL be removed from the JWK set immediately.
