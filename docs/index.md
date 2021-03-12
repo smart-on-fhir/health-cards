@@ -271,7 +271,10 @@ A Health Wallet can `POST /Patient/:id/$health-cards-issue` to a FHIR-enabled is
 }
 ```
 
-The `credentialType` parameter is required. The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.
+The `credentialType` parameter is required. Multiple `credentialType` values in one request SHALL be intepreted as a request for the intersection of the requested types (logical AND).
+For example, a request containing `credentialType` values `https://smarthealth.cards#covid19` and `https://smarthealth.cards#immunization` is a request for only those cards that are both Covid-19 cards and immunization cards (i.e., only those Covid-19 cards that are about immunizations).
+
+The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.
 
 * **`includeIdentityClaim`**. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
 
