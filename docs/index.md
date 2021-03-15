@@ -123,7 +123,8 @@ Each public key used to verify signatures is represented as a JSON Web Key (see 
 * SHALL NOT have the Elliptic Curve private key parameter `"d"`
 * If the issuer has an X.509 certificate for the public key, SHALL have `"x5c"` equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
 certificate or certificate chain (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-4.7)).
-If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameters identical except `x5c`.
+The public key listed in the first certificate in the `"x5c"` array MUST match the public key specified by the `"crv"`, `"x"`, and `"y"` parameters of the same JWK entry.
+If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except `"x5c"`.
 
 Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`.
 
