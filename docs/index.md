@@ -171,8 +171,8 @@ When an issuer generates a new key to sign Health Cards, the public key SHALL be
 issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
 signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
-are clinically relevant. However, if a private signing key is compromised, then the corresponding public key
-SHALL be removed from the JWK set immediately.
+are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
+from the JWK set in its jwks.json file and request revocation of all X.509 certificates bound to that public key.
 
 ## Issuer Generates Results
 
