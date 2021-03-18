@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "iat": 1616101727.688,
+  "iat": 1616101789.846,
   "vc": {
     "@context": [
       "https://www.w3.org/2018/credentials/v1"
