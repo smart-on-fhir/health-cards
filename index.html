@@ -397,8 +397,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#signing-health-cards" class="md-nav__link">
+    Signing Health Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#determining-keys-associated-with-an-issuer" class="md-nav__link">
     Determining keys associated with an issuer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificates" class="md-nav__link">
+    Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-management" class="md-nav__link">
+    Key Management
   </a>
   
 </li>
@@ -832,8 +853,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#signing-health-cards" class="md-nav__link">
+    Signing Health Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#determining-keys-associated-with-an-issuer" class="md-nav__link">
     Determining keys associated with an issuer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificates" class="md-nav__link">
+    Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-management" class="md-nav__link">
+    Key Management
   </a>
   
 </li>
@@ -1111,24 +1153,27 @@
 </ul>
 <h2 id="protocol-details">Protocol Details<a class="headerlink" href="#protocol-details" title="Permanent link">&para;</a></h2>
 <h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
-<p>The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
+<p>The following key types are used in the Health Cards Framework:
+* Elliptic Curve keys using the P-256 curve</p>
+<h4 id="signing-health-cards">Signing <em>Health Cards</em><a class="headerlink" href="#signing-health-cards" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>Signing Keys</strong><ul>
-<li>SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
-<li>SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
-<li>Signing <em>Health Cards</em><ul>
 <li>Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)</li>
-<li>Issuer publish their signing keys (public key) at <code>/.well-known/jwks.json</code></li>
-<li>Wallets and Verifiers validate Issuer signatures on Health Cards</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>Issuer publish the corresponding public key (public key) at <code>/.well-known/jwks.json</code></li>
+<li>Wallets and Verifiers use the public key to verify Issuer signatures on Health Cards</li>
 </ul>
 <h4 id="determining-keys-associated-with-an-issuer">Determining keys associated with an issuer<a class="headerlink" href="#determining-keys-associated-with-an-issuer" title="Permanent link">&para;</a></h4>
-<p>Issuers SHALL publish keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>.</p>
-<p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
-<p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>)</p>
+<p>Each public key used to verify signatures is represented as a JSON Web Key (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):
+* SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code>
+* SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)
+* SHALL have <code>"crv": "P-256</code>, and <code>"x"</code>, <code>"y"</code> equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see <a href="https://tools.ietf.org/html/rfc7518#section-6.2">RFC7518</a>)
+* SHALL NOT have the Elliptic Curve private key parameter <code>"d"</code>
+* If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
+certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
+The public key listed in the first certificate in the <code>"x5c"</code> array SHALL match the public key specified by the <code>"crv"</code>, <code>"x"</code>, and <code>"y"</code> parameters of the same JWK entry.
+If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</p>
+<p>Issuers SHALL publish their public keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>.</p>
+<p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
+<p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>).</p>
 <p>For example, the following is a fragment of a jwks.json file with one signing key:
 <div class="highlight"><pre><span></span><code>{
   &quot;keys&quot;:[
@@ -1144,6 +1189,25 @@
   ]
 }
 </code></pre></div></p>
+<h4 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h4>
+<p>X.509 certificates can be used by issuers to indicate the issuer's participation in a PKI-based trust framework.</p>
+<p>If the Verifier supports PKI-based trust frameworks and the Health Card issuer includes the <code>"x5c"</code> parameter in matching JWK entries from the <code>.keys[]</code> array,
+the Verifier establishes that the issuer is trusted as follows:
+1. Verifier validates the leaf certificate's binding to the Health Card issuer by:
+    * matching the <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> to the value
+of a <code>uniformResourceIdentifier</code> entry in the certificate's Subject Alternative Name extension
+(see <a href="https://tools.ietf.org/html/rfc5280#section-4.2.1.6">RFC5280</a>), and
+    * verifying the signature in the Health Card using the public key in the certificate.
+2. Verifier constructs a valid certificate path of unexpired and unrevoked certificates to one of its trusted anchors
+ (see <a href="https://tools.ietf.org/html/rfc5280#section-6">RFC5280</a>).</p>
+<h4 id="key-management">Key Management<a class="headerlink" href="#key-management" title="Permanent link">&para;</a></h4>
+<p>Issuers SHOULD generate new signing keys at least annually. </p>
+<p>When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
+issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
+Older public key entries that are needed to validate previously
+signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
+are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
+from the JWK set in its jwks.json file and request revocation of all X.509 certificates bound to that public key.</p>
 <h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
 <p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the <a href="#every-health-card-can-be-embedded-in-a-qr-code">QR Embedding requirements</a>.</p>
 <div class="mermaid">sequenceDiagram
