@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+Added optional `x5c` in JWKS
+
 ## 0.3.1
 
 Add optional `vcIndex` param on `$health-cards-issue` response's `resourceLink`
