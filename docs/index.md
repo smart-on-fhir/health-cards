@@ -107,23 +107,30 @@ This framework defines a general approach to **representing demographic and clin
 
 ## Generating and resolving cryptographic keys
 
-The following key types are used in the Health Cards Framework, represented as JSON Web Keys (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
+The following key types are used in the Health Cards Framework:
+* Elliptic Curve keys using the P-256 curve
 
-* **Signing Keys**
-    * SHALL have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
-    * SHALL have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
-    * Signing *Health Cards*
-        * Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)
-        * Issuer publish their signing keys (public key) at `/.well-known/jwks.json`
-        * Wallets and Verifiers validate Issuer signatures on Health Cards
+### Signing *Health Cards*
+* Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)
+* Issuer publish the corresponding public key (public key) at `/.well-known/jwks.json`
+* Wallets and Verifiers use the public key to verify Issuer signatures on Health Cards
 
 ### Determining keys associated with an issuer
+Each public key used to verify signatures is represented as a JSON Web Key (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
+* SHALL have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
+* SHALL have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
+* SHALL have `"crv": "P-256`, and `"x"`, `"y"` equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see [RFC7518](https://tools.ietf.org/html/rfc7518#section-6.2))
+* SHALL NOT have the Elliptic Curve private key parameter `"d"`
+* If the issuer has an X.509 certificate for the public key, SHALL have `"x5c"` equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
+certificate or certificate chain (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-4.7)).
+The public key listed in the first certificate in the `"x5c"` array SHALL match the public key specified by the `"crv"`, `"x"`, and `"y"` parameters of the same JWK entry.
+If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except `"x5c"`.
 
-Issuers SHALL publish keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`.
+Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`.
 
-The URL at `<<iss value from Signed JWT>>` SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
+The URL at `<<iss value from Signed JWT>>` SHALL use the `https` scheme and SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
 
-**Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`)
+**Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`).
 
  For example, the following is a fragment of a jwks.json file with one signing key:
 ```
@@ -141,6 +148,32 @@ The URL at `<<iss value from Signed JWT>>` SHALL NOT include a trailing `/`. For
   ]
 }
 ```
+
+### Certificates
+
+X.509 certificates can be used by issuers to indicate the issuer's participation in a PKI-based trust framework.
+
+If the Verifier supports PKI-based trust frameworks and the Health Card issuer includes the `"x5c"` parameter in matching JWK entries from the `.keys[]` array,
+the Verifier establishes that the issuer is trusted as follows:
+1. Verifier validates the leaf certificate's binding to the Health Card issuer by:
+    * matching the `<<iss value from Signed JWT>>` to the value
+of a `uniformResourceIdentifier` entry in the certificate's Subject Alternative Name extension
+(see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.2.1.6)), and
+    * verifying the signature in the Health Card using the public key in the certificate.
+2. Verifier constructs a valid certificate path of unexpired and unrevoked certificates to one of its trusted anchors
+ (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-6)).
+
+
+### Key Management
+
+Issuers SHOULD generate new signing keys at least annually. 
+
+When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
+issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
+Older public key entries that are needed to validate previously
+signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
+are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
+from the JWK set in its jwks.json file and request revocation of all X.509 certificates bound to that public key.
 
 ## Issuer Generates Results
 
