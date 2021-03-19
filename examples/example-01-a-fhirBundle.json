@@ -27,7 +27,7 @@
         "vaccineCode": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/cvx",
+              "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
               "code": "208"
             }
           ]
@@ -54,7 +54,7 @@
         "vaccineCode": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/cvx",
+              "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
               "code": "208"
             }
           ]
@@ -63,7 +63,6 @@
           "reference": "resource:0"
         },
         "occurrenceDateTime": "2021-01-29",
-        "primarySource": true,
         "lotNumber": "Lot #0000007",
         "performer": [
           {

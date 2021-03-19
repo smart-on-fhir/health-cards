@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "iat": 1616101789.846,
+  "iat": 1616174212.07,
   "vc": {
     "@context": [
       "https://www.w3.org/2018/credentials/v1"
@@ -42,7 +42,7 @@
               "vaccineCode": {
                 "coding": [
                   {
-                    "system": "http://hl7.org/fhir/sid/cvx",
+                    "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
                     "code": "207"
                   }
                 ]
@@ -69,7 +69,7 @@
               "vaccineCode": {
                 "coding": [
                   {
-                    "system": "http://hl7.org/fhir/sid/cvx",
+                    "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
                     "code": "207"
                   }
                 ]
