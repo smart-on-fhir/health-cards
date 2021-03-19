@@ -67,7 +67,7 @@ This section outlines higher-level design considerations. See [Protocol Details]
 
 ### Getting credentials into Health Wallet
 * Required method: File download
-* Required method: QR scan
+* Required method: print QR on paper card, or scan QR into software
 * Optional method: [FHIR API Access](#healthwalletissuevc-operation)
 
 ### Presenting credentials to Verifier
