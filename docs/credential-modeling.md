@@ -47,7 +47,7 @@ According to the procedure above, we start with decisions about FHIR content res
     * `Immunization` with details about a first dose (product, date of administration, and administering provider)
     * `Immunization` with details about a second dose (product, date of administration, and administering provider)
 
-* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource. The resource includes an overall "level of assurance" indicating whether these demographi elements have been verified.
+* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource. Resources MAY include an overall "level of assurance" indicating whether these demographic elements have been verified.
 
     * Best practices
         * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
