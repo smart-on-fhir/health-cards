@@ -27,7 +27,7 @@
         "vaccineCode": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
+              "system": "http://hl7.org/fhir/sid/cvx",
               "code": "207"
             }
           ]
@@ -54,7 +54,7 @@
         "vaccineCode": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM",
+              "system": "http://hl7.org/fhir/sid/cvx",
               "code": "207"
             }
           ]
