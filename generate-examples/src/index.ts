@@ -106,7 +106,9 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
       if (r.coding) {
         delete r.text;
       }
-
+      if (r.system === 'http://hl7.org/fhir/sid/cvx-TEMPORARY-CODE-SYSTEM') {
+        r.system = 'http://hl7.org/fhir/sid/cvx';
+      }
       if (r.system && r.code) {
         delete r.display;
       }
