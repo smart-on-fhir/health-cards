@@ -108,15 +108,19 @@ This framework defines a general approach to **representing demographic and clin
 ## Generating and resolving cryptographic keys
 
 The following key types are used in the Health Cards Framework:
+
 * Elliptic Curve keys using the P-256 curve
 
 ### Signing *Health Cards*
+
 * Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)
 * Issuer publish the corresponding public key (public key) at `/.well-known/jwks.json`
 * Wallets and Verifiers use the public key to verify Issuer signatures on Health Cards
 
 ### Determining keys associated with an issuer
+
 Each public key used to verify signatures is represented as a JSON Web Key (see [RFC 7517](https://tools.ietf.org/html/rfc7517)):
+
 * SHALL have `"kty": "EC"`, `"use": "sig"`, and `"alg": "ES256"`
 * SHALL have `"kid"` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
 * SHALL have `"crv": "P-256`, and `"x"`, `"y"` equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see [RFC7518](https://tools.ietf.org/html/rfc7518#section-6.2))
