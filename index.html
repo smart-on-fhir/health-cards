@@ -1153,8 +1153,10 @@
 </ul>
 <h2 id="protocol-details">Protocol Details<a class="headerlink" href="#protocol-details" title="Permanent link">&para;</a></h2>
 <h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
-<p>The following key types are used in the Health Cards Framework:
-* Elliptic Curve keys using the P-256 curve</p>
+<p>The following key types are used in the Health Cards Framework:</p>
+<ul>
+<li>Elliptic Curve keys using the P-256 curve</li>
+</ul>
 <h4 id="signing-health-cards">Signing <em>Health Cards</em><a class="headerlink" href="#signing-health-cards" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Issuers sign Health Card VCs (Verifiable Credentials) with a signing key (private key)</li>
@@ -1162,15 +1164,17 @@
 <li>Wallets and Verifiers use the public key to verify Issuer signatures on Health Cards</li>
 </ul>
 <h4 id="determining-keys-associated-with-an-issuer">Determining keys associated with an issuer<a class="headerlink" href="#determining-keys-associated-with-an-issuer" title="Permanent link">&para;</a></h4>
-<p>Each public key used to verify signatures is represented as a JSON Web Key (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):
-* SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code>
-* SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)
-* SHALL have <code>"crv": "P-256</code>, and <code>"x"</code>, <code>"y"</code> equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see <a href="https://tools.ietf.org/html/rfc7518#section-6.2">RFC7518</a>)
-* SHALL NOT have the Elliptic Curve private key parameter <code>"d"</code>
-* If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
+<p>Each public key used to verify signatures is represented as a JSON Web Key (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
+<ul>
+<li>SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
+<li>SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>SHALL have <code>"crv": "P-256</code>, and <code>"x"</code>, <code>"y"</code> equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see <a href="https://tools.ietf.org/html/rfc7518#section-6.2">RFC7518</a>)</li>
+<li>SHALL NOT have the Elliptic Curve private key parameter <code>"d"</code></li>
+<li>If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
 certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
 The public key listed in the first certificate in the <code>"x5c"</code> array SHALL match the public key specified by the <code>"crv"</code>, <code>"x"</code>, and <code>"y"</code> parameters of the same JWK entry.
-If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</p>
+If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</li>
+</ul>
 <p>Issuers SHALL publish their public keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>.</p>
 <p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
 <p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>).</p>
