@@ -76,7 +76,7 @@ const main = async (options) => {
         keys.map( async (k,i) => {
             await store[i].add(keys[i]);
             const isPrivate = (i == PRIVATE); 
-            fs.writeFileSync(isPrivate ? options.private : options.public, JSON.stringify(store[i].toJSON(isPrivate)));
+            fs.writeFileSync(isPrivate ? options.private : options.public, JSON.stringify(store[i].toJSON(isPrivate), null, 2));
         })
     } catch (err) {
         console.log(err);
