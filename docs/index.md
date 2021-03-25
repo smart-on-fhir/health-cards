@@ -450,7 +450,7 @@ When reading a QR code, scanning software can recognize a SMART Health Card from
 # FAQ
 
 ## Can a SMART Health Card be used as a form of identification?
-No. SMART Health Cards are designed for use *alongside* existing forms of identification (e.g., a driver's license in person, or an online ID verification service). A SMART Health Card is a non-forgeable digital artifact analogous to a paper record on official letterhead. Concretely, the problem SMART Health Cards solves is one of provenance: a digitally signed SMART Health Card is a credential that guarantees that a valid issuer generated the record. The duty of verifying that the person presenting a Health Card *is* the subject of the data within the health card (or is authorized to act on behalf of this data subject) falls to the person or system receiving and validating a Health Card.
+No. SMART Health Cards are designed for use *alongside* existing forms of identification (e.g., a driver's license in person, or an online ID verification service). A SMART Health Card is a non-forgeable digital artifact analogous to a paper record on official letterhead. Concretely, the problem SMART Health Cards solves is one of provenance: a digitally signed SMART Health Card is a credential that guarantees that a specific issuer generated the record. The duty of verifying that the person presenting a Health Card *is* the subject of the data within the health card (or is authorized to act on behalf of this data subject) falls to the person or system receiving and validating a Health Card.
 
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
