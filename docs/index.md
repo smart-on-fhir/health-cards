@@ -51,7 +51,7 @@ Despite this broad scope, our *short-term definition of success* requires that w
 * **Connect** the Health Wallet to an account with the Issuer (optional step)
 * **Save** a Health Card from the Issuer into the Health Wallet
 * **Present** a Health Card to a Verifier
-    * Presentation incluldes explicit user opt-in and approval
+    * Presentation includes explicit user opt-in and approval
     * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
 
 ## Demo
@@ -67,7 +67,7 @@ This section outlines higher-level design considerations. See [Protocol Details]
 
 ### Getting credentials into Health Wallet
 * Required method: File download
-* Required method: print QR on paper card, or scan QR into software
+* Required method: Print QR on paper card, or scan QR into software
 * Optional method: [FHIR API Access](#healthwalletissuevc-operation)
 
 ### Presenting credentials to Verifier
@@ -96,13 +96,13 @@ It is an explicit design goal to let the holder **only disclose a minimum amount
 
 The granularity of information disclosure will be at the level of an entire credential (i.e., a user can select "which cards" to share from a Health Wallet, and each card is shared wholesale). The credentials are designed to only include the minimum information necessary for a given use case.
 
- ### Granular Sharing
+### Granular Sharing
 
- Data holders should have full control over the data they choose to share for a particular use-case. Since Health Cards are signed by the issuer and cannot be altered later, it is important to ensure that Health Cards are created with granular sharing in mind. Therefore, issuers SHOULD only combine distinct data elements into a Health Card when a Health Card FHIR profile requires it.
+Data holders should have full control over the data they choose to share for a particular use-case. Since Health Cards are signed by the issuer and cannot be altered later, it is important to ensure that Health Cards are created with granular sharing in mind. Therefore, issuers SHOULD only combine distinct data elements into a Health Card when a Health Card FHIR profile requires it.
 
- Additionally, Health Card FHIR Profiles SHOULD only include data that need to be conveyed together. E.g., immunizations for different diseases should be kept separate. Immunizations and lab results should be kept separate.
+Additionally, Health Card FHIR Profiles SHOULD only include data that need to be conveyed together. (e.g., immunizations for different diseases should be kept separate. Immunizations and lab results should be kept separate.)
 
- ### Future Considerations
+### Future Considerations
  
 If we identify *optional* data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to summarize results in a just-in-time fashion.
 
@@ -169,10 +169,11 @@ X.509 certificates can be used by issuers to indicate the issuer's participation
 
 If the Verifier supports PKI-based trust frameworks and the Health Card issuer includes the `"x5c"` parameter in matching JWK entries from the `.keys[]` array,
 the Verifier establishes that the issuer is trusted as follows:
+
 1. Verifier validates the leaf certificate's binding to the Health Card issuer by:
-    * matching the `<<iss value from Signed JWT>>` to the value
-of a `uniformResourceIdentifier` entry in the certificate's Subject Alternative Name extension
-(see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.2.1.6)), and
+    * matching the `<<iss value from Signed JWT>>` to the value of a `uniformResourceIdentifier` 
+    entry in the certificate's Subject Alternative Name extension 
+    (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.21.6)), and
     * verifying the signature in the Health Card using the public key in the certificate.
 2. Verifier constructs a valid certificate path of unexpired and unrevoked certificates to one of its trusted anchors
  (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-6)).
@@ -264,7 +265,7 @@ For details about how to embed Health Cards in a QR code, [see below](#every-hea
 
 ## User Retrieves Health Cards
 
-In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.
+In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.)
 
 ### via File Download
 
@@ -393,7 +394,7 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. The overall can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
+In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
 
 ## Every Health Card can be embedded in a QR Code
 
@@ -440,6 +441,7 @@ When printing or displaying a Health Card using QR codes, let "N" be the total n
 (The reason for representing Health Cards using Numeric Mode QRs instead of Binary Mode (Latin-1) QRs is information density: with Numeric Mode, 20% more data can fit in a given QR, vs Binary Mode. This is because the JWS character set conveys only log_2(65) bits per character (~6 bits); binary encoding requires log_2(256) bits per character (8 bits), which means ~2 wasted bits per character.)
 
 For example:
+
 * a single chunk might produce a QR code like `shc:/56762909524320603460292437404460<snipped for brevity>`
 * in a longer JWS, the second chunk in a set of three might produce a QR code like `shc:/2/3/56762909524320603460292437404460<snipped for brevity>`
 
