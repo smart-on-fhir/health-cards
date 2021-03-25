@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "generate-examples": "ts-node src/index.ts --outdir ../docs/examples",
+    "generate-keys": "node src/certs-to-x5c.js --key certs/issuer.key --cert certs/issuer.crt --cert certs/CA.crt --cert certs/root_CA.crt --private src/config/issuer.jwks.private.json --public issuer/.well-known/jwks.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
