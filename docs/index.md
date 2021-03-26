@@ -471,7 +471,7 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 The following tools are helpful to validate Health Card artefacts:
  * The [HL7 FHIR Validator](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) can be used to validate the Health Card's FHIR bundle
- * The [Health Cards Validation SDK] can be used to validate the various Health Card artefacts.
+ * The [Health Cards Validation SDK](https://github.com/microsoft/health-cards-validation-SDK) can be used to validate the various Health Card artefacts.
 
 # Potential Extensions
 
