@@ -1251,7 +1251,7 @@ If the issuer has more than one certificate for the same public key (e.g. partic
 <p>Issuers SHALL publish their public keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>.</p>
 <p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
 <p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>).</p>
-<p>For example, the following is a fragment of a jwks.json file with one signing key:
+<p>For example, the following is a fragment of a <code>jwks.json</code> file with one signing key:
 <div class="highlight"><pre><span></span><code>{
   &quot;keys&quot;:[
     {
@@ -1284,20 +1284,20 @@ entry in the certificate's Subject Alternative Name extension
 <h4 id="key-management">Key Management<a class="headerlink" href="#key-management" title="Permanent link">&para;</a></h4>
 <p>Issuers SHOULD generate new signing keys at least annually. </p>
 <p>When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
-issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
+issuer's JWK set in its <code>jwks.json</code> file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
-signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
+signed Health Cards SHALL remain in the JWK set for as long as the corresponding Health Cards
 are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
-from the JWK set in its jwks.json file and request revocation of all X.509 certificates bound to that public key.</p>
+from the JWK set in its <code>jwks.json</code> file and request revocation of all X.509 certificates bound to that public key.</p>
 <h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
-<p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the <a href="#every-health-card-can-be-embedded-in-a-qr-code">QR Embedding requirements</a>.</p>
+<p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set).</p>
 <div class="mermaid">sequenceDiagram
 participant Holder
 participant Issuer
 
 note over Holder, Issuer: Earlier...
 Issuer -&gt;&gt; Issuer: Generate Issuer's keys
-Issuer -&gt;&gt; Issuer: If health card data for holder already exist: re-generate VCs
+Issuer -&gt;&gt; Issuer: If Health Card data for holder already exist: re-generate VCs
 
 note over Issuer, Holder: Data Created
 Issuer -&gt;&gt; Issuer: Generate FHIR Representation
@@ -1411,7 +1411,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <span class="p">}</span>
 </code></pre></div>
 <ul>
-<li><strong><code>_since</code></strong>. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a <code>_since</code> parameter with a <code>valueDateTime</code> (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see <a href="http://hl7.org/fhir/datatypes.html#dateTime">FHIR dateTime datatype</a> for details). For example, to request only COVID-19 data since March 2021:</li>
+<li><strong><code>_since</code></strong>. By default, the issuer will return Health Cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a <code>_since</code> parameter with a <code>valueDateTime</code> (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see <a href="http://hl7.org/fhir/datatypes.html#dateTime">FHIR dateTime datatype</a> for details). For example, to request only COVID-19 data since March 2021:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
@@ -1457,12 +1457,12 @@ For example, a request containing <code>credentialType</code> values <code>https
 <h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
 <p>In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
 <h3 id="every-health-card-can-be-embedded-in-a-qr-code">Every Health Card can be embedded in a QR Code<a class="headerlink" href="#every-health-card-can-be-embedded-in-a-qr-code" title="Permanent link">&para;</a></h3>
-<p>Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as <code>.verifiableCredential[]</code> entries in a <code>.smart-health.card</code> file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR Codes"</a>).</p>
+<p>Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as <code>.verifiableCredential[]</code> entries in a <code>.smart-health-card</code> file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR Codes"</a>).</p>
 <p>Ensuring Health Cards can be presented as QR Codes:</p>
 <ul>
-<li>Allows basic storage and sharing of health cards for users without a smartphone</li>
+<li>Allows basic storage and sharing of Health Cards for users without a smartphone</li>
 <li>Allows smartphone-enabled users to print a usable backup</li>
-<li>Allows full health card contents to be shared with a verifier</li>
+<li>Allows full Health Card contents to be shared with a verifier</li>
 </ul>
 <p>The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:</p>
 <ul>
