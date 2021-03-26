@@ -11,15 +11,6 @@
     },
     {
       "kty": "EC",
-      "kid": "7rIUtD5K5Izrptr3ywgESTxhgJtJSeb06V42hg7WUDs",
-      "use": "enc",
-      "alg": "ECDH-ES",
-      "crv": "P-256",
-      "x": "Lhaq5B4HhCDJSSQU_rJLShIIr6S5PxfXKTGKfKSP_CY",
-      "y": "EaxJ3zkqswLnw5GOf95A3atOTToVYmZPrp_t7WBcHcM"
-    },
-    {
-      "kty": "EC",
       "kid": "yz67J0t1zhPfAov2F-j_8btUNp7OIfTrYrrRk2ZSah4",
       "use": "sig",
       "alg": "ES256",

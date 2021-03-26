@@ -63,7 +63,7 @@ const main = async (options) => {
     try {
         // open or create public/private key stores
         const getStore = async path => fs.existsSync(path)  ? await jose.JWK.asKeyStore(JSON.parse(fs.readFileSync(path)))  : jose.JWK.createKeyStore();
-        const store = [await getStore(options.private), await getStore(options.private)];
+        const store = [await getStore(options.private), await getStore(options.public)];
 
         // read and convert input key and certs to DER format
         const keyFile = PEMtoDER(fs.readFileSync(options.key,'UTF-8'));
