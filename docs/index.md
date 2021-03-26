@@ -146,7 +146,7 @@ The URL at `<<iss value from Signed JWT>>` SHALL use the `https` scheme and SHAL
 
 **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`).
 
- For example, the following is a fragment of a jwks.json file with one signing key:
+ For example, the following is a fragment of a `jwks.json` file with one signing key:
 ```
 {
   "keys":[
@@ -184,15 +184,15 @@ the Verifier establishes that the issuer is trusted as follows:
 Issuers SHOULD generate new signing keys at least annually. 
 
 When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
-issuer's JWK set in its jwks.json file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
+issuer's JWK set in its `jwks.json` file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
-signed health cards SHALL remain in the JWK set for as long as the corresponding health cards
+signed Health Cards SHALL remain in the JWK set for as long as the corresponding Health Cards
 are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
-from the JWK set in its jwks.json file and request revocation of all X.509 certificates bound to that public key.
+from the JWK set in its `jwks.json` file and request revocation of all X.509 certificates bound to that public key.
 
 ## Issuer Generates Results
 
-When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set), ensuring the resulting payloads follow the [QR Embedding requirements](#every-health-card-can-be-embedded-in-a-qr-code).
+When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set).
 
 ```mermaid
 sequenceDiagram
@@ -201,7 +201,7 @@ participant Issuer
 
 note over Holder, Issuer: Earlier...
 Issuer ->> Issuer: Generate Issuer's keys
-Issuer ->> Issuer: If health card data for holder already exist: re-generate VCs
+Issuer ->> Issuer: If Health Card data for holder already exist: re-generate VCs
 
 note over Issuer, Holder: Data Created
 Issuer ->> Issuer: Generate FHIR Representation
@@ -339,7 +339,7 @@ The following parameters are optional; clients MAY include them in a request, an
 }
 ```
 
-* **`_since`**. By default, the issuer will return health cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a `_since` parameter with a `valueDateTime` (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see [FHIR dateTime datatype](http://hl7.org/fhir/datatypes.html#dateTime) for details). For example, to request only COVID-19 data since March 2021:
+* **`_since`**. By default, the issuer will return Health Cards of any age. If the Health Wallet wants to request only cards pertaining to data since a specific point in time, it can provide a `_since` parameter with a `valueDateTime` (which is an ISO8601 string at the level of a year, month, day, or specific time of day using the extended time format; see [FHIR dateTime datatype](http://hl7.org/fhir/datatypes.html#dateTime) for details). For example, to request only COVID-19 data since March 2021:
 
 
 ```json
@@ -398,13 +398,13 @@ In this step, the verifier asks the user to share a COVID-19 result. A Health Ca
 
 ## Every Health Card can be embedded in a QR Code
 
-Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health.card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR Codes"](#encoding-chunks-as-qr-codes)).
+Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health-card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR Codes"](#encoding-chunks-as-qr-codes)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
-* Allows basic storage and sharing of health cards for users without a smartphone
+* Allows basic storage and sharing of Health Cards for users without a smartphone
 * Allows smartphone-enabled users to print a usable backup
-* Allows full health card contents to be shared with a verifier
+* Allows full Health Card contents to be shared with a verifier
 
 The following limitations apply when presenting Health Card as QR codes, rather than engaging in device-based workflows:
 
