@@ -467,7 +467,11 @@ No. SMART Health Cards are designed for use *alongside* existing forms of identi
 ## How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?
 Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.
 
+## What testing tools are available to validate SMART Health Cards implementations?
 
+The following tools are helpful to validate Health Card artefacts:
+ * The [HL7 FHIR Validator](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) can be used to validate the Health Card's FHIR bundle
+ * The [Health Cards Validation SDK](https://github.com/microsoft/health-cards-validation-SDK) can be used to validate the various Health Card artifacts.
 
 # Potential Extensions
 
