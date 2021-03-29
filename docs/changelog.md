@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2
+
+Replace `iat` with `nbf` in JWT payload encoding
+
 ## 0.4.1
 
 Added optional `x5c` in JWKS
