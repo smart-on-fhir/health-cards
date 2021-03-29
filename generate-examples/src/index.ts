@@ -34,7 +34,7 @@ interface StringMap {
 
 export interface HealthCard {
   iss: string;
-  iat: number;
+  nbf: number;
   exp: number;
   vc: {
     type: string[];
@@ -127,7 +127,7 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
 function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[]): Record<string, unknown> {
   return {
     iss: ISSUER_URL,
-    iat: new Date().getTime() / 1000,
+    nbf: new Date().getTime() / 1000,
     vc: {
       '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: [
