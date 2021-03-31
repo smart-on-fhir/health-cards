@@ -9,9 +9,11 @@ distinguished_name = req_distinguished_name
 basicConstraints = CA:FALSE
 keyUsage = digitalSignature
 subjectAltName         = URI:https://smarthealth.cards/examples/issuer
+#authorityKeyIdentifier = keyid:always
 
 [ v3_ca ]
 basicConstraints = CA:TRUE
 subjectKeyIdentifier   = hash
-authorityKeyIdentifier = keyid:always,issuer:always
+authorityKeyIdentifier = keyid:always
+
 
