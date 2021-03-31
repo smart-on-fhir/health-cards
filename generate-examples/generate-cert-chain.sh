@@ -18,10 +18,10 @@ openssl req -new -newkey ec:<(openssl ecparam -name secp384r1) -keyout $tmpdir/C
 openssl x509 -req -in $tmpdir/CA.csr -out $tmpdir/CA.crt -CA $tmpdir/root_CA.crt -CAkey $tmpdir/root_CA.key -CAcreateserial -days 1825 -extfile openssl_ca.cnf -extensions v3_ca -sha512
 
 # generate issuer signing cert request
-openssl req -new -newkey ec:<(openssl ecparam -name prime256v1) -keyout $tmpdir/issuer.key -out $tmpdir/issuer.csr -nodes -subj "/CN=SMART Health Card Example Issuer" -config openssl_ca.cnf -extensions v3_req -sha256
+openssl req -new -newkey ec:<(openssl ecparam -name prime256v1) -keyout $tmpdir/issuer.key -out $tmpdir/issuer.csr -nodes -subj "/CN=SMART Health Card Example Issuer" -config openssl_ca.cnf -extensions v3_issuer -sha256
 
 # intermediate CA signs the issuer cert request
-openssl x509 -req -in $tmpdir/issuer.csr -out $tmpdir/issuer.crt -CA $tmpdir/CA.crt -CAkey $tmpdir/CA.key -CAcreateserial -days 365 -extfile openssl_ca.cnf -extensions v3_req -sha384
+openssl x509 -req -in $tmpdir/issuer.csr -out $tmpdir/issuer.crt -CA $tmpdir/CA.crt -CAkey $tmpdir/CA.key -CAcreateserial -days 365 -extfile openssl_ca.cnf -extensions v3_issuer -sha384
 
 # add the issuer key to the JWK sets 
 node src/certs-to-x5c.js --key $tmpdir/issuer.key --cert $tmpdir/issuer.crt --cert $tmpdir/CA.crt --cert $tmpdir/root_CA.crt --private src/config/issuer.jwks.private.json --public issuer/.well-known/jwks.json
