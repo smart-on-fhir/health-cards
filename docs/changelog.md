@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
+Document CORS expectation for `.well-known/jwks.json`
+
 ## 0.4.2
 
 Replace `iat` with `nbf` in JWT payload encoding
