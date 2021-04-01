@@ -214,7 +214,7 @@ Issuer ->> Holder: Holder receives Health Card
 
 ### Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)
 
-The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token. Specific encoding choices ensure compatibility with standard JWT claims, as described at [https://www.w3.org/TR/vc-data-model/#jwt-encoding](https://www.w3.org/TR/vc-data-model/#jwt-encoding).
+The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token (see (Appendix 3 of RFC7515)[https://tools.ietf.org/html/rfc7515#appendix-A.3] for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at [https://www.w3.org/TR/vc-data-model/#jwt-encoding](https://www.w3.org/TR/vc-data-model/#jwt-encoding).
 
 The `@context`, `type`, and `credentialSubject` properties are added to the `vc` claim of the JWT. The `issuer` property is represented by the registered JWT `iss` claim and the `issuanceDate` property is represented by the registered JWT `nbf` claim.  Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#health-cards-are-small)):
 
