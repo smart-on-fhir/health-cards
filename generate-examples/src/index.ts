@@ -9,10 +9,15 @@ import issuerPrivateKeys from './config/issuer.jwks.private.json';
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://smarthealth.cards/examples/issuer';
 
-const exampleBundleUrls = [
-  'http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main/Bundle-Scenario1Bundle.json',
-  'http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main/Bundle-Scenario2Bundle.json',
-  'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json'
+interface BundleInfo {
+  url: string;
+  issuerIndex: number;
+}
+
+const exampleBundleInfo: BundleInfo[] = [
+  {url: 'http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main/Bundle-Scenario1Bundle.json', issuerIndex: 0},
+  {url: 'http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main/Bundle-Scenario2Bundle.json', issuerIndex: 2},
+  {url: 'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json', issuerIndex: 0}
 ];
 
 interface Bundle {
@@ -157,8 +162,8 @@ const splitJwsIntoChunks = (jws: string): string[] => {
   return chunks || [];
 }
 
-async function createHealthCardFile(jwsPayload: Record<string, unknown>): Promise<Record<string, any>> {
-  const signer = new Signer({ signingKey: await JWK.asKey(issuerPrivateKeys.keys[0]) });
+async function createHealthCardFile(jwsPayload: Record<string, unknown>, keyIndex: number = 0): Promise<Record<string, any>> {
+  const signer = new Signer({ signingKey: await JWK.asKey(issuerPrivateKeys.keys[keyIndex]) });
   const signed = await signer.signJws(jwsPayload);
   return {
     verifiableCredential: [signed],
@@ -178,16 +183,16 @@ const toNumericQr = (jws: string, chunkIndex: number, totalChunks: number): QRCo
   },
 ];
 
-async function processExampleBundle(exampleBundleUrl: string): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
-  let types = exampleBundleUrl.match("vaccine") ? [
+async function processExampleBundle(exampleBundleInfo: BundleInfo): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
+  let types = exampleBundleInfo.url.match("vaccine") ? [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ] : [];
 
-  const exampleBundleRetrieved = (await got(exampleBundleUrl).json()) as Bundle;
+  const exampleBundleRetrieved = (await got(exampleBundleInfo.url).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
   const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types);
-  const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload);
+  const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload, exampleBundleInfo.issuerIndex);
 
   const jws = exampleBundleHealthCardFile.verifiableCredential[0] as string;
   const jwsChunks = splitJwsIntoChunks(jws);
@@ -213,13 +218,13 @@ async function processExampleBundle(exampleBundleUrl: string): Promise<{ fhirBun
 
 async function generate(options: { outdir: string }) {
   const exampleIndex: string[][] = [];
-  const writeExamples = exampleBundleUrls.map(async (url, i) => {
+  const writeExamples = exampleBundleInfo.map(async (info, i) => {
     const exNum = i.toLocaleString('en-US', {
       minimumIntegerDigits: 2,
       useGrouping: false,
     });
     const outputPrefix = `example-${exNum}-`;
-    const example = await processExampleBundle(url);
+    const example = await processExampleBundle(info);
     const fileA = `${outputPrefix}a-fhirBundle.json`;
     const fileB = `${outputPrefix}b-jws-payload-expanded.json`;
     const fileC = `${outputPrefix}c-jws-payload-minified.json`;
