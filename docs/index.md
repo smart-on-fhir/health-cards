@@ -293,14 +293,14 @@ For a more seamless user experience when FHIR API connections are already in pla
 #### Discovery of FHIR Support
 A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the `health-cards` capability to its `/.well-known/smart-configuration` JSON file. For example:
 
-```
+```json
 {
-"authorization_endpoint": "https://ehr.example.com/auth/authorize",
-"token_endpoint": "https://ehr.example.com/auth/token",
-"token_endpoint_auth_methods_supported": ["client_secret_basic"],
-"scopes_supported": ["launch", "launch/patient", "patient/*.*", "offline_access"],
-"response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
-"capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
+  "authorization_endpoint": "https://ehr.example.com/auth/authorize",
+  "token_endpoint": "https://ehr.example.com/auth/token",
+  "token_endpoint_auth_methods_supported": ["client_secret_basic"],
+  "scopes_supported": ["launch", "launch/patient", "patient/*.*", "offline_access"],
+  "response_types_supported": ["code", "code id_token", "id_token", "refresh_token"],
+  "capabilities": ["health-cards", "launch-standalone", "context-standalone-patient", "client-confidential-symmetric"]
 }
 ```
 
