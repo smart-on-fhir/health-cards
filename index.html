@@ -1387,14 +1387,14 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$health-cards-issue</code> operation defined <a href="../artifacts/operation-patient-i-health-cards-issue.json">here</a>. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
 <h5>Discovery of FHIR Support</h5>
 <p>A SMART on FHIR Server advertises support for issuing VCs according to this specification by adding the <code>health-cards</code> capability to its <code>/.well-known/smart-configuration</code> JSON file. For example:</p>
-<div class="highlight"><pre><span></span><code>{
-&quot;authorization_endpoint&quot;: &quot;https://ehr.example.com/auth/authorize&quot;,
-&quot;token_endpoint&quot;: &quot;https://ehr.example.com/auth/token&quot;,
-&quot;token_endpoint_auth_methods_supported&quot;: [&quot;client_secret_basic&quot;],
-&quot;scopes_supported&quot;: [&quot;launch&quot;, &quot;launch/patient&quot;, &quot;patient/*.*&quot;, &quot;offline_access&quot;],
-&quot;response_types_supported&quot;: [&quot;code&quot;, &quot;code id_token&quot;, &quot;id_token&quot;, &quot;refresh_token&quot;],
-&quot;capabilities&quot;: [&quot;health-cards&quot;, &quot;launch-standalone&quot;, &quot;context-standalone-patient&quot;, &quot;client-confidential-symmetric&quot;]
-}
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;authorization_endpoint&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ehr.example.com/auth/authorize&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;token_endpoint&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ehr.example.com/auth/token&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;token_endpoint_auth_methods_supported&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;client_secret_basic&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;scopes_supported&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;launch&quot;</span><span class="p">,</span> <span class="s2">&quot;launch/patient&quot;</span><span class="p">,</span> <span class="s2">&quot;patient/*.*&quot;</span><span class="p">,</span> <span class="s2">&quot;offline_access&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;response_types_supported&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="s2">&quot;code id_token&quot;</span><span class="p">,</span> <span class="s2">&quot;id_token&quot;</span><span class="p">,</span> <span class="s2">&quot;refresh_token&quot;</span><span class="p">],</span>
+  <span class="nt">&quot;capabilities&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;health-cards&quot;</span><span class="p">,</span> <span class="s2">&quot;launch-standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;context-standalone-patient&quot;</span><span class="p">,</span> <span class="s2">&quot;client-confidential-symmetric&quot;</span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <p><a name="healthwalletissuevc-operation"></a></p>
 <h5><code>$health-cards-issue</code> Operation</h5>
