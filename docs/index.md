@@ -140,9 +140,9 @@ certificate or certificate chain (see [RFC7517](https://tools.ietf.org/html/rfc7
 The public key listed in the first certificate in the `"x5c"` array SHALL match the public key specified by the `"crv"`, `"x"`, and `"y"` parameters of the same JWK entry.
 If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except `"x5c"`.
 
-Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from Signed JWT>>` + `/.well-known/jwks.json`, with [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) enabled.
+Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from JWS>>` + `/.well-known/jwks.json`, with [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) enabled.
 
-The URL at `<<iss value from Signed JWT>>` SHALL use the `https` scheme and SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
+The URL at `<<iss value from JWS>>` SHALL use the `https` scheme and SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
 
 **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`).
 
@@ -171,7 +171,7 @@ If the Verifier supports PKI-based trust frameworks and the Health Card issuer i
 the Verifier establishes that the issuer is trusted as follows:
 
 1. Verifier validates the leaf certificate's binding to the Health Card issuer by:
-    * matching the `<<iss value from Signed JWT>>` to the value of a `uniformResourceIdentifier` 
+    * matching the `<<iss value from JWS>>` to the value of a `uniformResourceIdentifier` 
     entry in the certificate's Subject Alternative Name extension 
     (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.21.6)), and
     * verifying the signature in the Health Card using the public key in the certificate.
@@ -206,7 +206,7 @@ Issuer ->> Issuer: If Health Card data for holder already exist: re-generate VCs
 note over Issuer, Holder: Data Created
 Issuer ->> Issuer: Generate FHIR Representation
 Issuer ->> Issuer: Generate VC Representation
-Issuer ->> Issuer: Generate JWT Payload and sign
+Issuer ->> Issuer: Generate JWS Payload and sign
 
 note over Issuer, Holder: Later...
 Issuer ->> Holder: Holder receives Health Card
@@ -214,7 +214,7 @@ Issuer ->> Holder: Holder receives Health Card
 
 ### Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)
 
-The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token (see [Appendix 3 of RFC7515](https://tools.ietf.org/html/rfc7515#appendix-A.3) for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at [https://www.w3.org/TR/vc-data-model/#jwt-encoding](https://www.w3.org/TR/vc-data-model/#jwt-encoding).
+The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see [Appendix 3 of RFC7515](https://tools.ietf.org/html/rfc7515#appendix-A.3) for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at [https://www.w3.org/TR/vc-data-model/#jwt-encoding](https://www.w3.org/TR/vc-data-model/#jwt-encoding).
 
 The `@context`, `type`, and `credentialSubject` properties are added to the `vc` claim of the JWT. The `issuer` property is represented by the registered JWT `iss` claim and the `issuanceDate` property is represented by the registered JWT `nbf` claim.  Hence, the overall JWS payload matches the following structure (before it is [minified and compressed](#health-cards-are-small)):
 
