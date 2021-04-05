@@ -1262,8 +1262,8 @@ certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc75
 The public key listed in the first certificate in the <code>"x5c"</code> array SHALL match the public key specified by the <code>"crv"</code>, <code>"x"</code>, and <code>"y"</code> parameters of the same JWK entry.
 If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</li>
 </ul>
-<p>Issuers SHALL publish their public keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> + <code>/.well-known/jwks.json</code>, with <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Cross-Origin Resource Sharing (CORS)</a> enabled.</p>
-<p>The URL at <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
+<p>Issuers SHALL publish their public keys as JSON Web Key Sets (see <a href="https://tools.ietf.org/html/rfc7517#section-5">RFC7517</a>), available at <code>&lt;&lt;iss value from JWS&gt;&gt;</code> + <code>/.well-known/jwks.json</code>, with <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Cross-Origin Resource Sharing (CORS)</a> enabled.</p>
+<p>The URL at <code>&lt;&lt;iss value from JWS&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
 <p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>).</p>
 <p>For example, the following is a fragment of a <code>jwks.json</code> file with one signing key:
 <div class="highlight"><pre><span></span><code>{
@@ -1286,7 +1286,7 @@ If the issuer has more than one certificate for the same public key (e.g. partic
 the Verifier establishes that the issuer is trusted as follows:</p>
 <ol>
 <li>Verifier validates the leaf certificate's binding to the Health Card issuer by:<ul>
-<li>matching the <code>&lt;&lt;iss value from Signed JWT&gt;&gt;</code> to the value of a <code>uniformResourceIdentifier</code> 
+<li>matching the <code>&lt;&lt;iss value from JWS&gt;&gt;</code> to the value of a <code>uniformResourceIdentifier</code> 
 entry in the certificate's Subject Alternative Name extension 
 (see <a href="https://tools.ietf.org/html/rfc5280#section-4.21.6">RFC5280</a>), and</li>
 <li>verifying the signature in the Health Card using the public key in the certificate.</li>
@@ -1316,12 +1316,12 @@ Issuer -&gt;&gt; Issuer: If Health Card data for holder already exist: re-genera
 note over Issuer, Holder: Data Created
 Issuer -&gt;&gt; Issuer: Generate FHIR Representation
 Issuer -&gt;&gt; Issuer: Generate VC Representation
-Issuer -&gt;&gt; Issuer: Generate JWT Payload and sign
+Issuer -&gt;&gt; Issuer: Generate JWS Payload and sign
 
 note over Issuer, Holder: Later...
 Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws">Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)<a class="headerlink" href="#health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws" title="Permanent link">&para;</a></h4>
-<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, i.e. each Health Card is a signed JSON Web Token (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
+<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
 <p>The <code>@context</code>, <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> claim.  Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
