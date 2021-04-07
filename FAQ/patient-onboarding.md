@@ -15,7 +15,9 @@ Any organization that has your information might be able to issue you a SMART He
 Your SMART Health Card contains information about you. You control who your SMART Health Card is shared with and how it’s shared. You might receive a SMART Health Card printed on a piece of paper or electronically from your doctor's office.
  
 On paper, your SMART Health Card looks like a barcode, like this:
-![SMART Health Card QR code example](https://smarthealth.cards/examples/example-00-g-qr-code-0.svg | width=200)
+
+<img src="https://smarthealth.cards/examples/example-00-g-qr-code-0.svg" width="250" alt="SMART Health Card QR code example" />
+
 
  Your information might be in more than one barcode, and all barcodes must be scanned to share all of your COVID-19 information. If you allow your barcodes to be scanned, you are sharing the information in your SMART Health Card. If you tear up your paper barcode, the information is destroyed. 
  
