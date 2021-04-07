@@ -253,7 +253,7 @@ To ensure that all Health Cards can be represented in QR Codes, issuers SHALL en
     * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
     * payload `.vc.credentialSubject.fhirBundle` is created:
         * without `Resource.id` elements
-        * without `Resource.meta` elements
+        * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
         * without `Resource.text` elements
         * without `CodeableConcept.text` elements
         * without `Coding.display` elements
