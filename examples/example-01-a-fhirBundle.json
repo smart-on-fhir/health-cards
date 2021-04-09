@@ -15,7 +15,6 @@
             ]
           }
         ],
-        "gender": "male",
         "birthDate": "1961-01-20"
       }
     },
@@ -36,14 +35,14 @@
           "reference": "resource:0"
         },
         "occurrenceDateTime": "2021-01-01",
-        "lotNumber": "Lot #0000001",
         "performer": [
           {
             "actor": {
               "display": "ABC General Hospital"
             }
           }
-        ]
+        ],
+        "lotNumber": "0000002"
       }
     },
     {
@@ -63,14 +62,14 @@
           "reference": "resource:0"
         },
         "occurrenceDateTime": "2021-01-29",
-        "lotNumber": "Lot #0000007",
         "performer": [
           {
             "actor": {
               "display": "ABC General Hospital"
             }
           }
-        ]
+        ],
+        "lotNumber": "0000008"
       }
     }
   ]

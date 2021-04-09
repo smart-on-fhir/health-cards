@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "nbf": 1617817149.833,
+  "nbf": 1617976270.189,
   "vc": {
     "@context": [
       "https://www.w3.org/2018/credentials/v1"
@@ -30,7 +30,6 @@
                   ]
                 }
               ],
-              "gender": "male",
               "birthDate": "1951-01-20"
             }
           },
@@ -51,14 +50,14 @@
                 "reference": "resource:0"
               },
               "occurrenceDateTime": "2021-01-01",
-              "lotNumber": "Lot #0000001",
               "performer": [
                 {
                   "actor": {
                     "display": "ABC General Hospital"
                   }
                 }
-              ]
+              ],
+              "lotNumber": "0000001"
             }
           },
           {
@@ -78,14 +77,14 @@
                 "reference": "resource:0"
               },
               "occurrenceDateTime": "2021-01-29",
-              "lotNumber": "Lot #0000007",
               "performer": [
                 {
                   "actor": {
                     "display": "ABC General Hospital"
                   }
                 }
-              ]
+              ],
+              "lotNumber": "0000007"
             }
           }
         ]
