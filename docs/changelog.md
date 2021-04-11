@@ -1,6 +1,6 @@
 # Changelog
 
-##0.4.4
+## 0.4.4
 
 Resource.meta is allowed in one special case
 
