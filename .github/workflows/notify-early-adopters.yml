@@ -1,0 +1,18 @@
+on:
+  issues:
+    types: labeled
+jobs:
+  notify:
+    if: ${{contains(github.event.issue.labels.*.name, 'early-adopter-review')}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify zulip stream
+        run: |
+          pip3 install zulip
+          zulip-send \
+            --site ${{secrets.ZULIP_SITE}} \
+            --api-key ${{secrets.ZULIP_API_KEY}} \
+            --user ${{secrets.ZULIP_USER}} \
+            --stream ${{secrets.ZULIP_STREAM}} \
+            --subject "Early Adopters: Review Request!" \
+            --message "${{github.event.issue.title}} -- see ${{github.event.issue.html_url}"
