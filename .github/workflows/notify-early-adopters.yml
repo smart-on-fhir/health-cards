@@ -16,5 +16,5 @@ jobs:
             --api-key ${{secrets.ZULIP_API_KEY}} \
             --user ${{secrets.ZULIP_USER}} \
             --stream ${{secrets.ZULIP_STREAM}} \
-            --subject "Early Adopters: Review Request!" \
+            --subject "Early Adopters: Review Request" \
             --message "${{github.event[github.event_name].title}} -- see ${{github.event[github.event_name].html_url}}"
