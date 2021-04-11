@@ -17,4 +17,4 @@ jobs:
             --user ${{secrets.ZULIP_USER}} \
             --stream ${{secrets.ZULIP_STREAM}} \
             --subject "Early Adopters: Review Request!" \
-            --message "${{github.event.issue.title}} -- see ${{github.event.*.html_url}"
+            --message "${{github.event.issue.title}} -- see ${{github.event.*.html_url}}"
