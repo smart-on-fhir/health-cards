@@ -1,5 +1,9 @@
 # Changelog
 
+##0.4.4
+
+Resource.meta is allowed in one special case
+
 ## 0.4.3
 
 Document CORS expectation for `.well-known/jwks.json`
