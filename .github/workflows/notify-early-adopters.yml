@@ -1,9 +1,11 @@
 on:
   issues:
     types: labeled
+  pull_request:
+    types: labeled
 jobs:
   notify:
-    if: ${{contains(github.event.issue.labels.*.name, 'early-adopter-review')}}
+    if: ${{contains(github.event.*.labels.*.name, 'early-adopter-review')}}
     runs-on: ubuntu-latest
     steps:
       - name: Notify zulip stream
@@ -15,4 +17,4 @@ jobs:
             --user ${{secrets.ZULIP_USER}} \
             --stream ${{secrets.ZULIP_STREAM}} \
             --subject "Early Adopters: Review Request!" \
-            --message "${{github.event.issue.title}} -- see ${{github.event.issue.html_url}"
+            --message "${{github.event.issue.title}} -- see ${{github.event.*.html_url}"
