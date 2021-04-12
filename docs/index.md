@@ -486,7 +486,7 @@ The spec is currently focused on representing Health Cards in a standardized dat
 
 # References
 
-* DEFLATE Compression: https://www.ietf.org/rfc/rfc1951.txt
+* DEFLATE Compression: https://tools.ietf.org/html/rfc1951
 * JSON Web Token (JWT): https://tools.ietf.org/html/rfc7519
 * JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517
 * JSON Web Key (JWK) Thumbprint: https://tools.ietf.org/html/rfc7638
