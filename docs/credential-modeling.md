@@ -1,11 +1,10 @@
+# Verifiable Credentials with FHIR content
 
-# Modeling W3C Verifiable Credentials in FHIR
-
-This document describes how healthcare data, modeled in [FHIR][], can be presented in the form of a [W3C Verifiable Credential][vc] (VC).
+This document describes how healthcare data, modeled in [FHIR][], can be presented in the form based on [W3C Verifiable Credentials][vc] (VC).
 
 ## Content Definition
 
-Any time we want to present healthcare data in the form of a VC, we must first make some use-case-specific decisions:
+Any time we want to present verifiable healthcare data, we must first make some use-case-specific decisions:
 
 1. Define a set of required and optional **FHIR content resources** (e.g., `Immunization` or `Observation`) that must be packaged and presented together
 2. Decide how to bind these FHIR content resources to a person's external identity, via **FHIR identity resources** (e.g., `Patient`)
@@ -16,22 +15,18 @@ Once we make these decisions, we can construct a VC with a **credential subject*
     * `fhirVersion`: a string representation of the semantic FHIR version the content is represented in (e.g. `1.0.*` for DSTU2, `4.0.*` for R4, where `*` is a number, not a literal asterisk)
     * `fhirBundle`: a FHIR `Bundle` resource of type "collection" that includes all required FHIR resources (content + identity resources)
 
-Resulting payload structure:
+Resulting payload for the `"credentialSubject"`:
 
-```json
+```js
 {
-  "@context": ["https://www.w3.org/2018/credentials/v1"],
   "...",
-  "credentialSubject": {
-    "fhirVersion": "4.0.1",
-    "fhirBundle": {
-      "resourceType": "Bundle",
-      "type": "collection",
-      "entry": [
-        "..."
-      ]
-    }
-  }
+  "fhirVersion": "4.0.1",
+  "fhirBundle": {
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [
+      "..."
+    ]
 }
 ```
 

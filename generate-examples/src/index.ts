@@ -134,9 +134,7 @@ function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[]): Record
     iss: ISSUER_URL,
     nbf: new Date().getTime() / 1000,
     vc: {
-      '@context': ['https://www.w3.org/2018/credentials/v1'],
       type: [
-        'VerifiableCredential',
         'https://smarthealth.cards#health-card',
         ...types
       ],
