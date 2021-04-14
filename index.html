@@ -1357,7 +1357,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)</li>
 <li>payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
 <li>without <code>Resource.id</code> elements</li>
-<li>without <code>Resource.meta</code> elements</li>
+<li>without <code>Resource.meta</code> elements (or if present, <code>.meta.security</code> is included and no other fields are included)</li>
 <li>without <code>Resource.text</code> elements</li>
 <li>without <code>CodeableConcept.text</code> elements</li>
 <li>without <code>Coding.display</code> elements</li>
