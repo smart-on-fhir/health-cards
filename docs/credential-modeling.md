@@ -1,10 +1,10 @@
-# Verifiable Credentials with FHIR content
+# Verifiable Clinical Data in FHIR
 
-This document describes how healthcare data, modeled in [FHIR][], can be presented in the form based on [W3C Verifiable Credentials][vc] (VC).
+This document describes how healthcare data, modeled in [FHIR][], can be presented in a form based on [W3C Verifiable Credentials][vc] (VC).
 
 ## Content Definition
 
-Any time we want to present verifiable healthcare data, we must first make some use-case-specific decisions:
+Any time we want to present verifiable clinical data, we must first make some use-case-specific decisions:
 
 1. Define a set of required and optional **FHIR content resources** (e.g., `Immunization` or `Observation`) that must be packaged and presented together
 2. Decide how to bind these FHIR content resources to a person's external identity, via **FHIR identity resources** (e.g., `Patient`)
