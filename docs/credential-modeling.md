@@ -63,7 +63,7 @@ To create a structure matching the W3C Verifiable Credential [JSON-LD Syntax](ht
   {
     "@vocab": "https://smarthealth.cards#",
     "fhirBundle": {
-      "@id": "https://smarthealth.cards#Bundle",
+      "@id": "https://smarthealth.cards#fhirBundle",
       "@type": "@json"
     }
   }
