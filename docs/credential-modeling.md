@@ -48,10 +48,37 @@ According to the procedure above, we start with decisions about FHIR content res
         * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
         * Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.
 
+
+## Mapping into the W3C VC Data Model
+
+To create a W3C Verifiable Credential structure from a SMART Health Card:
+
+1. De-compress the JWS payload
+
+2. Add to the `.vc` object:
+
+```
+"@context": [
+  "https://www.w3.org/2018/credentials/v1",
+  {
+    "@vocab": "https://smarthealth.cards#",
+      "fhirBundle": {
+        "@id": "https://smarthealth.cards#Bundle",
+        "@type": "@json"
+      }
+  }
+]
+```
+
+3. Prepend to the `.vc.type` array: `"VerifiableCredential"`
+
+4. Process the payload according to the rules at https://www.w3.org/TR/vc-data-model/#jwt-decoding
+
 ### Health Card Examples
 
 * [Example VC payloads](https://smarthealth.cards/examples/)
 
 [vc]: https://w3c.github.io/vc-data-model/
 [fhir]: https://hl7.org/fhir
+
 
