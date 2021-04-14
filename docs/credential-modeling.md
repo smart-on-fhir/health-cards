@@ -49,9 +49,9 @@ According to the procedure above, we start with decisions about FHIR content res
         * Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.
 
 
-## Mapping into the W3C VC Data Model
+## Mapping into the W3C VC Data Model's JSON-LD Syntax
 
-To create a W3C Verifiable Credential structure from a SMART Health Card:
+To create a structure matching the W3C Verifiable Credential [JSON-LD Syntax](https://www.w3.org/TR/vc-data-model/#json-ld) from a SMART Health Card JWS:
 
 1. De-compress the JWS payload
 
