@@ -1,12 +1,8 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "nbf": 1618419271.919,
+  "nbf": 1618519247.416,
   "vc": {
-    "@context": [
-      "https://www.w3.org/2018/credentials/v1"
-    ],
     "type": [
-      "VerifiableCredential",
       "https://smarthealth.cards#health-card",
       "https://smarthealth.cards#immunization",
       "https://smarthealth.cards#covid19"

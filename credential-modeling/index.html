@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#modeling-w3c-verifiable-credentials-in-fhir" class="md-skip">
+        <a href="#verifiable-clinical-information-in-fhir" class="md-skip">
           Skip to content
         </a>
       
@@ -240,11 +240,11 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modeling-w3c-verifiable-credentials-in-fhir" class="md-nav__link">
-    Modeling W3C Verifiable Credentials in FHIR
+  <a href="#verifiable-clinical-information-in-fhir" class="md-nav__link">
+    Verifiable Clinical Information in FHIR
   </a>
   
-    <nav class="md-nav" aria-label="Modeling W3C Verifiable Credentials in FHIR">
+    <nav class="md-nav" aria-label="Verifiable Clinical Information in FHIR">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -259,7 +259,14 @@
     Modeling a "Health Card"
   </a>
   
-    <nav class="md-nav" aria-label="Modeling a "Health Card"">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-into-the-w3c-vc-data-models-json-ld-syntax" class="md-nav__link">
+    Mapping into the W3C VC Data Model's JSON-LD Syntax
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping into the W3C VC Data Model's JSON-LD Syntax">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -355,11 +362,11 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modeling-w3c-verifiable-credentials-in-fhir" class="md-nav__link">
-    Modeling W3C Verifiable Credentials in FHIR
+  <a href="#verifiable-clinical-information-in-fhir" class="md-nav__link">
+    Verifiable Clinical Information in FHIR
   </a>
   
-    <nav class="md-nav" aria-label="Modeling W3C Verifiable Credentials in FHIR">
+    <nav class="md-nav" aria-label="Verifiable Clinical Information in FHIR">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -374,7 +381,14 @@
     Modeling a "Health Card"
   </a>
   
-    <nav class="md-nav" aria-label="Modeling a "Health Card"">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-into-the-w3c-vc-data-models-json-ld-syntax" class="md-nav__link">
+    Mapping into the W3C VC Data Model's JSON-LD Syntax
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping into the W3C VC Data Model's JSON-LD Syntax">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -413,10 +427,10 @@
                 
                   <h1>Credentials</h1>
                 
-                <h2 id="modeling-w3c-verifiable-credentials-in-fhir">Modeling W3C Verifiable Credentials in FHIR<a class="headerlink" href="#modeling-w3c-verifiable-credentials-in-fhir" title="Permanent link">&para;</a></h2>
-<p>This document describes how healthcare data, modeled in <a href="https://hl7.org/fhir">FHIR</a>, can be presented in the form of a <a href="https://w3c.github.io/vc-data-model/">W3C Verifiable Credential</a> (VC).</p>
+                <h2 id="verifiable-clinical-information-in-fhir">Verifiable Clinical Information in FHIR<a class="headerlink" href="#verifiable-clinical-information-in-fhir" title="Permanent link">&para;</a></h2>
+<p>This document describes how clinical information, modeled in <a href="https://hl7.org/fhir">FHIR</a>, can be presented in a form based on <a href="https://w3c.github.io/vc-data-model/">W3C Verifiable Credentials</a> (VC).</p>
 <h3 id="content-definition">Content Definition<a class="headerlink" href="#content-definition" title="Permanent link">&para;</a></h3>
-<p>Any time we want to present healthcare data in the form of a VC, we must first make some use-case-specific decisions:</p>
+<p>Any time we want to present verifiable clinical information, we must first make some use-case-specific decisions:</p>
 <ol>
 <li>Define a set of required and optional <strong>FHIR content resources</strong> (e.g., <code>Immunization</code> or <code>Observation</code>) that must be packaged and presented together</li>
 <li>Decide how to bind these FHIR content resources to a person's external identity, via <strong>FHIR identity resources</strong> (e.g., <code>Patient</code>)</li>
@@ -429,20 +443,16 @@
 </ul>
 </li>
 </ul>
-<p>Resulting payload structure:</p>
+<p>Resulting payload for the <code>"credentialSubject"</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="nt">&quot;@context&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;https://www.w3.org/2018/credentials/v1&quot;</span><span class="p">],</span>
   <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;credentialSubject&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;fhirVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;4.0.1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;fhirBundle&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Bundle&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;collection&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;entry&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;...&quot;</span>
-      <span class="p">]</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+  <span class="s2">&quot;fhirVersion&quot;</span><span class="o">:</span> <span class="s2">&quot;4.0.1&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;fhirBundle&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;resourceType&quot;</span><span class="o">:</span> <span class="s2">&quot;Bundle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;collection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;entry&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">&quot;...&quot;</span>
+    <span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <blockquote>
@@ -470,6 +480,35 @@
 </ul>
 </li>
 </ul>
+<h3 id="mapping-into-the-w3c-vc-data-models-json-ld-syntax">Mapping into the W3C VC Data Model's JSON-LD Syntax<a class="headerlink" href="#mapping-into-the-w3c-vc-data-models-json-ld-syntax" title="Permanent link">&para;</a></h3>
+<p>To create a structure matching the W3C Verifiable Credential <a href="https://www.w3.org/TR/vc-data-model/#json-ld">JSON-LD Syntax</a> from a SMART Health Card JWS:</p>
+<ol>
+<li>
+<p>De-compress the JWS payload</p>
+</li>
+<li>
+<p>Add to the <code>.vc</code> object:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>&quot;@context&quot;: [
+  &quot;https://www.w3.org/2018/credentials/v1&quot;,
+  {
+    &quot;@vocab&quot;: &quot;https://smarthealth.cards#&quot;,
+    &quot;fhirBundle&quot;: {
+      &quot;@id&quot;: &quot;https://smarthealth.cards#fhirBundle&quot;,
+      &quot;@type&quot;: &quot;@json&quot;
+    }
+  }
+]
+</code></pre></div>
+<ol>
+<li>
+<p>Prepend to the <code>.vc.type</code> array: <code>"VerifiableCredential"</code></p>
+</li>
+<li>
+<p>Process the payload according to the rules at https://www.w3.org/TR/vc-data-model/#jwt-decoding</p>
+</li>
+</ol>
 <h4 id="health-card-examples">Health Card Examples<a class="headerlink" href="#health-card-examples" title="Permanent link">&para;</a></h4>
 <ul>
 <li><a href="https://smarthealth.cards/examples/">Example VC payloads</a></li>
