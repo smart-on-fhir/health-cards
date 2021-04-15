@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.5
+
+Clarify mapping into VC Data Model, and strip "fixed" fields from payload
+
 ## 0.4.4
 
 Resource.meta is allowed in one special case
