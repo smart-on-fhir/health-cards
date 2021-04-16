@@ -244,6 +244,7 @@ The `type`, and `credentialSubject` properties are added to the `vc` claim of th
 To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:
 
 * JWS Header
+    * header includes `alg: "ES256"`
     * header includes `zip: "DEF"`
     * header includes `kid` equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see [RFC7638](https://tools.ietf.org/html/rfc7638))
 * JWS Payload
