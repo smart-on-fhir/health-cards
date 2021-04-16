@@ -5,7 +5,7 @@ edit_uri: 'edit/main/docs'
 
 nav:
   - Protocol: index.md
-  - Credentials Modeling: credential-modeling.md
+  - Credential Modeling: credential-modeling.md
   - Credential Types: vocabulary.md
   - Examples: examples/index.md
   - Changelog: changelog.md
