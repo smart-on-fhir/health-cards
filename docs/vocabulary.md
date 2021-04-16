@@ -1,6 +1,4 @@
-# Health Wallet Vocab
-
-## Verifiable Credential (VC) Types
+# Verifiable Credential (VC) Types
 
 * `https://smarthealth.cards#health-card`: A VC designed to convey a "Health Card" (i.e. clinical data bound to a subject's identity)
 
