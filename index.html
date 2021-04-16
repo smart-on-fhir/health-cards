@@ -1346,6 +1346,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <p>To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:</p>
 <ul>
 <li>JWS Header<ul>
+<li>header includes <code>alg: "ES256"</code></li>
 <li>header includes <code>zip: "DEF"</code></li>
 <li>header includes <code>kid</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 </ul>
