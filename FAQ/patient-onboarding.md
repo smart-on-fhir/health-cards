@@ -18,8 +18,7 @@ On paper, your SMART Health Card contains your information, including a barcode;
 
 <img src="./reference_smart_health_card_pdf_vaccine.png" width="700" alt="SMART Health Card example" />
 
-
- Your information might be in more than one barcode, and all barcodes must be scanned to share all of your COVID-19 information. If you allow your barcodes to be scanned, you are sharing the information in your SMART Health Card. If you tear up your paper barcode, the information is destroyed. 
+Your information might be in more than one barcode, and all barcodes must be scanned to share all of your COVID-19 information. If you allow your barcodes to be scanned, you are sharing the information in your SMART Health Card. If you tear up your paper barcode, the information is destroyed. Your doctor's office may be able to issue a new SMART Health Card to you.
  
 You might also have access to your SMART Health Card barcodes through a website or an app on your phone. You can choose to print these barcodes yourself or let someone scan the barcode right from your personal device. By allowing a person to scan your barcode, you are sharing information about you and your COVID-19 status. 
  
