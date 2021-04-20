@@ -10,6 +10,13 @@ A SMART Health Card contains information about you:
  
 ## Where do I get a SMART Health Card?
 Any organization that has your information might be able to issue you a SMART Health Card. That might be the lab, clinic, pharmacy, or site where you got your COVID-19 vaccine or lab test. The place that gives you the card “signs” it digitally, which helps ensure the data is correct and hasn’t been tampered with.
+
+## How do SMART Health Cards protect my privacy?
+You are in control of sharing, or not sharing, your SMART Health Card. If you have a printed SMART Health Card, you can destroy the piece of paper. If you have a SMART Health Card on your phone, you control with whom you share your data. You control if you want to download your SMART Health Card into an app of your choosing—or not.
+ 
+SMART Health Cards contain only your name, date of birth, country, and information about your COVID-19 immunization or lab results. They do not contain your phone number, address, a government-issued identifier, or any other information about your health.
+ 
+Your data is stored only within the barcode itself. It is not stored in any computer systems other than the system for the organization that gave you the barcode. 
  
 ## How can I use a SMART Health Card?
 Your SMART Health Card contains information about you. You control who your SMART Health Card is shared with and how it’s shared. You might receive a SMART Health Card printed on a piece of paper or electronically from your doctor's office.
@@ -28,11 +35,5 @@ Here are some of the apps that help you access or share your SMART Health Card:
 * Xxx
 * xxxx
  
-## How do SMART Health Cards protect my privacy?
-You are in control of sharing, or not sharing, your SMART Health Card. If you have a printed SMART Health Card, you can destroy the piece of paper. If you have a SMART Health Card on your phone, you control with whom you share your data. You control if you want to download your SMART Health Card into an app of your choosing—or not.
- 
-SMART Health Cards contain only your name, date of birth, country, and information about your COVID-19 immunization or lab results. They do not contain your phone number, address, a government-issued identifier, or any other information about your health.
- 
-Your data is stored only within the barcode itself. It is not stored in any computer systems other than the system for the organization that gave you the barcode. 
- 
+
  
