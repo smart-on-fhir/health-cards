@@ -14,7 +14,7 @@ Any organization that has your information might be able to issue you a SMART He
 ## How can I use a SMART Health Card?
 Your SMART Health Card contains information about you. You control who your SMART Health Card is shared with and how it’s shared. You might receive a SMART Health Card printed on a piece of paper or electronically from your doctor's office.
  
-On paper, your SMART Health Card likely contains some printed information as well as a barcode, like this:
+On paper, your SMART Health Card contains your information, including a barcode; it will look something like this:
 
 <img src="./reference_smart_health_card_pdf_vaccine.png" width="700" alt="SMART Health Card example" />
 
