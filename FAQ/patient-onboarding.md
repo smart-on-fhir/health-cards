@@ -4,7 +4,7 @@ As more business open their doors, you might be asked to provide information abo
  
 ## What's a SMART Health Card?
 A SMART Health Card contains information about you:
-* Your legal name, date of birth, and country. 
+* Your legal name, and date of birth. 
 * Your COVID-19 lab test, when it was performed, the test manufacturer, and if the results were positive or negative.
 * Details about your COVID-19 vaccination, including the date on which you received the vaccination and the manufacturer. 
  
