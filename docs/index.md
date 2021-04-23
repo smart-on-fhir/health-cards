@@ -485,6 +485,7 @@ The spec is currently focused on representing Health Cards in a standardized dat
 
 # References
 
+* Fast Health Interoperability Resources (FHIR): https://hl7.org/fhir/
 * DEFLATE Compression: https://tools.ietf.org/html/rfc1951
 * JSON Web Token (JWT): https://tools.ietf.org/html/rfc7519
 * JSON Web Key (JWK): https://tools.ietf.org/html/rfc7517
