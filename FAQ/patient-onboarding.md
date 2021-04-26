@@ -9,7 +9,8 @@ A SMART Health Card contains information about you:
 * Details about your COVID-19 vaccination, including the date on which you received the vaccination and the manufacturer. 
  
 ## Where do I get a SMART Health Card?
-Any organization that has your information might be able to issue you a SMART Health Card. That might be the lab, clinic, pharmacy, or site where you got your COVID-19 vaccine or lab test. The place that gives you the card “signs” it digitally, which helps ensure the data is correct and hasn’t been tampered with.
+Any organization that has your information might be able to issue you a SMART Health Card. That might be the lab, clinic, pharmacy, or site where you got your COVID-19 vaccine or lab test. The place that gives you the card “signs” it digitally, which helps ensure the data is correct and hasn’t been tampered with. Additionally, if you manage the healthcare of your child or another person, you may also access and download their SMART Health Cards. 
+
 
 ## How do SMART Health Cards protect my privacy?
 You are in control of sharing, or not sharing, your SMART Health Card. If you have a printed SMART Health Card, you can destroy the piece of paper. If you have a SMART Health Card on your phone, you control with whom you share your data. You control if you want to download your SMART Health Card into an app of your choosing—or not.
