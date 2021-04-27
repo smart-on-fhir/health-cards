@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify zulip stream
+        env:
+          ISSUE_TITLE:  ${{format('{0}{1}', github.event.issue.title, github.event.pull_request.title)}}
+          ISSUE_URL: ${{format('{0}{1}', github.event.issue.html_url, github.event.pull_request.html_url)}}
         run: |
           pip3 install zulip
           zulip-send \
@@ -17,4 +20,4 @@ jobs:
             --user ${{secrets.ZULIP_USER}} \
             --stream ${{secrets.ZULIP_STREAM}} \
             --subject "Early Adopters: Review Request" \
-            --message "${{github.event[github.event_name].title}} -- see ${{github.event[github.event_name].html_url}}"
+            --message "${ISSUE_TITLE} -- see ${ISSUE_URL}"
