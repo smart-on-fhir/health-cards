@@ -281,7 +281,7 @@ To facilitate this workflow, the issuer can include a link to help the user down
 
 ### via QR (Print or Scan)
 
-Alternatively, issuers can make individual JWS inside a Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#every-health-card-can-be-embedded-in-a-qr-code).
+Alternatively, issuers can make any individual JWS inside a Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#every-health-card-can-be-embedded-in-a-qr-code).
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
