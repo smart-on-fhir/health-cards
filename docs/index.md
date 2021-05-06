@@ -281,7 +281,7 @@ To facilitate this workflow, the issuer can include a link to help the user down
 
 ### via QR (Print or Scan)
 
-Alternatively, issuers can make the Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#every-health-card-can-be-embedded-in-a-qr-code).
+Alternatively, issuers can make any individual JWS inside a Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#every-health-card-can-be-embedded-in-a-qr-code).
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
@@ -397,7 +397,7 @@ In this step, the verifier asks the user to share a COVID-19 result. A Health Ca
 
 ## Every Health Card can be embedded in a QR Code
 
-Every Health Card can be embedded in one or more QR Codes. When embedding a Health Card in a QR Code, we aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a Health Card in a QR Code, the same JWS strings that appear as `.verifiableCredential[]` entries in a `.smart-health-card` file SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR Codes"](#encoding-chunks-as-qr-codes)).
+Each JWS string that appears in the `.verifiableCredential[]` of a `.smart-health-card` file can be embedded in one or more QR Codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules.  When embedding a JWS string in QR Codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR Codes"](#encoding-chunks-as-qr-codes)).
 
 Ensuring Health Cards can be presented as QR Codes:
 
