@@ -241,7 +241,7 @@ The `type`, and `credentialSubject` properties are added to the `vc` claim of th
 
 ### Health Cards are Small
 
-To ensure that all Health Cards can be represented in QR Codes, issuers SHALL ensure that the following constraints apply at the time of issuance:
+To ensure that all Health Cards can be represented in QR codes, issuers SHALL ensure that the following constraints apply at the time of issuance:
 
 * JWS Header
     * header includes `alg: "ES256"`
@@ -395,11 +395,11 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
 
-## Every Health Card can be embedded in a QR Code
+## Every Health Card can be embedded in a QR code
 
-Each JWS string that appears in the `.verifiableCredential[]` of a `.smart-health-card` file can be embedded in one or more QR Codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules.  When embedding a JWS string in QR Codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR Codes"](#encoding-chunks-as-qr-codes)).
+Each JWS string that appears in the `.verifiableCredential[]` of a `.smart-health-card` file can be embedded in one or more QR codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules.  When embedding a JWS string in QR codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR codes"](#encoding-chunks-as-qr-codes)).
 
-Ensuring Health Cards can be presented as QR Codes:
+Ensuring Health Cards can be presented as QR codes:
 
 * Allows basic storage and sharing of Health Cards for users without a smartphone
 * Allows smartphone-enabled users to print a usable backup
@@ -419,12 +419,12 @@ The following limitations apply when presenting Health Card as QR codes, rather 
 
 Commonly, Health Cards will fit in a single V22 QR code.  Any JWS longer than 1195 characters SHALL be split into "chunks" of length 1191 or smaller; each chunk SHALL be encoded as a separate QR code of V22 or lower, to ensure ease of scanning. Each chunk SHALL be numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below.
 
-To ensure the best user experience when producing and consuming multiple QR Codes:
+To ensure the best user experience when producing and consuming multiple QR codes:
 
-* Producers of QR Codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.
-* Consumers of QR Codes SHOULD allow for scanning the multiple QR Codes in any order. Once the full set is scanned, the JWS can be assembled and validated. 
+* Producers of QR codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.
+* Consumers of QR codes SHOULD allow for scanning the multiple QR codes in any order. Once the full set is scanned, the JWS can be assembled and validated.
 
-### Encoding Chunks as QR Codes
+### Encoding Chunks as QR codes
 
 When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:
 
@@ -476,7 +476,7 @@ The following tools are helpful to validate Health Card artefacts:
 Other resources that are helpful for learning about and implementing SMART Health Cards include:
 
 * The [code used to generate the examples](https://github.com/smart-on-fhir/health-cards/tree/main/generate-examples) present in the spec.
-* A [Jupyter Notebook walkthrough](https://github.com/dvci/health-cards-walkthrough/blob/main/SMART%20Health%20Cards.ipynb) which demonstrates creating, validating and decoding a SMART Health Card as a QR Code.
+* A [Jupyter Notebook walkthrough](https://github.com/dvci/health-cards-walkthrough/blob/main/SMART%20Health%20Cards.ipynb) which demonstrates creating, validating and decoding a SMART Health Card as a QR code.
 
 # Potential Extensions
 
