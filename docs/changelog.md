@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0-rc1
+## 1.0.0-rc
 
 No change from 0.4.5; applying tag for connectathon release
 
