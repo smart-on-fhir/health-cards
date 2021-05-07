@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-rc1
+
+No change from 0.4.5; applying tag for connectathon release
+
 ## 0.4.5
 
 Clarify mapping into VC Data Model, and strip "fixed" fields from payload
