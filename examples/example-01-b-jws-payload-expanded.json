@@ -1,6 +1,6 @@
 {
   "iss": "https://smarthealth.cards/examples/issuer",
-  "nbf": 1620395351.67,
+  "nbf": 1620836560.096,
   "vc": {
     "type": [
       "https://smarthealth.cards#health-card",
