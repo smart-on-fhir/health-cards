@@ -5,3 +5,12 @@
 .mermaid svg {
   height: auto;
 }
+
+/* Definition lists - used on loa.md */
+.md-typeset dl dt {
+  font-weight: bold;
+}
+.md-typeset dl dd {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
