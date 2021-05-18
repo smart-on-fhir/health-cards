@@ -290,7 +290,7 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$health-cards-issue` operation defined [here](../artifacts/operation-patient-i-health-cards-issue.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
 #### Discovery of FHIR Support
-A SMART on FHIR Server SHALL advertise support for issuing VCs according to this specification by adding the `health-cards` capability to its `/.well-known/smart-configuration` JSON file. For example:
+A SMART on FHIR Server capable of issuing VCs according to this specification SHALL advertise its support by adding the `health-cards` capability to its `/.well-known/smart-configuration` JSON file. For example:
 
 ```json
 {
