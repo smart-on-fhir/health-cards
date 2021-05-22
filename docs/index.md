@@ -429,7 +429,7 @@ To ensure the best user experience when producing and consuming multiple QR code
 When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:
 
 1. A segment encoded with `bytes` mode consisting of 
-    * the fixed string `shc:/` 
+    * the fixed string `shc:/` (registered as an [IANA scheme](https://www.iana.org/assignments/uri-schemes/prov/shc))
     * plus (only if more than one chunk is required)
         *  decimal representation of "C" (e.g., `1` for the first chunk, `2` for the second chunk, and so on)
         *  plus the fixed string `/`
