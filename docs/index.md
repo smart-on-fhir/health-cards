@@ -476,7 +476,7 @@ The following tools are helpful to validate Health Card artefacts:
 Other resources that are helpful for learning about and implementing SMART Health Cards include:
 
 * The [code used to generate the examples](https://github.com/smart-on-fhir/health-cards/tree/main/generate-examples) present in the spec.
-* A [Jupyter Notebook walkthrough](https://github.com/dvci/health-cards-walkthrough/blob/main/SMART%20Health%20Cards.ipynb) which demonstrates creating, validating and decoding a SMART Health Card as a QR code.
+* A [Jupyter Notebook walkthrough](https://github.com/dvci/health-cards-walkthrough/blob/main/SMART%20Health%20Cards.ipynb) and [demo portals](https://demo-portals.smarthealth.cards/) which demonstrate creating, validating and decoding a SMART Health Card as a QR code.
 
 # Potential Extensions
 
