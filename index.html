@@ -1496,7 +1496,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <p>When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:</p>
 <ol>
 <li>A segment encoded with <code>bytes</code> mode consisting of <ul>
-<li>the fixed string <code>shc:/</code> </li>
+<li>the fixed string <code>shc:/</code> (registered as an <a href="https://www.iana.org/assignments/uri-schemes/prov/shc">IANA scheme</a>)</li>
 <li>plus (only if more than one chunk is required)<ul>
 <li>decimal representation of "C" (e.g., <code>1</code> for the first chunk, <code>2</code> for the second chunk, and so on)</li>
 <li>plus the fixed string <code>/</code></li>
