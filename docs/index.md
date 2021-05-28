@@ -2,7 +2,7 @@
 
 ### Status
 
-Stable v1 release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
+Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
 
 ### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
