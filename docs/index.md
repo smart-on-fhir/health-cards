@@ -55,7 +55,7 @@ Despite this broad scope, our *short-term definition of success* requires that w
 
 ## Trust
 
-Technically speaking, anyone can issue a Health Card. Which issuers should a verifier consider trustworthy? Ultimately any verifier can make its own decisions, but a "trust framework" is a useful way to externalize this work and drive toward more consistent practices. The SMART Health Cards IG is designed to operate independent of any trust framework, while allowing trust frameworks to be layered on top. We anticipate trust frameworks will emerge to meet different jurisdictional and use case driven requirements. In all cases, verifiers can discover public keys associated with an issuer via `/.well-known/jwks.json` URLs.
+Anyone can _issue_ Health Cards, and every verifier can make its own decision about which issuers to _trust_. A "trust framework" can help verifiers to externalize these decisions and drive toward more consistent practices. The SMART Health Cards IG is designed to operate independent of any trust framework, while allowing trust frameworks to be layered on top. We anticipate such frameworks will emerge to meet different jurisdictional and use case driven requirements. In all cases, verifiers can discover public keys associated with an issuer via `/.well-known/jwks.json` URLs.
 
 ## Privacy
 
