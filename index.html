@@ -281,63 +281,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#user-experience" class="md-nav__link">
-    User Experience
+  <a href="#user-experience-and-data-flow" class="md-nav__link">
+    User Experience and Data Flow
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#demo" class="md-nav__link">
-    Demo
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-considerations" class="md-nav__link">
-    Design Considerations
-  </a>
-  
-    <nav class="md-nav" aria-label="Design Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
-    Data Flow
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#connecting-health-wallet-to-issuer-optional" class="md-nav__link">
-    Connecting Health Wallet to Issuer (optional)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-credentials-into-health-wallet" class="md-nav__link">
-    Getting credentials into Health Wallet
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#presenting-credentials-to-verifier" class="md-nav__link">
-    Presenting credentials to Verifier
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -345,19 +291,6 @@
   <a href="#trust" class="md-nav__link">
     Trust
   </a>
-  
-    <nav class="md-nav" aria-label="Trust">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#which-issuers-can-participate" class="md-nav__link">
-    Which Issuers can participate?
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -778,63 +711,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#user-experience" class="md-nav__link">
-    User Experience
+  <a href="#user-experience-and-data-flow" class="md-nav__link">
+    User Experience and Data Flow
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#demo" class="md-nav__link">
-    Demo
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-considerations" class="md-nav__link">
-    Design Considerations
-  </a>
-  
-    <nav class="md-nav" aria-label="Design Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
-    Data Flow
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#connecting-health-wallet-to-issuer-optional" class="md-nav__link">
-    Connecting Health Wallet to Issuer (optional)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-credentials-into-health-wallet" class="md-nav__link">
-    Getting credentials into Health Wallet
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#presenting-credentials-to-verifier" class="md-nav__link">
-    Presenting credentials to Verifier
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -842,19 +721,6 @@
   <a href="#trust" class="md-nav__link">
     Trust
   </a>
-  
-    <nav class="md-nav" aria-label="Trust">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#which-issuers-can-participate" class="md-nav__link">
-    Which Issuers can participate?
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1149,7 +1015,7 @@
                 
                 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <h4 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h4>
-<p>Draft implementation guide authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.</p>
+<p>Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.</p>
 <h4 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h4>
 <p>To propose changes, please use GitHub <a href="https://github.com/smart-on-fhir/health-cards/issues">Issues</a> or create a <a href="https://github.com/smart-on-fhir/health-cards/pulls">Pull Request</a>.</p>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
@@ -1182,48 +1048,17 @@
 <li>Represent "Health Cards" in a "Health Wallet", focusing on COVID-19 status</li>
 <li>Ensure that each role (issuer, holder, app) can be implemented by any organization following open standards, provided they sign on to the relevant trust framework</li>
 </ul>
-<h3 id="user-experience">User Experience<a class="headerlink" href="#user-experience" title="Permanent link">&para;</a></h3>
+<h3 id="user-experience-and-data-flow">User Experience and Data Flow<a class="headerlink" href="#user-experience-and-data-flow" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Install</strong> a "Health Wallet" app</li>
-<li><strong>Connect</strong> the Health Wallet to an account with the Issuer (optional step)</li>
-<li><strong>Save</strong> a Health Card from the Issuer into the Health Wallet</li>
-<li><strong>Present</strong> a Health Card to a Verifier<ul>
-<li>Presentation includes explicit user opt-in and approval</li>
-<li>Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)</li>
-</ul>
-</li>
-</ul>
-<h3 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link">&para;</a></h3>
-<p>Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see <a href="https://c19.cards/">c19.cards</a> (source code <a href="https://github.com/smart-on-fhir/health-cards-tests">on GitHub</a> -- and if you want to learn how to test your own components against the demo site, see <a href="https://github.com/smart-on-fhir/health-cards-tests#using-the-hosted-demo-components">README.md</a>).</p>
-<h2 id="design-considerations">Design Considerations<a class="headerlink" href="#design-considerations" title="Permanent link">&para;</a></h2>
-<p>This section outlines higher-level design considerations. See <a href="#protocol-details">Protocol Details</a> below for technical details.</p>
-<h3 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h3>
-<h4 id="connecting-health-wallet-to-issuer-optional">Connecting Health Wallet to Issuer (optional)<a class="headerlink" href="#connecting-health-wallet-to-issuer-optional" title="Permanent link">&para;</a></h4>
-<ul>
-<li>Establish a SMART on FHIR authorization with an Issuer including read access to any resources that will be present in Health Cards (e.g., Patient, Immunization, Observation, DiagnosticReport).</li>
-</ul>
-<h4 id="getting-credentials-into-health-wallet">Getting credentials into Health Wallet<a class="headerlink" href="#getting-credentials-into-health-wallet" title="Permanent link">&para;</a></h4>
-<ul>
-<li>Required method: File download</li>
-<li>Required method: Print QR on paper card, or scan QR into software</li>
-<li>Optional method: <a href="#healthwalletissuevc-operation">FHIR API Access</a></li>
-</ul>
-<h4 id="presenting-credentials-to-verifier">Presenting credentials to Verifier<a class="headerlink" href="#presenting-credentials-to-verifier" title="Permanent link">&para;</a></h4>
-<ul>
-<li>Optional method: QR presentation</li>
-<li>Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)</li>
+<li><strong>User Receives</strong> a Health Card from an Issuer. The Health Card is a signed data artifact that the user can obtain through any of these methods:</li>
+<li>issuer offers a Health Card on paper or PDF, including a QR code (required method)</li>
+<li>issuer offers a Health Card for download as a <code>.smart-health-card</code> file (required method)</li>
+<li>issuer hosts a Health Card for <a href="#healthwalletissuevc-operation">FHIR API access</a> via a compatible Health Wallet application. This workflow includes a SMART on FHIR authorization step with an Issuer, where the user grants read access to any resources that will be present in Health Cards (e.g., <code>Patient</code>, <code>Immunization</code>, <code>Observation</code>, <code>DiagnosticReport</code>)</li>
+<li><strong>User Saves</strong> a Health Card, whether on paper or digitally.</li>
+<li><strong>User Presents</strong> a Health Card to a Verifier. Presentation includes explicit user opt-in and approval, and may involve displaying a QR code, sharing a file, or using an on-device SDK (e.g., for verifier-to-holder app-to-app communications)</li>
 </ul>
 <h3 id="trust">Trust<a class="headerlink" href="#trust" title="Permanent link">&para;</a></h3>
-<p>Which issuers can participate, which test results should be considered, and how do verifiers learn this information?</p>
-<p>At a <em>pilot project level</em>:</p>
-<h4 id="which-issuers-can-participate">Which Issuers can participate?<a class="headerlink" href="#which-issuers-can-participate" title="Permanent link">&para;</a></h4>
-<ul>
-<li>We'll work with a willing set of issuers and define expectations/requirements</li>
-<li>Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL</li>
-<li>Verifiers will discover public keys associated with an issuer via <code>/.well-known/jwks.json</code> URLs</li>
-<li>For transparency, we'll publish a list of participating organizations in a public directory</li>
-<li>In a <em>post-pilot deployment</em>, a network of participants would define and agree to a formal Trust Framework</li>
-</ul>
+<p>Anyone can <em>issue</em> Health Cards, and every verifier can make its own decision about which issuers to <em>trust</em>. A "trust framework" can help verifiers to externalize these decisions and drive toward more consistent practices. The SMART Health Cards IG is designed to operate independent of any trust framework, while allowing trust frameworks to be layered on top. We anticipate such frameworks will emerge to meet different jurisdictional and use case driven requirements. In all cases, verifiers can discover public keys associated with an issuer via <code>/.well-known/jwks.json</code> URLs.</p>
 <h3 id="privacy">Privacy<a class="headerlink" href="#privacy" title="Permanent link">&para;</a></h3>
 <h4 id="data-minimization">Data Minimization<a class="headerlink" href="#data-minimization" title="Permanent link">&para;</a></h4>
 <p>It is an explicit design goal to let the holder <strong>only disclose a minimum amount of information</strong> to a verifier. The information <em>required</em> to be disclosed is use-case dependent, and -- particularly in a healthcare setting -- it can be difficult for lay people to judge which data elements are necessary to be shared.</p>
