@@ -2,7 +2,7 @@
 
 ### Status
 
-Draft implementation guide authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
+Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
 
 ### Contributing
 To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/health-cards/issues) or create a [Pull Request](https://github.com/smart-on-fhir/health-cards/pulls).
@@ -12,7 +12,6 @@ To propose changes, please use GitHub [Issues](https://github.com/smart-on-fhir/
 This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and **present these results to another party in a verifiable manner**. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.
 
 Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure.
-
 
 ## Conceptual Model
 
@@ -45,48 +44,18 @@ Despite this broad scope, our *short-term definition of success* requires that w
 * Represent "Health Cards" in a "Health Wallet", focusing on COVID-19 status
 * Ensure that each role (issuer, holder, app) can be implemented by any organization following open standards, provided they sign on to the relevant trust framework
 
-## User Experience
+## User Experience and Data Flow
 
-* **Install** a "Health Wallet" app
-* **Connect** the Health Wallet to an account with the Issuer (optional step)
-* **Save** a Health Card from the Issuer into the Health Wallet
-* **Present** a Health Card to a Verifier
-    * Presentation includes explicit user opt-in and approval
-    * Presentation workflow depends on context (e.g., on-device presentation to a verifier's mobile app, or in-person presentation)
-
-## Demo
-Sometimes it's easiest to learn by seeing. For an end-to-end demonstration including Mobile Wallet, Issuer API, and Verifier, see [c19.cards](https://c19.cards/) (source code [on GitHub](https://github.com/smart-on-fhir/health-cards-tests) -- and if you want to learn how to test your own components against the demo site, see [README.md](https://github.com/smart-on-fhir/health-cards-tests#using-the-hosted-demo-components)).
-
-# Design Considerations
-This section outlines higher-level design considerations. See [Protocol Details](#protocol-details) below for technical details.
-
-## Data Flow
-
-### Connecting Health Wallet to Issuer (optional)
-* Establish a SMART on FHIR authorization with an Issuer including read access to any resources that will be present in Health Cards (e.g., Patient, Immunization, Observation, DiagnosticReport).
-
-### Getting credentials into Health Wallet
-* Required method: File download
-* Required method: Print QR on paper card, or scan QR into software
-* Optional method: [FHIR API Access](#healthwalletissuevc-operation)
-
-### Presenting credentials to Verifier
-* Optional method: QR presentation
-* Optional method: On-device SDKs (e.g., for verifier-to-holder app-to-app communications)
+* **User Receives** a Health Card from an Issuer. The Health Card is a signed data artifact that the user can obtain through any of these methods:
+  * issuer offers a Health Card on paper or PDF, including a QR code (required method)
+  * issuer offers a Health Card for download as a `.smart-health-card` file (required method)
+  * issuer hosts a Health Card for [FHIR API access](#healthwalletissuevc-operation) via a compatible Health Wallet application. This workflow includes a SMART on FHIR authorization step with an Issuer, where the user grants read access to any resources that will be present in Health Cards (e.g., `Patient`, `Immunization`, `Observation`, `DiagnosticReport`)
+* **User Saves** a Health Card, whether on paper or digitally.
+* **User Presents** a Health Card to a Verifier. Presentation includes explicit user opt-in and approval, and may involve displaying a QR code, sharing a file, or using an on-device SDK (e.g., for verifier-to-holder app-to-app communications)
 
 ## Trust
 
-Which issuers can participate, which test results should be considered, and how do verifiers learn this information?
-
-At a _pilot project level_:
-
-### Which Issuers can participate?
-* We'll work with a willing set of issuers and define expectations/requirements
-* Verifiers will learn the list of participating issuers out of band; each issuer will be associated with a public URL
-* Verifiers will discover public keys associated with an issuer via `/.well-known/jwks.json` URLs
-* For transparency, we'll publish a list of participating organizations in a public directory
-* In a _post-pilot deployment_, a network of participants would define and agree to a formal Trust Framework
-
+Anyone can _issue_ Health Cards, and every verifier can make its own decision about which issuers to _trust_. A "trust framework" can help verifiers to externalize these decisions and drive toward more consistent practices. The SMART Health Cards IG is designed to operate independent of any trust framework, while allowing trust frameworks to be layered on top. We anticipate such frameworks will emerge to meet different jurisdictional and use case driven requirements. In all cases, verifiers can discover public keys associated with an issuer via `/.well-known/jwks.json` URLs.
 
 ## Privacy
 
