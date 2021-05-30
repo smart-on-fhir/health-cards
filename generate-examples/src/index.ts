@@ -7,7 +7,7 @@ import pako from 'pako';
 import QrCode, { QRCodeSegment } from 'qrcode';
 import issuerPrivateKeys from './config/issuer.jwks.private.json';
 
-const ISSUER_URL = process.env.ISSUER_URL || 'https://smarthealth.cards/examples/issuer';
+const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
 interface BundleInfo {
   url: string;
