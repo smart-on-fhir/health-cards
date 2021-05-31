@@ -47,9 +47,9 @@ Despite this broad scope, our *short-term definition of success* requires that w
 ## User Experience and Data Flow
 
 * **User Receives** a Health Card from an Issuer. The Health Card is a signed data artifact that the user can obtain through any of these methods:
-  * issuer offers a Health Card on paper or PDF, including a QR code (required method)
-  * issuer offers a Health Card for download as a `.smart-health-card` file (required method)
-  * issuer hosts a Health Card for [FHIR API access](#healthwalletissuevc-operation) via a compatible Health Wallet application. This workflow includes a SMART on FHIR authorization step with an Issuer, where the user grants read access to any resources that will be present in Health Cards (e.g., `Patient`, `Immunization`, `Observation`, `DiagnosticReport`)
+    * issuer offers a Health Card on paper or PDF, including a QR code (required method)
+    * issuer offers a Health Card for download as a `.smart-health-card` file (required method)
+    * issuer hosts a Health Card for [FHIR API access](#healthwalletissuevc-operation) via a compatible Health Wallet application. This workflow includes a SMART on FHIR authorization step with an Issuer, where the user grants read access to any resources that will be present in Health Cards (e.g., `Patient`, `Immunization`, `Observation`, `DiagnosticReport`)
 * **User Saves** a Health Card, whether on paper or digitally.
 * **User Presents** a Health Card to a Verifier. Presentation includes explicit user opt-in and approval, and may involve displaying a QR code, sharing a file, or using an on-device SDK (e.g., for verifier-to-holder app-to-app communications)
 
