@@ -6,7 +6,7 @@ distinguished_name = req_distinguished_name
 [ v3_issuer ]
 basicConstraints = CA:FALSE
 keyUsage = digitalSignature
-subjectAltName         = URI:https://smarthealth.cards/examples/issuer
+subjectAltName         = URI:https://spec.smarthealth.cards/examples/issuer
 subjectKeyIdentifier   = hash
 authorityKeyIdentifier = keyid:always
 
