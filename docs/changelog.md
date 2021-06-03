@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+No functional change from 1.0.0-rc; added documentation links and re-worked introduction.
+
 ## 1.0.0-rc
 
 No change from 0.4.5; applying tag for connectathon release
