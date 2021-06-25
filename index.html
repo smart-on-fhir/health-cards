@@ -1208,7 +1208,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
 <li>without <code>Resource.id</code> elements</li>
 <li>without <code>Resource.meta</code> elements (or if present, <code>.meta.security</code> is included and no other fields are included)</li>
-<li>without <code>Resource.text</code> elements</li>
+<li>without <code>DomainResource.text</code> elements</li>
 <li>without <code>CodeableConcept.text</code> elements</li>
 <li>without <code>Coding.display</code> elements</li>
 <li>with <code>Bundle.entry.fullUrl</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"fullUrl": "resource:0}</code>)</li>
