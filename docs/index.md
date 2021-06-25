@@ -222,7 +222,7 @@ To ensure that all Health Cards can be represented in QR codes, issuers SHALL en
     * payload `.vc.credentialSubject.fhirBundle` is created:
         * without `Resource.id` elements
         * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
-        * without `Resource.text` elements
+        * without `DomainResource.text` elements
         * without `CodeableConcept.text` elements
         * without `Coding.display` elements
         * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0}`)
