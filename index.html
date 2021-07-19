@@ -1257,8 +1257,8 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The <code>credentialType</code> parameter is required. Multiple <code>credentialType</code> values in one request SHALL be intepreted as a request for the intersection of the requested types (logical AND).
-For example, a request containing <code>credentialType</code> values <code>https://smarthealth.cards#covid19</code> and <code>https://smarthealth.cards#immunization</code> is a request for only those cards that are both Covid-19 cards and immunization cards (i.e., only those Covid-19 cards that are about immunizations).</p>
+<p>The <code>credentialType</code> parameter is required. Multiple <code>credentialType</code> values in one request SHALL be interpreted as a request for the intersection of the requested types (logical AND).
+For example, a request containing <code>credentialType</code> values <code>https://smarthealth.cards#covid19</code> and <code>https://smarthealth.cards#immunization</code> is a request for only those cards that are both COVID-19 cards and immunization cards (i.e., only those COVID-19 cards that are about immunizations).</p>
 <p>The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.</p>
 <ul>
 <li><strong><code>includeIdentityClaim</code></strong>. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more <code>includeIdentityClaim</code>s, which will limit the claims included in the VC. For example, to request that only name be included:</li>
@@ -1297,7 +1297,12 @@ For example, a request containing <code>credentialType</code> values <code>https
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explictily understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential. The optional <code>vcIndex</code> value on a <code>resourceLink</code> can be used when a response contains more than one VC, to indicate which VC this resource link applies to. The <code>vcIndex</code> is a zero-based index of a <code>verifiableCredential</code> entry within the top-level <code>parameter</code> array.</p>
+<p>If no results are available, a <code>Parameters</code> resource without any <code>parameter</code> is returned:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In the response, an optional repeating <code>resourceLink</code> parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's <code>.credentialSubject.fhirBundle</code>, allowing the health wallet to explicitly understand these correspondences between <code>bundledResource</code> and <code>hostedResource</code>, without baking details about the hosted endpoint into the signed credential. The optional <code>vcIndex</code> value on a <code>resourceLink</code> can be used when a response contains more than one VC, to indicate which VC this resource link applies to. The <code>vcIndex</code> is a zero-based index of a <code>verifiableCredential</code> entry within the top-level <code>parameter</code> array.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
