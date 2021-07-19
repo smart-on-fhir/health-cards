@@ -40,7 +40,7 @@
   }, {
     "name": "verifiableCredential",
     "use": "out",
-    "min": 1,
+    "min": 0,
     "max": "*",
     "type": "string"
   }, {

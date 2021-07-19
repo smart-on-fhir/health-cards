@@ -287,8 +287,8 @@ A Health Wallet can `POST /Patient/:id/$health-cards-issue` to a FHIR-enabled is
 }
 ```
 
-The `credentialType` parameter is required. Multiple `credentialType` values in one request SHALL be intepreted as a request for the intersection of the requested types (logical AND).
-For example, a request containing `credentialType` values `https://smarthealth.cards#covid19` and `https://smarthealth.cards#immunization` is a request for only those cards that are both Covid-19 cards and immunization cards (i.e., only those Covid-19 cards that are about immunizations).
+The `credentialType` parameter is required. Multiple `credentialType` values in one request SHALL be interpreted as a request for the intersection of the requested types (logical AND).
+For example, a request containing `credentialType` values `https://smarthealth.cards#covid19` and `https://smarthealth.cards#immunization` is a request for only those cards that are both COVID-19 cards and immunization cards (i.e., only those COVID-19 cards that are about immunizations).
 
 The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.
 
@@ -336,7 +336,15 @@ The **response** is a `Parameters` resource that includes one more more `verifia
 }
 ```
 
-In the response, an optional repeating `resourceLink` parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explictily understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential. The optional `vcIndex` value on a `resourceLink` can be used when a response contains more than one VC, to indicate which VC this resource link applies to. The `vcIndex` is a zero-based index of a `verifiableCredential` entry within the top-level `parameter` array.
+If no results are available, a `Parameters` resource without any `parameter` is returned:
+
+```json
+{
+  "resourceType": "Parameters"
+}
+```
+
+In the response, an optional repeating `resourceLink` parameter can capture the link between any number of hosted FHIR resources and their derived representations within the verifiable credential's `.credentialSubject.fhirBundle`, allowing the health wallet to explicitly understand these correspondences between `bundledResource` and `hostedResource`, without baking details about the hosted endpoint into the signed credential. The optional `vcIndex` value on a `resourceLink` can be used when a response contains more than one VC, to indicate which VC this resource link applies to. The `vcIndex` is a zero-based index of a `verifiableCredential` entry within the top-level `parameter` array.
 
 ```json
 {

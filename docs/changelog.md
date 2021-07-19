@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+Clarify FHIR API behavior when `$health-cards-issue` doesn't return results
+
 ## 1.0.0
 
 No functional change from 1.0.0-rc; added documentation links and re-worked introduction.
