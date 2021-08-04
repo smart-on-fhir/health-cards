@@ -1,5 +1,8 @@
 # Overview
 
+### Looking for a non-technical overview?
+See the [SMART Health Cards public landing page](https://smarthealth.cards/). Otherwise, read on for the technical specifications.
+
 ### Status
 
 Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors.
