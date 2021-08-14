@@ -228,7 +228,7 @@ To ensure that all Health Cards can be represented in QR codes, issuers SHALL en
         * without `DomainResource.text` elements
         * without `CodeableConcept.text` elements
         * without `Coding.display` elements
-        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0}`)
+        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
         * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
 
 
