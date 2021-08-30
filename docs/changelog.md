@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 
+
+Updated links to the HL7 Implementation Guide
+
 ## 1.0.1
 
 Clarify FHIR API behavior when `$health-cards-issue` doesn't return results
