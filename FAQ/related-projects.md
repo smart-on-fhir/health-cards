@@ -15,4 +15,4 @@ On March 19th, 2021, the WHO released [Interim guidance for developing a Smart V
 
 1. WHO RC1 does not yet define technical details for active implementation, such as the specific format for QR codes and other artifacts.
 
-1. WHO RC1 defines a data model for what should be included in a proof of vaccination. SMART Health Cards provides a similar data model via the [SMART Health Cards: Vaccination & Testing Implementation Guide](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main/). The SMART IG aligns closely but not perfectly with WHO RC1 recommendations. Improving this alignment where possible is on the roadmap for the Vaccination & Testing Implementation Guide.
+1. WHO RC1 defines a data model for what should be included in a proof of vaccination. SMART Health Cards provides a similar data model via the [SMART Health Cards: Vaccination & Testing Implementation Guide](http://vci.org/ig/vaccination-and-testing). The SMART IG aligns closely but not perfectly with WHO RC1 recommendations. Improving this alignment where possible is on the roadmap for the Vaccination & Testing Implementation Guide.
