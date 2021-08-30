@@ -15,8 +15,8 @@ interface BundleInfo {
 }
 
 const exampleBundleInfo: BundleInfo[] = [
-  {url: 'https://raw.githubusercontent.com/dvci/vaccine-credential-ig/main/examples/Scenario1Bundle.json', issuerIndex: 0},
-  {url: 'https://raw.githubusercontent.com/dvci/vaccine-credential-ig/main/examples/Scenario2Bundle.json', issuerIndex: 2},
+  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0},
+  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2},
   {url: 'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json', issuerIndex: 0}
 ];
 
