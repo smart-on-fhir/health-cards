@@ -12,12 +12,19 @@ const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/exa
 interface BundleInfo {
   url: string;
   issuerIndex: number;
+  types: string[];
 }
 
 const exampleBundleInfo: BundleInfo[] = [
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0},
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2},
-  {url: 'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json', issuerIndex: 0}
+  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
+    'https://smarthealth.cards#immunization',
+    'https://smarthealth.cards#covid19',
+  ]},
+  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2, types: [
+    'https://smarthealth.cards#immunization',
+    'https://smarthealth.cards#covid19',
+  ]},
+  {url: 'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json', issuerIndex: 0, types: []}
 ];
 
 interface Bundle {
@@ -182,10 +189,7 @@ const toNumericQr = (jws: string, chunkIndex: number, totalChunks: number): QRCo
 ];
 
 async function processExampleBundle(exampleBundleInfo: BundleInfo): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
-  let types = exampleBundleInfo.url.match("vaccine") ? [
-    'https://smarthealth.cards#immunization',
-    'https://smarthealth.cards#covid19',
-  ] : [];
+  let types = exampleBundleInfo.types;
 
   const exampleBundleRetrieved = (await got(exampleBundleInfo.url).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
