@@ -82,7 +82,7 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
 
-  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main)
+  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
 
 # Protocol Details
 
@@ -458,7 +458,7 @@ No. SMART Health Cards are designed for use *alongside* existing forms of identi
 ## Which clinical data should be considered in decision-making?
 * The data in Health Cards should focus on communicating "immutable clinical facts".
 * Each use case will define specific data profiles.
-    * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://build.fhir.org/ig/dvci/vaccine-credential-ig/branches/main) defines requirements.
+    * For COVID-19 Vaccination Credentials, the [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing) defines requirements.
 * When Health Cards are used in decision-making, the verifier is responsible for deciding what rules to apply. For example:
     * decision-making rules may change over time as our understanding of the clinical science improves.
     * decision-making rules may be determined or influenced by international, national and local health authorities.
