@@ -112,31 +112,10 @@ certificate or certificate chain (see [RFC7517](https://tools.ietf.org/html/rfc7
 The public key listed in the first certificate in the `"x5c"` array SHALL match the public key specified by the `"crv"`, `"x"`, and `"y"` parameters of the same JWK entry.
 If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except `"x5c"`.
 
-Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from JWS>>` + `/.well-known/jwks.json`, with [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) enabled.
 
-The URL at `<<iss value from JWS>>` SHALL use the `https` scheme, and SHALL use the following TLS version 1.2 or 1.3 configurations:
-* For TLS 1.2, support at least one ciphersuite conforming to the following algorithm choices and _minimum_ cryptographic strength:
-  * Key exchange: ECDHE using a 256-bit curve
-  * Authentication: ECDSA with a 256-bit curve, or RSA with a 2048-bit key
-  * Session cipher: AES with a 128-bit key
-  * Cipher mode: CBC or GCM
-  * Hash algorithm: SHA256
-  * The following recommended ciphersuites adhere to these requirements:
-    * TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-    * TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-    * TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-    * TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-    * TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256
-    * TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384
-    * TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
-    * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
-* For TLS 1.3, use one of these ciphersuites:
-    * TLS_AES_256_GCM_SHA384
-    * TLS_AES_128_GCM_SHA256
-* X.509 certificate SHALL use a 256-bit ECDSA or 2048-bit RSA key, must be valid, and trusted by major web browsers.
+Issuers SHALL publish their public keys as JSON Web Key Sets (see [RFC7517](https://tools.ietf.org/html/rfc7517#section-5)), available at `<<iss value from JWS>>` + `/.well-known/jwks.json`, with [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) enabled, and using TLS version 1.2 following the IETF [BCP 195](https://www.rfc-editor.org/info/bcp195) recommendations or TLS version 1.3.
 
-
-The URL SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**).
+The URL at `<<iss value from JWS>>` SHALL use the `https` scheme and SHALL NOT include a trailing `/`. For example, `https://smarthealth.cards/examples/issuer` is a valid `iss` value (`https://smarthealth.cards/examples/issuer/` is **not**). The 
 
 **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`).
 
