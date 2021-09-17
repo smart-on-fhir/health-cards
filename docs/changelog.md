@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.3
+## 1.1.0
 
 Updated TLS requirements for issuer key set
 
