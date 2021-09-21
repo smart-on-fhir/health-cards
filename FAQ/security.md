@@ -49,7 +49,7 @@ Health cards are digitally signed, using strong, state-of-the-art cryptographic 
 
 ### How can I trust the issuer of a health card?
 
-The specified validation steps ensure that a presented health card was properly signed by an issuer key. How to trust that key is application/organization specific. It most cases, issuers will be part of a trust framework that verifiers will choose to accept (like how merchants accept Visa, Mastercard, AMEX). Verifiers therefore need to make sure the signing key is a valid identity in the frameworks they accept. For keys part of a directory-based trust framework, make sure the key is part of the trusted directory. For keys part of a PKI-based trust framework, make sure that:
+The specified validation steps ensure that a presented health card was properly signed by an issuer key. How to trust that key is application/organization specific. In most cases, issuers will be part of a trust framework that verifiers will choose to accept (like how merchants accept Visa, Mastercard, AMEX). Verifiers therefore need to make sure the signing key is a valid identity in the frameworks they accept. For keys part of a directory-based trust framework, make sure the key is part of the trusted directory. For keys part of a PKI-based trust framework, make sure that:
 1. the JSON key matches the key in the PKI certificate,
 2. the PKI certificate chain is valid (not expired at card issuance time, nor revoked),
 3. the PKI certificate chain roots into a trusted identity.
