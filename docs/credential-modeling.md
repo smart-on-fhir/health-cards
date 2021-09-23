@@ -48,7 +48,6 @@ According to the procedure above, we start with decisions about FHIR content res
         * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
         * Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.
 
-
 ## Mapping into the W3C VC Data Model
 
 To create a structure matching the W3C Verifiable Credential [JSON-LD Syntax](https://www.w3.org/TR/vc-data-model/#json-ld) from a SMART Health Card JWS:
@@ -80,5 +79,3 @@ To create a structure matching the W3C Verifiable Credential [JSON-LD Syntax](ht
 
 [vc]: https://w3c.github.io/vc-data-model/
 [fhir]: https://hl7.org/fhir
-
-
