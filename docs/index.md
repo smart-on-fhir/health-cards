@@ -447,7 +447,7 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 ## What testing tools are available to validate SMART Health Cards implementations?
 
-The following tools are helpful to validate Health Card artefacts:
+The following tools are helpful to validate Health Card artifacts:
 
 * The [HL7 FHIR Validator](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) can be used to validate the Health Card's FHIR bundle
 * The [Health Cards Dev Tools](https://github.com/smart-on-fhir/health-cards-dev-tools) can be used to validate the various Health Card artifacts.
