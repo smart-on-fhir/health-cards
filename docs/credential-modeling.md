@@ -1,6 +1,6 @@
 # Verifiable Clinical Information in FHIR
 
-This document describes how clinical information, modeled in [FHIR][], can be presented in a form based on [W3C Verifiable Credentials][vc] (VC).
+This document describes how clinical information, modeled in [FHIR][fhir], can be presented in a form based on [W3C Verifiable Credentials][vc] (VC).
 
 ## Content Definition
 

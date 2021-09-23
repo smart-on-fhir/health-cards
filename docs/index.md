@@ -117,8 +117,8 @@ The URL at `<<iss value from JWS>>` SHALL use the `https` scheme and SHALL NOT i
 
 **Signing keys** in the `.keys[]` array can be identified by `kid` following the requirements above (i.e., by filtering on `kty`, `use`, and `alg`).
 
- For example, the following is a fragment of a `jwks.json` file with one signing key:
-```
+For example, the following is a fragment of a `jwks.json` file with one signing key:
+```json
 {
   "keys":[
     {
