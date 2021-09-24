@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.2 
+## 1.0.2
 
 Updated links to the HL7 Implementation Guide
 

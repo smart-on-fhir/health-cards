@@ -1,6 +1,6 @@
 # Verifiable Clinical Information in FHIR
 
-This document describes how clinical information, modeled in [FHIR][], can be presented in a form based on [W3C Verifiable Credentials][vc] (VC).
+This document describes how clinical information, modeled in [FHIR][fhir], can be presented in a form based on [W3C Verifiable Credentials][vc] (VC).
 
 ## Content Definition
 
@@ -42,12 +42,11 @@ According to the procedure above, we start with decisions about FHIR content res
     * `Immunization` with details about a first dose (product, date of administration, and administering provider)
     * `Immunization` with details about a second dose (product, date of administration, and administering provider)
 
-* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with on recommended set of data elements for inclusion using the FHIR `Patient` resource. Resources MAY include an overall "level of assurance" indicating whether these demographic elements have been verified.
+* What **FHIR identity resources** do we need to bind the FHIR content resources to an external identity system? We might eventually define use-case-specific requirements, but we want to start with a recommended set of data elements for inclusion using the FHIR `Patient` resource. Resources MAY include an overall "level of assurance" indicating whether these demographic elements have been verified.
 
     * Best practices
         * Verifiers should not store identity data conveyed via VC, and should delete data as soon as they are no longer needed for verification purposes
         * Verifiers should not expect all elements in the VC to exactly match their own records, but can still use elements conveyed in the VC.
-
 
 ## Mapping into the W3C VC Data Model
 
@@ -80,5 +79,3 @@ To create a structure matching the W3C Verifiable Credential [JSON-LD Syntax](ht
 
 [vc]: https://w3c.github.io/vc-data-model/
 [fhir]: https://hl7.org/fhir
-
-
