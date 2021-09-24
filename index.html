@@ -1066,7 +1066,7 @@
 <li>Enable <strong>privacy preserving</strong> data presentations for specific use cases</li>
 </ul>
 <h3 id="start-small-think-big">Start Small -- Think Big<a class="headerlink" href="#start-small-think-big" title="Permanent link">&para;</a></h3>
-<p>We enable Health Cards  by defining building blocks that can be used across healthcare. The core building block allows us to aggregate data into meaningful sets, signed by an issuer, and stored/presented by a consumer as needed. The broader set of use cases might eventually include:</p>
+<p>We enable Health Cards by defining building blocks that can be used across healthcare. The core building block allows us to aggregate data into meaningful sets, signed by an issuer, and stored/presented by a consumer as needed. The broader set of use cases might eventually include:</p>
 <ul>
 <li>Managing an immunization record that can be shared with schools or employers, or for travel</li>
 <li>Sharing verifiable health history data with clinical research studies</li>
@@ -1124,8 +1124,7 @@
 <li>SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>SHALL have <code>"crv": "P-256</code>, and <code>"x"</code>, <code>"y"</code> equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see <a href="https://tools.ietf.org/html/rfc7518#section-6.2">RFC7518</a>)</li>
 <li>SHALL NOT have the Elliptic Curve private key parameter <code>"d"</code></li>
-<li>If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public
-certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
+<li>If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
 The public key listed in the first certificate in the <code>"x5c"</code> array SHALL match the public key specified by the <code>"crv"</code>, <code>"x"</code>, and <code>"y"</code> parameters of the same JWK entry.
 If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</li>
 </ul>
@@ -1133,19 +1132,19 @@ If the issuer has more than one certificate for the same public key (e.g. partic
 <p>The URL at <code>&lt;&lt;iss value from JWS&gt;&gt;</code> SHALL use the <code>https</code> scheme and SHALL NOT include a trailing <code>/</code>. For example, <code>https://smarthealth.cards/examples/issuer</code> is a valid <code>iss</code> value (<code>https://smarthealth.cards/examples/issuer/</code> is <strong>not</strong>).</p>
 <p><strong>Signing keys</strong> in the <code>.keys[]</code> array can be identified by <code>kid</code> following the requirements above (i.e., by filtering on <code>kty</code>, <code>use</code>, and <code>alg</code>).</p>
 <p>For example, the following is a fragment of a <code>jwks.json</code> file with one signing key:
-<div class="highlight"><pre><span></span><code>{
-  &quot;keys&quot;:[
-    {
-      &quot;kty&quot;: &quot;EC&quot;,
-      &quot;kid&quot;: &quot;_IY9W2kRRFUigDfSB9r8jHgMRrT0w4p5KN93nGThdH8&quot;,
-      &quot;use&quot;: &quot;sig&quot;,
-      &quot;alg&quot;: &quot;ES256&quot;,
-      &quot;crv&quot;: &quot;P-256&quot;,
-      &quot;x&quot;: &quot;7xbC_9ZmFwKqOHpwX6-LnlhIh5SMIuNwl0PW1yVI_sk&quot;,
-      &quot;y&quot;: &quot;7k2fdIRNDHdf93vL76wxdXEPtj_GiMTTyecm7EUUMQo&quot;,
-    }
-  ]
-}
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;keys&quot;</span><span class="p">:[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;kty&quot;</span><span class="p">:</span> <span class="s2">&quot;EC&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;kid&quot;</span><span class="p">:</span> <span class="s2">&quot;_IY9W2kRRFUigDfSB9r8jHgMRrT0w4p5KN93nGThdH8&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;use&quot;</span><span class="p">:</span> <span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;alg&quot;</span><span class="p">:</span> <span class="s2">&quot;ES256&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;crv&quot;</span><span class="p">:</span> <span class="s2">&quot;P-256&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;7xbC_9ZmFwKqOHpwX6-LnlhIh5SMIuNwl0PW1yVI_sk&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;7k2fdIRNDHdf93vL76wxdXEPtj_GiMTTyecm7EUUMQo&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div></p>
 <h4 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h4>
 <p>X.509 certificates can be used by issuers to indicate the issuer's participation in a PKI-based trust framework.</p>
@@ -1153,8 +1152,8 @@ If the issuer has more than one certificate for the same public key (e.g. partic
 the Verifier establishes that the issuer is trusted as follows:</p>
 <ol>
 <li>Verifier validates the leaf certificate's binding to the Health Card issuer by:<ul>
-<li>matching the <code>&lt;&lt;iss value from JWS&gt;&gt;</code> to the value of a <code>uniformResourceIdentifier</code> 
-entry in the certificate's Subject Alternative Name extension 
+<li>matching the <code>&lt;&lt;iss value from JWS&gt;&gt;</code> to the value of a <code>uniformResourceIdentifier</code>
+entry in the certificate's Subject Alternative Name extension
 (see <a href="https://tools.ietf.org/html/rfc5280#section-4.21.6">RFC5280</a>), and</li>
 <li>verifying the signature in the Health Card using the public key in the certificate.</li>
 </ul>
@@ -1163,7 +1162,7 @@ entry in the certificate's Subject Alternative Name extension
  (see <a href="https://tools.ietf.org/html/rfc5280#section-6">RFC5280</a>).</li>
 </ol>
 <h4 id="key-management">Key Management<a class="headerlink" href="#key-management" title="Permanent link">&para;</a></h4>
-<p>Issuers SHOULD generate new signing keys at least annually. </p>
+<p>Issuers SHOULD generate new signing keys at least annually.</p>
 <p>When an issuer generates a new key to sign Health Cards, the public key SHALL be added to the
 issuer's JWK set in its <code>jwks.json</code> file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
@@ -1188,8 +1187,8 @@ Issuer -&gt;&gt; Issuer: Generate JWS Payload and sign
 note over Issuer, Holder: Later...
 Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws">Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)<a class="headerlink" href="#health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws" title="Permanent link">&para;</a></h4>
-<p>The VC structure (scaffold) is shown in the following example.  The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
-<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://smarthealth.cards/vocabulary/">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>).  Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
+<p>The VC structure (scaffold) is shown in the following example. The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
+<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://smarthealth.cards/vocabulary/">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;nbf&quot;</span><span class="p">:</span> <span class="mi">1591037940</span><span class="p">,</span>
@@ -1342,7 +1341,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
 <p>In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
 <h3 id="every-health-card-can-be-embedded-in-a-qr-code">Every Health Card can be embedded in a QR code<a class="headerlink" href="#every-health-card-can-be-embedded-in-a-qr-code" title="Permanent link">&para;</a></h3>
-<p>Each JWS string that appears in the <code>.verifiableCredential[]</code> of a <code>.smart-health-card</code> file can be embedded in one or more QR codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules.  When embedding a JWS string in QR codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR codes"</a>).</p>
+<p>Each JWS string that appears in the <code>.verifiableCredential[]</code> of a <code>.smart-health-card</code> file can be embedded in one or more QR codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a JWS string in QR codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR codes"</a>).</p>
 <p>Ensuring Health Cards can be presented as QR codes:</p>
 <ul>
 <li>Allows basic storage and sharing of Health Cards for users without a smartphone</li>
@@ -1358,7 +1357,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 </ul>
 <h3 id="creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws">Creating a QR code (or a set of QR codes) from a Health Card JWS<a class="headerlink" href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" title="Permanent link">&para;</a></h3>
 <h4 id="chunking">Chunking<a class="headerlink" href="#chunking" title="Permanent link">&para;</a></h4>
-<p>Commonly, Health Cards will fit in a single V22 QR code.  Any JWS longer than 1195 characters SHALL be split into "chunks" of length 1191 or smaller; each chunk SHALL be encoded as a separate QR code of V22 or lower, to ensure ease of scanning. Each chunk SHALL be numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below.</p>
+<p>Commonly, Health Cards will fit in a single V22 QR code. Any JWS longer than 1195 characters SHALL be split into "chunks" of length 1191 or smaller; each chunk SHALL be encoded as a separate QR code of V22 or lower, to ensure ease of scanning. Each chunk SHALL be numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below.</p>
 <p>To ensure the best user experience when producing and consuming multiple QR codes:</p>
 <ul>
 <li>Producers of QR codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.</li>
@@ -1367,7 +1366,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <h4 id="encoding-chunks-as-qr-codes">Encoding Chunks as QR codes<a class="headerlink" href="#encoding-chunks-as-qr-codes" title="Permanent link">&para;</a></h4>
 <p>When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:</p>
 <ol>
-<li>A segment encoded with <code>bytes</code> mode consisting of <ul>
+<li>A segment encoded with <code>bytes</code> mode consisting of<ul>
 <li>the fixed string <code>shc:/</code> (registered as an <a href="https://www.iana.org/assignments/uri-schemes/prov/shc">IANA scheme</a>)</li>
 <li>plus (only if more than one chunk is required)<ul>
 <li>decimal representation of "C" (e.g., <code>1</code> for the first chunk, <code>2</code> for the second chunk, and so on)</li>
@@ -1390,7 +1389,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <hr />
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
 <h3 id="can-a-smart-health-card-be-used-as-a-form-of-identification">Can a SMART Health Card be used as a form of identification?<a class="headerlink" href="#can-a-smart-health-card-be-used-as-a-form-of-identification" title="Permanent link">&para;</a></h3>
-<p>No. SMART Health Cards are designed for use <em>alongside</em> existing forms of identification (e.g., a driver's license in person, or an online ID verification service). A SMART Health Card is a non-forgeable digital artifact analogous to a paper record on official letterhead. Concretely, the problem SMART Health Cards solves is one of provenance: a digitally signed SMART Health Card is a credential that guarantees that a specific issuer generated the record. The duty of verifying that the person presenting a Health Card <em>is</em> the subject of the data within the Health Card (or is authorized to act on behalf of this data subject) falls to the person or system receiving and validating a Health Card.</p>
+<p>No. SMART Health Cards are designed for use <em>alongside</em> existing forms of identification (e.g., a driver's license in person, or an online ID verification service). A SMART Health Card is a non-forgeable digital artifact analogous to a paper record on official letterhead. Concretely, the problem SMART Health Cards solve is one of provenance: a digitally signed SMART Health Card is a credential that guarantees that a specific issuer generated the record. The duty of verifying that the person presenting a Health Card <em>is</em> the subject of the data within the Health Card (or is authorized to act on behalf of this data subject) falls to the person or system receiving and validating a Health Card.</p>
 <h3 id="which-clinical-data-should-be-considered-in-decision-making">Which clinical data should be considered in decision-making?<a class="headerlink" href="#which-clinical-data-should-be-considered-in-decision-making" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The data in Health Cards should focus on communicating "immutable clinical facts".</li>
@@ -1408,7 +1407,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <h3 id="how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results">How can we share conclusions like a "Safe-to-fly Pass", instead of sharing clinical results?<a class="headerlink" href="#how-can-we-share-conclusions-like-a-safe-to-fly-pass-instead-of-sharing-clinical-results" title="Permanent link">&para;</a></h3>
 <p>Decision-making often results in a narrowly-scoped "Pass" that embodies conclusions like "Person X qualifies for international flight between Country A and Country B, according to Rule Set C". While Health Cards are designed to be long-lived and general-purpose, Passes are highly contextual. We are not attempting to standardize "Passes" in this framework, but Health Cards can provide an important verifiable input for the generation of Passes.</p>
 <h3 id="what-testing-tools-are-available-to-validate-smart-health-cards-implementations">What testing tools are available to validate SMART Health Cards implementations?<a class="headerlink" href="#what-testing-tools-are-available-to-validate-smart-health-cards-implementations" title="Permanent link">&para;</a></h3>
-<p>The following tools are helpful to validate Health Card artefacts:</p>
+<p>The following tools are helpful to validate Health Card artifacts:</p>
 <ul>
 <li>The <a href="https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator">HL7 FHIR Validator</a> can be used to validate the Health Card's FHIR bundle</li>
 <li>The <a href="https://github.com/smart-on-fhir/health-cards-dev-tools">Health Cards Dev Tools</a> can be used to validate the various Health Card artifacts.</li>
