@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+Updated TLS requirements for issuer key set
+
 ## 1.0.2
 
 Updated links to the HL7 Implementation Guide
