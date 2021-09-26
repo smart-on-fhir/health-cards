@@ -145,7 +145,7 @@ the Verifier establishes that the issuer is trusted as follows:
 1. Verifier validates the leaf certificate's binding to the Health Card issuer by:
     * matching the `<<iss value from JWS>>` to the value of a `uniformResourceIdentifier`
     entry in the certificate's Subject Alternative Name extension
-    (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.21.6)), and
+    (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-4.2.1.6)), and
     * verifying the signature in the Health Card using the public key in the certificate.
 2. Verifier constructs a valid certificate path of unexpired and unrevoked certificates to one of its trusted anchors
  (see [RFC5280](https://tools.ietf.org/html/rfc5280#section-6)).
