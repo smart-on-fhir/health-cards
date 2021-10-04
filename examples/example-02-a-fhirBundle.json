@@ -1,0 +1,2475 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "fullUrl": "resource:0",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "identifier": [
+          {
+            "system": "http://acme.com/lab/reports",
+            "value": "ghp-example"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://acme.com/labs/reports",
+              "code": "GHP"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "resource:1",
+            "display": "Red Top Tube"
+          },
+          {
+            "reference": "resource:2",
+            "display": "Lavender Top Tube"
+          },
+          {
+            "reference": "resource:3",
+            "display": "Urine Sample"
+          }
+        ],
+        "result": [
+          {
+            "reference": "resource:22",
+            "display": "Chemistry Panel"
+          },
+          {
+            "reference": "resource:4",
+            "display": "CBC"
+          },
+          {
+            "reference": "resource:45",
+            "display": "Urinalysis"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:1",
+      "resource": {
+        "resourceType": "Specimen",
+        "accessionIdentifier": {
+          "system": "http://acme.com/labs/accession-ids",
+          "value": "20150816-00124"
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "119364003"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "collection": {
+          "collector": {
+            "reference": "Practitioner/f202"
+          },
+          "collectedDateTime": "2015-08-16T06:40:17Z"
+        },
+        "container": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://acme.com/labs",
+                  "code": "SST"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:2",
+      "resource": {
+        "resourceType": "Specimen",
+        "accessionIdentifier": {
+          "system": "http://acme.com/labs/accession-ids",
+          "value": "20150816-00124"
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "445295009"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "collection": {
+          "collector": {
+            "reference": "Practitioner/f202"
+          },
+          "collectedDateTime": "2015-08-16T06:40:17Z"
+        },
+        "container": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://acme.com/labs",
+                  "code": "LTT"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:3",
+      "resource": {
+        "resourceType": "Specimen",
+        "accessionIdentifier": {
+          "system": "http://acme.com/labs/accession-ids",
+          "value": "20150816-00124"
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "122575003"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "collection": {
+          "collector": {
+            "reference": "Practitioner/f202"
+          },
+          "collectedDateTime": "2015-08-16T06:40:17Z"
+        },
+        "container": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://acme.com/labs",
+                  "code": "UCUP"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:4",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "58410-2"
+            }
+          ]
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "specimen": {
+          "reference": "resource:2",
+          "display": "Lavender Top Tube"
+        },
+        "hasMember": [
+          {
+            "reference": "resource:5"
+          },
+          {
+            "reference": "resource:6"
+          },
+          {
+            "reference": "resource:7"
+          },
+          {
+            "reference": "resource:8"
+          },
+          {
+            "reference": "resource:9"
+          },
+          {
+            "reference": "resource:10"
+          },
+          {
+            "reference": "resource:11"
+          },
+          {
+            "reference": "resource:12"
+          },
+          {
+            "reference": "resource:13"
+          },
+          {
+            "reference": "resource:14"
+          },
+          {
+            "reference": "resource:15"
+          },
+          {
+            "reference": "resource:16"
+          },
+          {
+            "reference": "resource:17"
+          },
+          {
+            "reference": "resource:18"
+          },
+          {
+            "reference": "resource:19"
+          },
+          {
+            "reference": "resource:20"
+          },
+          {
+            "reference": "resource:21"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:5",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "718-7"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 176,
+          "unit": "g/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "g/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 135,
+              "unit": "g/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "g/L"
+            },
+            "high": {
+              "value": 180,
+              "unit": "g/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "g/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:6",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "789-8"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 5.9,
+          "unit": "x10*12/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*12/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4.2,
+              "unit": "x10*12/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*12/L"
+            },
+            "high": {
+              "value": 6,
+              "unit": "x10*12/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*12/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:7",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "4544-3"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 55,
+          "unit": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 38,
+              "unit": "%"
+            },
+            "high": {
+              "value": 52,
+              "unit": "%"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:8",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "787-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 99,
+          "unit": "fL",
+          "system": "http://unitsofmeasure.org",
+          "code": "fL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 80,
+              "unit": "fL",
+              "system": "http://unitsofmeasure.org",
+              "code": "fL"
+            },
+            "high": {
+              "value": 98,
+              "unit": "fL",
+              "system": "http://unitsofmeasure.org",
+              "code": "fL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:9",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "785-6"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 36,
+          "unit": "pg",
+          "system": "http://unitsofmeasure.org",
+          "code": "pg"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 27,
+              "unit": "pg",
+              "system": "http://unitsofmeasure.org",
+              "code": "pg"
+            },
+            "high": {
+              "value": 35,
+              "unit": "pg",
+              "system": "http://unitsofmeasure.org",
+              "code": "pg"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:10",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "777-3"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 444,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 150,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 450,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:11",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "6690-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 4.6,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 11,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:12",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "770-8"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 20,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:13",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "751-8"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.9,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "LL"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 2,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 7.5,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:14",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "736-9"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 20,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:15",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "731-0"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.9,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 1.1,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 4,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:16",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "5905-5"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 20,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:17",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "742-7"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.9,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.2,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 1,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:18",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "713-8"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 20,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:19",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "711-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.92,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "HH"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.04,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            },
+            "high": {
+              "value": 0.4,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:20",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "706-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 20,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:21",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "704-7"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.92,
+          "unit": "x10*9/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "10*9/L"
+        },
+        "referenceRange": [
+          {
+            "high": {
+              "value": 0.21,
+              "unit": "x10*9/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "10*9/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:22",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "24323-8"
+            }
+          ]
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "specimen": {
+          "reference": "resource:1",
+          "display": "Red Top Tube"
+        },
+        "hasMember": [
+          {
+            "reference": "resource:23"
+          },
+          {
+            "reference": "resource:24"
+          },
+          {
+            "reference": "resource:25"
+          },
+          {
+            "reference": "resource:26"
+          },
+          {
+            "reference": "resource:27"
+          },
+          {
+            "reference": "resource:28"
+          },
+          {
+            "reference": "resource:29"
+          },
+          {
+            "reference": "resource:30"
+          },
+          {
+            "reference": "resource:31"
+          },
+          {
+            "reference": "resource:32"
+          },
+          {
+            "reference": "resource:33"
+          },
+          {
+            "reference": "resource:34"
+          },
+          {
+            "reference": "resource:35"
+          },
+          {
+            "reference": "resource:36"
+          },
+          {
+            "reference": "resource:37"
+          },
+          {
+            "reference": "resource:38"
+          },
+          {
+            "reference": "resource:39"
+          },
+          {
+            "reference": "resource:40"
+          },
+          {
+            "reference": "resource:41"
+          },
+          {
+            "reference": "resource:42"
+          },
+          {
+            "reference": "resource:43"
+          },
+          {
+            "reference": "resource:44"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:23",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2951-2"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "104934005"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 140,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 137,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 147,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:24",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2823-3"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "59573005"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 4.2,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 3.5,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 5,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:25",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2075-0"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "46511006"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 105,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 96,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 109,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:26",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1963-8"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "88645003"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 26,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 25,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 33,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:27",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1863-0"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "271057005"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 13,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 4,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 17,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:28",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14749-6"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "36048009"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 7.4,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 3,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 7.7,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:29",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14937-7"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "273967009"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 4.7,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 2,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 7,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:30",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14682-9"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "70901006"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.09,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.04,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 0.11,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:31",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14933-6"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "86228006"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.39,
+          "unit": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.14,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 0.35,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:32",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14631-6"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "27171005"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 7,
+          "unit": "umol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 2,
+              "unit": "umol/L"
+            },
+            "high": {
+              "value": 20,
+              "unit": "umol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:33",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14629-0"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "39748002"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 3,
+          "unit": "umol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "umol/L"
+            },
+            "high": {
+              "value": 8,
+              "unit": "umol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:34",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "6768-6"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "88810008"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 108,
+          "unit": "U/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 30,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 115,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:35",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2324-2"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "69480007"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 35,
+          "unit": "U/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 45,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:36",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1742-6"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "34608000"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 54,
+          "unit": "U/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 45,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:37",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1920-8"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "45896001"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 30,
+          "unit": "U/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 41,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:38",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2532-0"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "11274001"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 131,
+          "unit": "U/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 80,
+              "unit": "U/L"
+            },
+            "high": {
+              "value": 250,
+              "unit": "U/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:39",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2000-8"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "71878006"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 2.38,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 2.25,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 2.65,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:40",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "13959-2"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "166708003"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 2.39,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 2.25,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 2.65,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:41",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "14879-1"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "104866001"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 1.5,
+          "unit": "mmol/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.8,
+              "unit": "mmol/L"
+            },
+            "high": {
+              "value": 1.5,
+              "unit": "mmol/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:42",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2885-2"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "74040009"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 67,
+          "unit": "g/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 60,
+              "unit": "g/L"
+            },
+            "high": {
+              "value": 82,
+              "unit": "g/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:43",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1751-7"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "104485008"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 42,
+          "unit": "g/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 35,
+              "unit": "g/L"
+            },
+            "high": {
+              "value": 50,
+              "unit": "g/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:44",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "10834-0"
+            },
+            {
+              "system": "http://snomed.info/sct",
+              "code": "104979009"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 25,
+          "unit": "g/L"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 20,
+              "unit": "g/L"
+            },
+            "high": {
+              "value": 40,
+              "unit": "g/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:45",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "24357-6"
+            }
+          ]
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        },
+        "hasMember": [
+          {
+            "reference": "resource:46"
+          },
+          {
+            "reference": "resource:47"
+          },
+          {
+            "reference": "resource:48"
+          },
+          {
+            "reference": "resource:49"
+          },
+          {
+            "reference": "resource:50"
+          },
+          {
+            "reference": "resource:51"
+          },
+          {
+            "reference": "resource:52"
+          },
+          {
+            "reference": "resource:53"
+          },
+          {
+            "reference": "resource:54"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "resource:46",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2756-5"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 5,
+          "unit": "pH"
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:47",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2887-8"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009"
+            }
+          ]
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:48",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2965-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 1.009
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:49",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "33051-4"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009"
+            }
+          ]
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:50",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2349-9"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009"
+            }
+          ]
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:51",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "33052-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009"
+            }
+          ]
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:52",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30405-5"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 1,
+          "unit": "/uL"
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:53",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "30391-7"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 1,
+          "comparator": "<",
+          "unit": "/uL"
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    },
+    {
+      "fullUrl": "resource:54",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "13654-9"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "resource:0"
+        },
+        "effectiveDateTime": "2015-08-16T06:40:17Z",
+        "issued": "2015-08-17T06:40:17Z",
+        "performer": [
+          {
+            "reference": "Organization/1832473e-2fe0-452d-abe9-3cdb9879522f",
+            "display": "Acme Laboratory, Inc"
+          }
+        ],
+        "valueQuantity": {
+          "value": 1,
+          "comparator": "<",
+          "unit": "/mL"
+        },
+        "specimen": {
+          "reference": "resource:3",
+          "display": "Urine Sample"
+        }
+      }
+    }
+  ]
+}
