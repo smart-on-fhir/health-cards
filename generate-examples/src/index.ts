@@ -9,8 +9,11 @@ import issuerPrivateKeys from './config/issuer.jwks.private.json';
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
+import DrFixture from './fixtures/dr-bundle.json'
+
 interface BundleInfo {
-  url: string;
+  url?: string;
+  fixture?: object,
   issuerIndex: number;
   types: string[];
 }
@@ -24,7 +27,7 @@ const exampleBundleInfo: BundleInfo[] = [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ]},
-  {url: 'https://www.hl7.org/fhir/diagnosticreport-example-ghp.json', issuerIndex: 0, types: []}
+  {fixture: DrFixture, issuerIndex: 0, types: []}
 ];
 
 interface Bundle {
@@ -191,7 +194,7 @@ const toNumericQr = (jws: string, chunkIndex: number, totalChunks: number): QRCo
 async function processExampleBundle(exampleBundleInfo: BundleInfo): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
   let types = exampleBundleInfo.types;
 
-  const exampleBundleRetrieved = (await got(exampleBundleInfo.url).json()) as Bundle;
+  const exampleBundleRetrieved = exampleBundleInfo.fixture as Bundle ?? (await got(exampleBundleInfo.url!).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
   const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types);
   const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload, exampleBundleInfo.issuerIndex);
