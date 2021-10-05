@@ -2,6 +2,10 @@
 
 ## 1.1.0
 
+Added verifier guidance to ignore unrecognized VC types
+
+## 1.1.0
+
 Updated TLS requirements for issuer key set
 
 ## 1.0.2
