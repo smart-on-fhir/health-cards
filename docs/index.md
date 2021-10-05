@@ -450,7 +450,7 @@ Decision-making often results in a narrowly-scoped "Pass" that embodies conclusi
 
 The following tools are helpful to validate Health Card artifacts:
 
-* The [HL7 FHIR Validator](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) can be used to validate the Health Card's FHIR bundle. It can load the smart card from the bundle directly, or from the jws, or from a text file starting with shc:/ (but not - yet - the QR code itself)
+* The [HL7 FHIR Validator](https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) can be used to validate the Health Card's FHIR bundle. It can load the smart card from the bundle directly, or from the jws, or from a text file starting with `shc:/` (but not a QR image).
 * The [Health Cards Dev Tools](https://github.com/smart-on-fhir/health-cards-dev-tools) can be used to validate the various Health Card artifacts.
 
 Other resources that are helpful for learning about and implementing SMART Health Cards include:
