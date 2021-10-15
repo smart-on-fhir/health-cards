@@ -254,7 +254,7 @@ When transferring a SMART Health Card from one app to another on Android, use:
 ```java
 Intent intent = new Intent();
 intent.setAction(Intent.ACTION_SEND);
-intent.SetType("application/smart-health-card");
+intent.setType("application/smart-health-card");
 intent.putExtra(Intent.EXTRA_STREAM, uri);
 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
