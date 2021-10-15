@@ -248,6 +248,29 @@ To facilitate this workflow, the issuer can include a link to help the user down
   ]
 }
 ```
+#### on Android
+When issuing a SMART Health Card from one app to another on Android, use:
+
+```java
+Intent intent = new Intent();
+intent.setAction(Intent.ACTION_SEND);
+intent.setDataAndType(uri, "application/smart-health-card");
+intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+startActivityForResult(Intent.createChooser(intent, ...
+```
+
+To receive a SMART Health Card in an Android app, register an intent filter, like:
+```xml
+<activity android:name="ShareActivity" android:exported="false">
+    <!-- This activity handles "SEND" actions with text data -->
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="application/smart-health-card"/>
+    </intent-filter>
+</activity>
+```
 
 ### via QR (Print or Scan)
 
