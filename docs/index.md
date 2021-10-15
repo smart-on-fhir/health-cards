@@ -255,6 +255,8 @@ When issuing a SMART Health Card from one app to another on Android, use:
 Intent intent = new Intent();
 intent.setAction(Intent.ACTION_SEND);
 intent.setDataAndType(uri, "application/smart-health-card");
+intent.putExtra(Intent.EXTRA_STREAM, uri);
+intent.SetType("application/smart-health-card");
 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 startActivityForResult(Intent.createChooser(intent, ...
