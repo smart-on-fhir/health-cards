@@ -158,8 +158,26 @@ When an issuer generates a new key to sign Health Cards, the public key SHALL be
 issuer's JWK set in its `jwks.json` file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
 signed Health Cards SHALL remain in the JWK set for as long as the corresponding Health Cards
-are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
-from the JWK set in its `jwks.json` file and request revocation of all X.509 certificates bound to that public key.
+are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key from the JWK set in its `jwks.json` file and request revocation of all X.509 certificates bound to that public key; verifiers will from then on reject all Health Cards signed using that key.
+
+### Revocation
+
+Individual Health Cards MAY be revoked by an issuer using the digest of their JWS representation. To revoke a card, an issuer:
+1. Calculates the SHA-256 `<<digest>>` of the utf-8 encoding of the `<<Health Card as JWS>>`
+2. Add the digest to their `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json`, where
+   - `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
+   - `"<<kid>>"` is the key ID with which the Health Card was signed,
+   - `"<<kid>>".json" is a JSON file containing an array of revoked Health Cards digests:
+   ```json
+   {
+   "kid": "<<kid>>",
+   "digests": [...,<<digest>>]
+   }
+   ```
+
+Verifiers SHOULD try to download the `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json` file, and if present, MUST reject the Health Card if its JWS SHA-256 digest is contained in the file.
+
+If too many Health Cards have been mistakenly issued under an issuer key, and if individual revocation of such Health Cards is not possible (because the issued JWS were not recorded, or if the affected set is unknown), then an issuer SHOULD revoke its key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation.
 
 ## Issuer Generates Results
 
@@ -427,6 +445,8 @@ When reading a QR code, scanning software can recognize a SMART Health Card from
 ---
 
 # FAQ
+
+Technical security questions are covered in the [security FAQ page](https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/security.md).
 
 ## Can a SMART Health Card be used as a form of identification?
 

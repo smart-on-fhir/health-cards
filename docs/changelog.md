@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+Specified Health Card revocation
+
 ## 1.1.1
 
 Added verifier guidance to ignore unrecognized VC types
