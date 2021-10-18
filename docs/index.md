@@ -258,7 +258,7 @@ intent.setType("application/smart-health-card");
 intent.putExtra(Intent.EXTRA_STREAM, uri);
 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-startActivityForResult(Intent.createChooser(intent, ...
+startActivity(Intent.createChooser(intent, ...
 ```
 
 To receive a SMART Health Card in an Android app, register an intent filter, like:
