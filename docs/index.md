@@ -175,7 +175,7 @@ Individual Health Cards MAY be revoked by an issuer using the digest of their JW
    }
    ```
 
-Verifiers SHOULD try to download the `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json` file, and if present, MUST reject the Health Card if its JWS SHA-256 digest is contained in the file.
+Verifiers SHOULD try to download the `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json` file, and if present, SHALL reject the Health Card if its JWS SHA-256 digest is contained in the file.
 
 If too many Health Cards have been mistakenly issued under an issuer key, and if individual revocation of such Health Cards is not possible (because the issued JWS were not recorded, or if the affected set is unknown), then an issuer SHOULD revoke its key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation.
 
