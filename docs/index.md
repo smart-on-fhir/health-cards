@@ -163,7 +163,7 @@ are clinically relevant. However, if a private signing key is compromised, then 
 ### Revocation
 
 Individual Health Cards MAY be revoked by an issuer using the digest of their JWS representation. To revoke a card, an issuer:
-1. Calculates the SHA-256 `<<digest>>` of the utf-8 encoding of the `<<Health Card as JWS>>`
+1. Calculates the base64url-encoded SHA-256 `<<digest>>` of the utf-8 encoding of the `<<Health Card as JWS>>`
 2. Add the digest to their `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json`, where
    - `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
    - `"<<kid>>"` is the key ID with which the Health Card was signed,
