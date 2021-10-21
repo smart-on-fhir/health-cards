@@ -249,7 +249,7 @@ To facilitate this workflow, the issuer can include a link to help the user down
 }
 ```
 #### on Android
-When transferring a SMART Health Card from one app to another on Android, use:
+When transferring a SMART Health Card from one app to another on Android, send it via a [content provider](https://developer.android.com/guide/topics/providers/content-providers) URI pointing to the .smart-health-card.
 
 ```java
 Intent intent = new Intent();
