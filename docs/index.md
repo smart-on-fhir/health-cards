@@ -162,22 +162,37 @@ are clinically relevant. However, if a private signing key is compromised, then 
 
 ### Revocation
 
-Individual Health Cards MAY be revoked by an issuer using the digest of their JWS representation. To revoke a card, an issuer:
-1. Calculates the base64url-encoded SHA-256 `<<digest>>` of the utf-8 encoding of the `<<Health Card as JWS>>`
-2. Add the digest to their `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json`, where
-   - `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
-   - `"<<kid>>"` is the key ID with which the Health Card was signed,
-   - `"<<kid>>".json" is a JSON file containing an array of revoked Health Cards digests:
-   ```json
-   {
-   "kid": "<<kid>>",
-   "digests": [...,<<digest>>]
-   }
-   ```
+Individual Health Cards MAY be revoked by an issuer using the digest of their JWS representation. The Revocation Digest Fragment (RDF) of a Health Card is calculated as follows:
+1. Calculate the SHA-256 `<<digest>>` of the utf-8 encoding of the `<<Health Card as JWS>>`,
+2. Calculate the base64url encoding of the first 128 bits of resulting `<<digest>>`
 
-Verifiers SHOULD try to download the `https://"<<Issuer URL>>"/.well-known/revoked-shcs-by/kid/"<<kid>>".json` file, and if present, MUST reject the Health Card if its JWS SHA-256 digest is contained in the file.
+To enable per-card revocation, the issuer creates, for each of its keys, a JSON Card Revocation List (CRL) file with the following content:
+```json
+{
+"kid": "<<kid>>",
+"ctr": "<<ctr>>",
+"rdf": [...]
+}
+```
+where
+- `"<<kid>>"` is the ID of the corresponding issuer key,
+- `"<<ctr>>"` is counter indicating how many times this file has been updated; initial value is 1,
+-  `rdf` is an array of revoked cards' digest fragments.
 
-If too many Health Cards have been mistakenly issued under an issuer key, and if individual revocation of such Health Cards is not possible (because the issued JWS were not recorded, or if the affected set is unknown), then an issuer SHOULD revoke its key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation.
+To revoke a Health Card issued under the key `"<<kid>>"`, an issuer adds its RDF to the `rfd` array of the corresponding `<<kid>>`'s revocation file. After updating the `rdf` array (with one or more items), the `<<ctr>>` is incremented.
+
+The revocation file is made available at `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json`, where
+- `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
+- `"<<kid>>"` is the key ID with which the Health Card was signed.
+
+Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crl#ctr` encoding the update counter for the corresponding revocation file.
+
+If the `crl#ctr` is present in the Issuer's JWK, verifiers SHALL
+- download the `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json` file (or use a cached version if the counter value has not changed since the last retrieval,
+- calculate its JWS revocation digest fragment as specified above,
+- reject the Health Card if the calculated RDF is contained in the CRL's `rdf` array.
+
+If individual revocation of SMART Health Cards is not possible (because the issued JWS were not recorded, or if the affected set is unknown), then an issuer SHOULD revoke its issuing key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation.
 
 ## Issuer Generates Results
 
