@@ -185,12 +185,12 @@ The revocation file is made available at `https://"<<Issuer URL>>"/.well-known/c
 - `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
 - `"<<kid>>"` is the key ID with which the Health Card was signed.
 
-Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crl#ctr` encoding the update counter for the corresponding revocation file.
+Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crl#ctr` field encoding the update counter for the corresponding revocation file.
 
-If the `crl#ctr` is present in the Issuer's JWK, verifiers SHALL
-- download the `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json` file (or use a cached version if the counter value has not changed since the last retrieval,
-- calculate its JWS revocation digest fragment as specified above,
-- reject the Health Card if the calculated RDF is contained in the CRL's `rdf` array.
+If the `crl#ctr` is present in the Issuer's JWK for key `<<kid>>`, Verifiers SHALL
+- Download the `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json` file (or use a cached version if the counter value has not changed since the last retrieval,
+- Calculate its JWS revocation digest fragment as specified above,
+- Reject the Health Card if the calculated RDF is contained in the CRL's `rdf` array.
 
 If individual revocation of SMART Health Cards is not possible (because the issued JWS were not recorded, or if the affected set is unknown), then an issuer SHOULD revoke its issuing key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation.
 
