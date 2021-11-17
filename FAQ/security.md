@@ -27,6 +27,10 @@ If you don't recognize the key, are they tricking verifiers into thinking you ar
 
 Expired private keys should be deleted, the corresponding public keys should stay in the issuer published key set to allow verifiers to validate health cards issued using them. Revoked private keys (compromised, issued in error, etc.) should be deleted and removed from the published key set.
 
+### Some cards have been erroneously issued, can they be revoked?
+
+Starting from v1.2.0, individual health cards issued by mistake can be revoked by listing its revocation identifier in an issuer's revocation list. Legacy health cards can use an external mechanism to derive a revocation identifier based on the health card's content.
+
 ## User
 
 ### Can someone steal my health card?
