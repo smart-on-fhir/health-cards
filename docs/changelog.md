@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- Don't forget to update the version number in the index.md#status section -->
+
 ## 1.1.1
 
 Added verifier guidance to ignore unrecognized VC types
