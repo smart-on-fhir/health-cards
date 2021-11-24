@@ -29,7 +29,7 @@ Expired private keys should be deleted, the corresponding public keys should sta
 
 ### Some cards have been erroneously issued, can they be revoked?
 
-Starting from v1.2.0, individual health cards issued by mistake can be revoked by listing its revocation identifier in an issuer's revocation list. Legacy health cards can use an external mechanism to derive a revocation identifier based on the health card's content.
+Starting from v1.2.0, individual health cards issued by mistake can be revoked by listing its revocation identifier in an issuer's revocation list. Legacy health cards can use an external mechanism to derive a revocation identifier based on the health card's content. See the [revocation FAQ](./revocation) for more details.
 
 ## User
 
