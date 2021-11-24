@@ -6,7 +6,7 @@ See the [SMART Health Cards public landing page](https://smarthealth.cards/). Ot
 
 ### Status
 
-Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.1.1; see the revision history in the [change log](./changelog/).
+Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is $CURRENT_VERSION; see the revision history in the [change log](./changelog/).
 
 ### Contributing
 
