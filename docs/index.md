@@ -182,7 +182,7 @@ where
 - `"<<kid>>"` is the ID of the corresponding issuer key,
 - `"rid"` identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,
 - `"<<ctr>>"` is counter indicating how many times this file has been updated; initial value is 1,
--  `rids` is an array of revoked cards' identifiers `rid` (using the base64url alphabet) combined with optional timestamps.
+-  `rids` is an array of revoked cards' identifiers `rid` values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of `.` followed by a numerical timestamp (e.g., `.1636977600`)
 
 To revoke a Health Card issued under the key `"<<kid>>"`, an issuer adds its revocation identifier to the `rids` array of the corresponding `<<kid>>`'s revocation file. Since an issuer might want to invalidate a series of Health Cards associated with the user up to a certain time, the `rid` might be followed by a separator `.` a timestamp (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by RFC 7519). After updating the `rids` array (with one or more items), the `<<ctr>>` is incremented.
 
