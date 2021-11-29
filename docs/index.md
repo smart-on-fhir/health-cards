@@ -463,6 +463,7 @@ Other resources that are helpful for learning about and implementing SMART Healt
 
 * The [code used to generate the examples](https://github.com/smart-on-fhir/health-cards/tree/main/generate-examples) present in the spec.
 * A [Jupyter Notebook walkthrough](https://github.com/dvci/health-cards-walkthrough/blob/main/SMART%20Health%20Cards.ipynb) and [demo portals](https://demo-portals.smarthealth.cards/) which demonstrate creating, validating and decoding a SMART Health Card as a QR code.
+* A [Golang code repository](https://github.com/amitkgupta/go-smarthealthcards) providing libraries which can be used individually for working with ECDSA keys, working with JSON Web Signatures, etc. or used together for an end-to-end solution (such as in this [demo portal](https://akgupta.ca/smart-health-cards)) for generating SMART Health Cards for COVID-19 immunizations as a QR code
 
 ## What software libraries are available to work with SMART Health Cards?
 
