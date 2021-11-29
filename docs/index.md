@@ -196,7 +196,7 @@ Issuers supporting this revocation method SHALL include in their published JWK s
 
 If the `crl-version` is present in the Issuer's JWK for key `<<kid>>`, Verifiers SHALL
 - Download the `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json` file or use a cached version if the counter value has not changed since the last retrieval,
-- Reject the Health Card if the calculated `rid` is contained in the CRL's `rids` array and the Health Card’s `nbf` is value is before the timestamp, if present.
+- Reject the Health Card if the calculated `rid` is contained in the CRL's `rids` array and (if a timestamp suffix is present) the Health Card’s `nbf` is value is before the timestamp.
 
 Revocation of Health Cards without a `rid` field (including all pre-v1.2.0 ones) can be done using external mechanisms to calculate a dynamic `rid` value based on the JWS’s content.
 
