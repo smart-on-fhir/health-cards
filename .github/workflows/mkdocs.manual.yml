@@ -16,6 +16,10 @@ jobs:
           cd generate-examples
           npm ci
           npm run generate-examples
+      - name: Populate current version
+        run: |
+          CURRENT_VERSION=$(grep -E -o '[0-9]\.\S++$' docs/changelog.md | head -1)
+          sed -i "s/\$CURRENT_VERSION/$CURRENT_VERSION/" docs/index.md
       - name: Build MkDocs
         uses: docker://squidfunk/mkdocs-material:6.2.8
         with:
