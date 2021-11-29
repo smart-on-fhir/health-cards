@@ -192,9 +192,9 @@ The per-key revocation file is made available at `https://"<<Issuer URL>>"/.well
 - `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
 - `"<<kid>>"` is the key ID with which the Health Card was signed.
 
-Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crl-version` field encoding the update counter "<<ctr>>" for the corresponding revocation file.
+Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crlVersion` field encoding the update counter "<<ctr>>" for the corresponding revocation file.
 
-If the `crl-version` is present in the Issuer's JWK for key `<<kid>>`, Verifiers SHALL
+If the `crlVersion` is present in the Issuer's JWK for key `<<kid>>`, Verifiers SHALL
 - Download the `https://"<<Issuer URL>>"/.well-known/crl/kid/"<<kid>>".json` file or use a cached version if the counter value has not changed since the last retrieval,
 - Reject the Health Card if the calculated `rid` is contained in the CRL's `rids` array and (if a timestamp suffix is present) the Health Card’s `nbf` is value is before the timestamp.
 
