@@ -10,7 +10,7 @@ Issuers that keep track of every single issued SHC could create a per-SHC `rid` 
 
 ### Why is a one-way transformation on the user ID recommended for revocation ID?
 
-Publishing user IDs is a privacy issue. A one-way transform with high-entropy input prevents reversal of the CRL’s content. The proposed HMAC-SHA-256 algorithm using a 256-bit key achieves that.
+Publishing an internal user ID might be a privacy issue. A one-way transform with high-entropy input prevents reversal of the CRL’s content. The proposed HMAC-SHA-256 algorithm using a 256-bit key achieves that.
 
 ### Why are Card Revocation Lists tied to a key identifier?
 
