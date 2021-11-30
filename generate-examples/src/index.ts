@@ -7,7 +7,6 @@ import jose, { JWK } from 'node-jose';
 import pako from 'pako';
 import QrCode, { QRCodeSegment } from 'qrcode';
 import issuerPrivateKeys from './config/issuer.jwks.private.json';
-const revocationHmacSecretKey = crypto.randomBytes(32); // 256-bit HMAC key for calculating revocation ID
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
@@ -19,6 +18,10 @@ interface BundleInfo {
   issuerIndex: number;
   types: string[];
 }
+
+// revocation data
+const issuerSupportingRevocation = new Set([0]); // only one issuer (kid) supports it
+const revocationHmacSecretKey = crypto.randomBytes(32); // 256-bit HMAC key for calculating revocation IDs
 
 const exampleBundleInfo: BundleInfo[] = [
   {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
@@ -52,12 +55,11 @@ interface StringMap {
 export interface HealthCard {
   iss: string;
   nbf: number;
-  exp: number;
   vc: {
     type: string[];
     credentialSubject: {
       fhirVersion: string;
-      fhirBundle: Record<string, unknown>;
+      fhirBundle: Bundle;
     };
     rid?: string;
   };
@@ -151,7 +153,7 @@ function calculateRid(userId: string, keyIndex: number): string {
 }
 
 function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId: string, keyIndex: number = 0): Record<string, unknown> {
-  return {
+  let payload:HealthCard = {
     iss: ISSUER_URL,
     nbf: new Date().getTime() / 1000,
     vc: {
@@ -163,9 +165,12 @@ function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId:
         fhirVersion: '4.0.1',
         fhirBundle,
       },
-      rid: calculateRid(userId, keyIndex),
     },
   };
+  if (issuerSupportingRevocation.has(keyIndex)) {
+    payload.vc.rid = calculateRid(userId, keyIndex);
+  }
+  return payload as unknown as Record<string, unknown>;
 }
 
 const MAX_SINGLE_JWS_SIZE = 1195;
