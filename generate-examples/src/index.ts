@@ -6,11 +6,17 @@ import got from 'got';
 import jose, { JWK } from 'node-jose';
 import pako from 'pako';
 import QrCode, { QRCodeSegment } from 'qrcode';
+// this jwk set contains three keys:
+//   0: an ECDSA key used to sign bundles 00, 02, and 03
+//   1: an encryption key, unused
+//   2: an ECDSA key with x5c field, used to sign bundle 01
 import issuerPrivateKeys from './config/issuer.jwks.private.json';
+import issuerRevocationHmacSecret from './config/issuer.hmac.private.json';  // should contain a "secret" of 256-bit of entropy to
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
-import DrFixture from './fixtures/dr-bundle.json'
+import DrFixture from './fixtures/dr-bundle.json';
+import RevokedFixture from './fixtures/revoked-bundle.json'; // example of a card that will be revoked
 
 interface BundleInfo {
   url?: string;
@@ -19,9 +25,8 @@ interface BundleInfo {
   types: string[];
 }
 
-// revocation data
-const issuerSupportingRevocation = new Set([0]); // only one issuer (kid) supports it
-const revocationHmacSecretKey = crypto.randomBytes(32); // 256-bit HMAC key for calculating revocation IDs
+// set of issuer indices (identifying kids) supporting the revocation feature, only one currently
+const issuerSupportingRevocation = new Set([0]);
 
 const exampleBundleInfo: BundleInfo[] = [
   {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
@@ -32,7 +37,8 @@ const exampleBundleInfo: BundleInfo[] = [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ]},
-  {fixture: DrFixture, issuerIndex: 0, types: []}
+  {fixture: DrFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19']},
+  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19']},
 ];
 
 interface Bundle {
@@ -146,7 +152,7 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
 
 function calculateRid(userId: string, keyIndex: number): string {
   // rid = base64url(hmac-sha-256(secret_key || <<kid>>, userId)[1..64]), as suggested by the spec
-  const digest = crypto.createHmac('sha256', Buffer.concat([revocationHmacSecretKey,Buffer.from(issuerPrivateKeys.keys[keyIndex].kid, 'utf8')])).update(userId).digest();
+  const digest = crypto.createHmac('sha256', issuerRevocationHmacSecret.secret + issuerPrivateKeys.keys[keyIndex].kid).update(userId).digest();
   const truncatedHmacValue = digest.subarray(0, 8); // keep only 8 bytes (64 bits)
   const rid = jose.util.base64url.encode(truncatedHmacValue);
   return rid;
@@ -238,15 +244,17 @@ async function processExampleBundle(exampleBundleInfo: BundleInfo, userId:string
   };
 }
 
+const iToDoubleDigit = (i: number) => i.toLocaleString('en-US', {
+  minimumIntegerDigits: 2,
+  useGrouping: false,
+});
+
 async function generate(options: { outdir: string }) {
   const exampleIndex: string[][] = [];
   const writeExamples = exampleBundleInfo.map(async (info, i) => {
-    const exNum = i.toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    });
+    const exNum = iToDoubleDigit(i);
     const outputPrefix = `example-${exNum}-`;
-    const example = await processExampleBundle(info, outputPrefix); // we use the ouputPrefix as a unique user Id for the revocation Id
+    const example = await processExampleBundle(info, `userid-${exNum}`);
     const fileA = `${outputPrefix}a-fhirBundle.json`;
     const fileB = `${outputPrefix}b-jws-payload-expanded.json`;
     const fileC = `${outputPrefix}c-jws-payload-minified.json`;
@@ -290,13 +298,13 @@ async function generate(options: { outdir: string }) {
 }
 
 async function generateCrl() {
-  // create a Card Revocation List (for the issuer of the first card example)
-  const exampleIndex = 0;
+  // create a Card Revocation List (for the issuer of the revoked card example)
+  const exampleIndex = 3;
   // revocation time (to be appended to some revocation IDs)
   const revocationTime = (new Date().getTime() / 1000).toFixed(0);
 
   // we revoke the userID of the first example card, along with some fake userIds
-  const rids = ['example-00-','fake-userid-01','fake-userid-02','fake-userid-03'].map((id,i) => {
+  const rids = ['userid-'+iToDoubleDigit(exampleIndex),'fake-userid-1','fake-userid-2','fake-userid-3'].map((id,i) => {
     let rid = calculateRid(id, exampleBundleInfo[exampleIndex].issuerIndex);
     // append a timestamp to every other entry
     return (i % 2) ? rid : rid + "." + revocationTime;
