@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Command } from 'commander';
+import crypto from 'crypto';
 import fs from 'fs';
 import got from 'got';
 import jose, { JWK } from 'node-jose';
 import pako from 'pako';
 import QrCode, { QRCodeSegment } from 'qrcode';
 import issuerPrivateKeys from './config/issuer.jwks.private.json';
+const revocationHmacSecretKey = crypto.randomBytes(32); // 256-bit HMAC key for calculating revocation ID
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
@@ -57,6 +59,7 @@ export interface HealthCard {
       fhirVersion: string;
       fhirBundle: Record<string, unknown>;
     };
+    rid?: string;
   };
 }
 
@@ -139,7 +142,15 @@ async function trimBundleForHealthCard(bundleIn: Bundle) {
   return bundle;
 }
 
-function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[]): Record<string, unknown> {
+function calculateRid(userId: string, keyIndex: number): string {
+  // rid = base64url(hmac-sha-256(secret_key || <<kid>>, userId)[1..64]), as suggested by the spec
+  const digest = crypto.createHmac('sha256', Buffer.concat([revocationHmacSecretKey,Buffer.from(issuerPrivateKeys.keys[keyIndex].kid, 'utf8')])).update(userId).digest();
+  const truncatedHmacValue = digest.subarray(0, 8); // keep only 8 bytes (64 bits)
+  const rid = jose.util.base64url.encode(truncatedHmacValue);
+  return rid;
+}
+
+function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId: string, keyIndex: number = 0): Record<string, unknown> {
   return {
     iss: ISSUER_URL,
     nbf: new Date().getTime() / 1000,
@@ -152,6 +163,7 @@ function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[]): Record
         fhirVersion: '4.0.1',
         fhirBundle,
       },
+      rid: calculateRid(userId, keyIndex),
     },
   };
 }
@@ -191,12 +203,12 @@ const toNumericQr = (jws: string, chunkIndex: number, totalChunks: number): QRCo
   },
 ];
 
-async function processExampleBundle(exampleBundleInfo: BundleInfo): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
+async function processExampleBundle(exampleBundleInfo: BundleInfo, userId:string): Promise<{ fhirBundle: Bundle; payload: Record<string, unknown>; file: Record<string, any>; qrNumeric: string[]; qrSvgFiles: string[]; }> {
   let types = exampleBundleInfo.types;
 
   const exampleBundleRetrieved = exampleBundleInfo.fixture as Bundle ?? (await got(exampleBundleInfo.url!).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
-  const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types);
+  const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types, userId, exampleBundleInfo.issuerIndex);
   const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload, exampleBundleInfo.issuerIndex);
 
   const jws = exampleBundleHealthCardFile.verifiableCredential[0] as string;
@@ -229,7 +241,7 @@ async function generate(options: { outdir: string }) {
       useGrouping: false,
     });
     const outputPrefix = `example-${exNum}-`;
-    const example = await processExampleBundle(info);
+    const example = await processExampleBundle(info, outputPrefix); // we use the ouputPrefix as a unique user Id for the revocation Id
     const fileA = `${outputPrefix}a-fhirBundle.json`;
     const fileB = `${outputPrefix}b-jws-payload-expanded.json`;
     const fileC = `${outputPrefix}c-jws-payload-minified.json`;
@@ -272,6 +284,27 @@ async function generate(options: { outdir: string }) {
   );
 }
 
+async function generateCrl() {
+  // create a Card Revocation List (for the issuer of the first card example)
+  const exampleIndex = 0;
+  // revocation time (to be appended to some revocation IDs)
+  const revocationTime = (new Date().getTime() / 1000).toFixed(0);
+
+  // we revoke the userID of the first example card, along with some fake userIds
+  const rids = ['example-00-','fake-userid-01','fake-userid-02','fake-userid-03'].map((id,i) => {
+    let rid = calculateRid(id, exampleBundleInfo[exampleIndex].issuerIndex);
+    // append a timestamp to every other entry
+    return (i % 2) ? rid : rid + "." + revocationTime;
+  });
+  const crl = {
+    kid: issuerPrivateKeys.keys[exampleBundleInfo[exampleIndex].issuerIndex].kid,
+    method: "rid",
+    ctr: 1, // make sure update to this value is reflected in the corresponding public key's crlVersion field (in issuer/.well-known/jwks.json)
+    rids: rids
+  }
+  fs.writeFileSync(`issuer/.well-known/crl/${crl.kid}.json`, JSON.stringify(crl, null, 2));
+}
+
 const program = new Command();
 program.option('-o, --outdir <outdir>', 'output directory');
 program.parse(process.argv);
@@ -285,4 +318,5 @@ console.log('Opts', options);
 
 if (options.outdir) {
   generate(options);
+  generateCrl();
 }
