@@ -20,16 +20,19 @@ Issuers supporting this feature SHALL host a `<<Issuer URI>>/.well-known/shc-con
 
 * `issuance`: URL to begin a workflow for (re-)issuance of a SMART Health Card
 
-An application begins the workflow by submitting a `.smart-health-card` JSON file as a `POST` body with `Content-type: application/json`. The `"verifiableCredential"` array of this JSON structure contains zero, one, or more SHC VCs as context for the re-issuance request. Any submitted credentials provide a contextual hint telling the issuer what SMART Health Card(s) the individual would like to re-issue. For example, in the case where an issuer key has been revoked, a now-invalid SHC would inform the issuer about what content the individual would like to have re-issued.
+An application begins the workflow by submitting a `.smart-health-card` JSON file as a `POST` body with `Content-type: application/json`. The `"verifiableCredential"` array of this JSON structure contains zero, one, or more SHC VCs as context for the re-issuance request. Any submitted credentials provide a contextual hint telling the issuer what SMART Health Card(s) the individual would like to re-issue. For example, in the case where an issuer key has been revoked, a now-invalid SHC would inform the issuer about what content the individual would like to have re-issued. If no context is required, the application MAY issue a `GET` to the `issuance` URL. Servers SHALL treat a `GET` as equivalent to a `POST` without context.
 
-After processing the submitted context and saving any request details, the server generates an opaque interaction URL to serve as a handle for this request (i.e., a URL where the user can navigate to continue the re-issuance process). The server responds with a `303` status and a `Location` header containing the interaction URL.
+After processing any submitted context and saving any request details, the server generates an opaque interaction URL that acts as a handle for this request (i.e., a URL where the user can navigate to continue the re-issuance process). The server responds with a `303` status and a `Location` header containing the interaction URL.
 
 The server SHALL ensure that no sensitive information can be derived from the interaction URL and SHALL ensure that any interaction URL bound to context has sufficient entropy to be unguessable (e.g., the 122 bits of entropy provided a V4 UUID would be suitable).
 
+The issuer SHALL independently verify any claims before re-issuing a credential; it SHALL NOT simply trust and re-sign claims from client-supplied context.
+
+By design, this protocol avoids putting SHCs appear in URLs, so they do not become part of a user's browser history.
 
 ## Example of re-issuance flow
 
-### Published onfiguration file
+### Configuration file
 
 For an issuer with `iss` of `https://shc.example.org`, a file like the following would be hosted at `https://shc.example.org/.well-known/shc-configuration`:
 
@@ -81,8 +84,8 @@ More comprehensive APIs for the management of VCs are being developed at https:/
 
 # Unresolved questions
 
-* Should we also stipulate that (for context-less requests) a user can navigate directy to the `issuance` URL in a browser context?
+* Should we define a mechanism for issuers to (optionally) sign the properties in the configuration document, similar to https://datatracker.ietf.org/doc/html/rfc8414#section-2.1 ?
 
 # Future possibilities
 
-Defining a generic `.well-known/shc-configuration` endpoint allows for additional metadata to be published in the future
+Defining a generic `.well-known/shc-configuration` endpoint allows for additional metadata to be published in the future (e.g., to publish logos, VC types, contact information, etc)
