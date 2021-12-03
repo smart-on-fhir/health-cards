@@ -428,6 +428,14 @@ For example:
 
 When reading a QR code, scanning software can recognize a SMART Health Card from the `shc:/` prefix. Stripping this prefix and the following `<ordinal>/<count>/` and decoding the remaining pairs of numerals yields a JWS.
 
+## Expiration of Health Cards
+
+Normally, Health Cards do not expire.  Health Cards are usually intended to contain factual information that is assured to be correct at the point of issuance and should not change with the passage of time.  There are, however, situations where the ability to set an expiration date is beneficial.  To be clear, these are special situations and expirations are **NOT** expected to be routinely used when clinical data Health Cards are issued by an authoritative source.
+
+Following is a use case for issuing Health Cards that have an expiration date.  Country X needs to issue Health Card vaccination certificates (visitor vaccination passes) to foreign visitors for their use while in the country.  The visitor vaccination certificate is issued based on document(s) from the visitor's country of residence presented by the visitor to Country X.  While there may be reasonable protocols for verification of the authenticity of the source information, Country X may not want to vouch for the validity of the information on the visitor pass for an unlimited period of time.  For example, if at some point after the visitor has left Country X, there is reason for questioning or revoking the document that was used as the source for the visitor pass, then it could be very hard for Country X to learn about the problem and/or revoke the visitor pass.  As a result, a visitor pass based on questionable information would continue to be valid.  This risk can be addressed/mitigated if Country X can set an expiration date on the visitor pass at the time of issuance.  The expiration date would, in this case, correspond to the visitor's allowed duration of stay in Country X.
+
+To address use cases such as the preceding one, an optional Health Card expiration date can be represented by the registered JWT `exp` claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by [RFC 7519](https://tools.ietf.org/html/rfc7519)).  Verifiers are required to check the expiration, if present, and reject Health Cards with an `exp` value that is before the current verification date-time.
+
 ---
 
 # FAQ
