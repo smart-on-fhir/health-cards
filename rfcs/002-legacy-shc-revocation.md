@@ -16,11 +16,20 @@ Verifiers validating a SHC without a `rid` value for which the issuer key lists 
 
 Method identifier: `hash-fhir`
 
-To use this scheme, an Issuer needs to be able to recreate the FHIR bundle for the revoked SHCs. Given a FHIR bundle, the revocation ID `rid` is computed as the base64url encoding of the first 64 bits of the SHA-256 digest of the base64url encoding of the UTF-8 encoding of the minified FHIR bundle; i.e., `rid = base64url(sha256(base64url(utf8(fhir)))[0..8])`.
+To use this scheme, an Issuer needs to be able to recreate the FHIR bundle for the revoked SHCs. Given a FHIR bundle, the revocation ID `rid` is computed as the base64url encoding of the first 64 bits of the SHA-256 digest of the base64url encoding of the UTF-8 encoding of the canonicalized FHIR bundle following the rules of [RFC 8785](https://datatracker.ietf.org/doc/html/rfc8785), as illutrated by the following pseudocode.
+
+```javascript
+const revokedFhirBundle = ... // a JSON object
+let canonicalized = canonicalize(revokedFhirBundle);
+let preimage = base64url.encode(Buffer.from(canonicalized, 'utf-8'));
+let digest = crypto.createHash('sha256').update(preimage).digest();
+let truncatedDigest = digest.subarray(0, 8);
+let rid = base64url.encode(truncatedDigest);
+```
 
 ### Example
 
-The `rid` value `9q2bR-42Z30` is calculated from the following FHIR bundle (taken from the revoked FHIR bundle example (TODO: link from PR #205))
+The `rid` value `JuTJHwXo2Yc` is calculated from the following FHIR bundle (taken from the revoked FHIR bundle example (TODO: link from PR #205))
 ```
 {
   "resourceType": "Bundle",
@@ -109,13 +118,23 @@ This mechanism could allow a sophisticated attacker to brute force the data need
 
 Method identifier: `hmac-patient`
 
-To use this scheme, an Issuer needs to be able to recreate the patient resource for the revoked SHCs. The Issuer creates a random 256-bit revocation secret, that it privately shares with trusted Verifiers. Given a FHIR patient resource, the revocation ID `rid` is computed as the base64url encoding of the first 64 bits of the HMAC-SHA-256 output of the base64url encoding of the UTF-8 encoding of the minified FHIR patient resource, using the issuer revocation secret; i.e., `rid = base64url(hmac-sha-256(secret, base64url(utf8(fhir)))[0..8])`.
+To use this scheme, an Issuer needs to be able to recreate the patient resource for the revoked SHCs. The Issuer creates a random 256-bit revocation secret, that it privately shares with trusted Verifiers. Given a FHIR patient resource, the revocation ID `rid` is computed as the base64url encoding of the first 64 bits of the HMAC-SHA-256 output of the issuer revocation secret and the base64url encoding of the UTF-8 encoding of the the canonicalized FHIR patient resource following the rules of [RFC 8785](https://datatracker.ietf.org/doc/html/rfc8785), as illutrated by the following pseudocode.
+
+```javascript
+const revokedPatientResource = ... // a JSON object
+const secret = ... // a 32-byte secret value
+let canonicalized = canonicalize(revokedPatientResource);
+let preimage = base64url.encode(Buffer.from(canonicalized, 'utf-8'));
+let digest = crypto.createHmac('sha256', secret).update(preimage).digest();
+let truncatedDigest = digest.subarray(0, 8);
+let rid = base64url.encode(truncatedDigest);
+```
 
 Because of the low-entropy in a patient resources, publishing their hash digests is almost equivalent to publishing their content. Therefore, this method uses the HMAC message authentication code with SHA-256 and a secret key shared between the Issuer and a set of trusted Verifiers. This prevents brute-forcing the matching patient resources, but can only be used in closed systems where Verifiers have a back-channel to the Issuer.
 
 ### Example
 
-The `rid` value `Xa1HLEWu4ao` is calculated using the HMAC-SHA-256 secret `2B_DhBnTyHCw-PEHs2KnYMtgjeEh5I0xq2tMHmLeurA` (that first needs to be base64url decoded) and the following patient FHIR resource:
+The `rid` value `xOSX1dDO5qM` is calculated using the HMAC-SHA-256 secret `2B_DhBnTyHCw-PEHs2KnYMtgjeEh5I0xq2tMHmLeurA` (that first needs to be base64url decoded) and the following patient FHIR resource:
 
 ```
 {
