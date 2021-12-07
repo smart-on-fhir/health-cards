@@ -1,6 +1,6 @@
 {
   "iss": "https://spec.smarthealth.cards/examples/issuer",
-  "nbf": 1638909204.581,
+  "nbf": 1638909204.269,
   "vc": {
     "type": [
       "https://smarthealth.cards#health-card",
@@ -19,14 +19,13 @@
               "resourceType": "Patient",
               "name": [
                 {
-                  "family": "Anyperson",
+                  "family": "Revoked",
                   "given": [
-                    "John",
-                    "B."
+                    "Johnny"
                   ]
                 }
               ],
-              "birthDate": "1951-01-20"
+              "birthDate": "1960-04-22"
             }
           },
           {
@@ -45,7 +44,7 @@
               "patient": {
                 "reference": "resource:0"
               },
-              "occurrenceDateTime": "2021-01-01",
+              "occurrenceDateTime": "2021-03-01",
               "performer": [
                 {
                   "actor": {
@@ -53,7 +52,7 @@
                   }
                 }
               ],
-              "lotNumber": "0000001"
+              "lotNumber": "0000003"
             }
           },
           {
@@ -72,7 +71,7 @@
               "patient": {
                 "reference": "resource:0"
               },
-              "occurrenceDateTime": "2021-01-29",
+              "occurrenceDateTime": "2021-03-29",
               "performer": [
                 {
                   "actor": {
@@ -80,12 +79,12 @@
                   }
                 }
               ],
-              "lotNumber": "0000007"
+              "lotNumber": "0000009"
             }
           }
         ]
       }
     },
-    "rid": "MKyCxh7p6uQ"
+    "rid": "vwAjHdarZuc"
   }
 }

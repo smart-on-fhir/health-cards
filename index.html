@@ -391,6 +391,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#revocation" class="md-nav__link">
+    Revocation
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -835,6 +842,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#revocation" class="md-nav__link">
+    Revocation
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1045,7 +1059,7 @@
 <h4 id="looking-for-a-non-technical-overview">Looking for a non-technical overview?<a class="headerlink" href="#looking-for-a-non-technical-overview" title="Permanent link">&para;</a></h4>
 <p>See the <a href="https://smarthealth.cards/">SMART Health Cards public landing page</a>. Otherwise, read on for the technical specifications.</p>
 <h4 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h4>
-<p>Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.1.1; see the revision history in the <a href="./changelog/">change log</a>.</p>
+<p>Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.2.0; see the revision history in the <a href="./changelog/">change log</a>.</p>
 <h4 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h4>
 <p>This specification is copyright by <em>Computational Health Informatics Program, Boston Children's Hospital, Boston, MA</em> and licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.</p>
 <p>We welcome discusion on the <a href="https://chat.fhir.org/#narrow/stream/284830-smart.2Fhealth-cards">SMART Health Cards channel</a> of the FHIR community chat. You can also propose changes via GitHub <a href="https://github.com/smart-on-fhir/health-cards/issues">Issues</a> or create a <a href="https://github.com/smart-on-fhir/health-cards/pulls">Pull Request</a>.</p>
@@ -1169,8 +1183,33 @@ entry in the certificate's Subject Alternative Name extension
 issuer's JWK set in its <code>jwks.json</code> file. Retired private keys that are no longer used to sign Health Cards SHALL be destroyed.
 Older public key entries that are needed to validate previously
 signed Health Cards SHALL remain in the JWK set for as long as the corresponding Health Cards
-are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key
-from the JWK set in its <code>jwks.json</code> file and request revocation of all X.509 certificates bound to that public key.</p>
+are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key from the JWK set in its <code>jwks.json</code> file and request revocation of all X.509 certificates bound to that public key; verifiers will from then on reject all Health Cards signed using that key.</p>
+<h4 id="revocation">Revocation<a class="headerlink" href="#revocation" title="Permanent link">&para;</a></h4>
+<p>Individual Health Cards MAY be revoked using a revocation identifier property <code>rid</code> encoded in the <code>vc</code> claim of the JWT. This should be a short identifier, meaningless to the verifiers; the only constraint is that the identifier SHALL use the base64url alphabet (but doesn’t need to be base64url encoded) and be no longer than 24 characters. Issuers MAY use application-specific user identifiers for this purpose, but since these could be publicly listed in revocation lists, issuers SHOULD use a one-way transformation of the data combined with enough entropy to prevent reversal. It is RECOMMENDED to use the base64url encoding of the first 64 bits of the output of HMAC-SHA-256 (as specified in <a href="https://tools.ietf.org/html/rfc4868">RFC 4868</a>) on the user identifier using a 256-bit random secret key concatenated with the <code>&lt;&lt;kid&gt;&gt;</code>; i.e., `rid = base64url(hmac-sha-256(secret_key || &lt;<kid>&gt;, user_id)[1..64]).</p>
+<p>To enable per-card revocation, the issuer creates, for each of its keys, a JSON Card Revocation List (CRL) file with the following content:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="nt">&quot;kid&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;kid&gt;&gt;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;rid&quot;</span><span class="p">,</span>
+<span class="nt">&quot;ctr&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;ctr&gt;&gt;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;rids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>where
+- <code>"&lt;&lt;kid&gt;&gt;"</code> is the ID of the corresponding issuer key,
+- <code>"rid"</code> identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,
+- <code>"&lt;&lt;ctr&gt;&gt;"</code> is a counter indicating how many times this file has been updated; initial value is 1,
+-  <code>rids</code> is an array of revoked cards' identifiers <code>rid</code> values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of <code>.</code> followed by a numerical timestamp (e.g., <code>.1636977600</code>)</p>
+<p>To revoke a Health Card issued under the key <code>"&lt;&lt;kid&gt;&gt;"</code>, an issuer adds its revocation identifier to the <code>rids</code> array of the corresponding <code>&lt;&lt;kid&gt;&gt;</code>'s revocation file. Since an issuer might want to invalidate a series of Health Cards associated with the user up to a certain time, the <code>rid</code> might be followed by a separator <code>.</code> a timestamp (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by RFC 7519). After updating the <code>rids</code> array (with one or more items), the <code>&lt;&lt;ctr&gt;&gt;</code> is incremented.</p>
+<p>As an example, the <code>rids</code> array <code>["AQPCj4wwk6Mt", "lHKzqFUMjhs.1636977600"]</code> marks as revoked any Health Cards with <code>rid</code> equal to <code>AQPCj4wwk6Mt</code> and Health Cards with <code>rid</code> equal to <code>lHKzqFUMjhs</code> issued before November 15, 2021 12:00:00 PM GMT.</p>
+<p>The per-key revocation file is made available at <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code>, where
+- <code>"&lt;&lt;Issuer URL&gt;&gt;"</code> is the issuer URL listed in the Health Card,
+- <code>"&lt;&lt;kid&gt;&gt;"</code> is the key ID with which the Health Card was signed.</p>
+<p>Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a <code>crlVersion</code> field encoding the update counter "&lt;<ctr>&gt;" for the corresponding revocation file.</p>
+<p>If the <code>crlVersion</code> is present in the Issuer's JWK for key <code>&lt;&lt;kid&gt;&gt;</code>, Verifiers SHALL
+- Download the <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code> file or use a cached version if the counter value has not changed since the last retrieval,
+- Reject the Health Card if the calculated <code>rid</code> is contained in the CRL's <code>rids</code> array and (if a timestamp suffix is present) the Health Card’s <code>nbf</code> is value is before the timestamp.</p>
+<p>Revocation of Health Cards without a <code>rid</code> field (including all pre-v1.2.0 ones) can be done using external mechanisms to calculate a dynamic <code>rid</code> value based on the JWS’s content.</p>
+<p>If individual revocation of SMART Health Cards is not possible, then an issuer SHOULD revoke its issuing key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation. See the <a href="https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/revocation.md">revocation FAQ</a> for more details.</p>
 <h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
 <p>When the issuer is ready to generate a Health Card, the issuer creates a FHIR payload and packs it into a corresponding Health Card VC (or Health Card Set).</p>
 <div class="mermaid">sequenceDiagram
@@ -1432,6 +1471,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <li>JSON Web Token (JWT): <a href="https://tools.ietf.org/html/rfc7519">https://tools.ietf.org/html/rfc7519</a></li>
 <li>JSON Web Key (JWK): <a href="https://tools.ietf.org/html/rfc7517">https://tools.ietf.org/html/rfc7517</a></li>
 <li>JSON Web Key (JWK) Thumbprint: <a href="https://tools.ietf.org/html/rfc7638">https://tools.ietf.org/html/rfc7638</a></li>
+<li>HMAC-SHA-256: <a href="https://tools.ietf.org/html/rfc4868">https://tools.ietf.org/html/rfc4868</a></li>
 </ul>
                 
               
