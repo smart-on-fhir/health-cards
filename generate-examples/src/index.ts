@@ -37,7 +37,7 @@ const exampleBundleInfo: BundleInfo[] = [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ]},
-  {fixture: DrFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19']},
+  {fixture: DrFixture, issuerIndex: 0, types: []},
   {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19']},
 ];
 
