@@ -183,24 +183,27 @@ To enable per-card revocation, the issuer creates, for each of its keys, a JSON 
 ```
 
 where
-- `"<<kid>>"` is the ID of the corresponding issuer key,
-- `"rid"` identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,
-- `"<<ctr>>"` is a counter indicating how many times this file has been updated; initial value is 1,
--  `rids` is an array of revoked cards' identifiers `rid` values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of `.` followed by a numerical timestamp (e.g., `.1636977600`)
+
+* `"<<kid>>"` is the ID of the corresponding issuer key,
+* `"rid"` identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,
+* `"<<ctr>>"` is a counter indicating how many times this file has been updated; initial value is 1,
+*  `rids` is an array of revoked cards' identifiers `rid` values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of `.` followed by a numerical timestamp (e.g., `.1636977600`)
 
 To revoke a Health Card issued under the key `"<<kid>>"`, an issuer adds its revocation identifier to the `rids` array of the corresponding `<<kid>>`'s revocation file. Since an issuer might want to invalidate a series of Health Cards associated with the user up to a certain time, the `rid` might be followed by a separator `.` a timestamp (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by RFC 7519). After updating the `rids` array (with one or more items), the `<<ctr>>` is incremented.
 
 As an example, the `rids` array `["AQPCj4wwk6Mt", "lHKzqFUMjhs.1636977600"]` marks as revoked any Health Cards with `rid` equal to `AQPCj4wwk6Mt` and Health Cards with `rid` equal to `lHKzqFUMjhs` issued before November 15, 2021 12:00:00 PM GMT.
 
 The per-key revocation file is made available at `https://"<<Issuer URL>>"/.well-known/crl/"<<kid>>".json`, where
-- `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
-- `"<<kid>>"` is the key ID with which the Health Card was signed.
+
+* `"<<Issuer URL>>"` is the issuer URL listed in the Health Card,
+* `"<<kid>>"` is the key ID with which the Health Card was signed.
 
 Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a `crlVersion` field encoding the update counter "<<ctr>>" for the corresponding revocation file.
 
 If the `crlVersion` is present in the Issuer's JWK for key `<<kid>>`, Verifiers SHALL
-- Download the `https://"<<Issuer URL>>"/.well-known/crl/"<<kid>>".json` file or use a cached version if the counter value has not changed since the last retrieval,
-- Reject the Health Card if the calculated `rid` is contained in the CRL's `rids` array and (if a timestamp suffix is present) the Health Card’s `nbf` is value is before the timestamp.
+
+* Download the `https://"<<Issuer URL>>"/.well-known/crl/"<<kid>>".json` file or use a cached version if the counter value has not changed since the last retrieval,
+* Reject the Health Card if the calculated `rid` is contained in the CRL's `rids` array and (if a timestamp suffix is present) the Health Card’s `nbf` is value is before the timestamp.
 
 Revocation of Health Cards without a `rid` field (including all pre-v1.2.0 ones) can be done using external mechanisms to calculate a dynamic `rid` value based on the JWS’s content.
 
