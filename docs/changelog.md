@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+Documented optional `exp` claim for expiration
+
 ## 1.2.0
 
 Specified Health Card revocation
