@@ -23,6 +23,7 @@ interface BundleInfo {
   fixture?: object,
   issuerIndex: number;
   types: string[];
+  validityPeriodInSec?: number; // optional validity period to add to the nbf value to create an exp value
 }
 
 // set of issuer indices (identifying kids) supporting the revocation feature, only one currently
@@ -38,7 +39,7 @@ const exampleBundleInfo: BundleInfo[] = [
     'https://smarthealth.cards#covid19',
   ]},
   {fixture: DrFixture, issuerIndex: 0, types: []},
-  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19']},
+  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19'], validityPeriodInSec: 60 * 60 * 24 * 365},
 ];
 
 interface Bundle {
@@ -61,6 +62,7 @@ interface StringMap {
 export interface HealthCard {
   iss: string;
   nbf: number;
+  exp?: number;
   vc: {
     type: string[];
     credentialSubject: {
@@ -158,7 +160,7 @@ function calculateRid(userId: string, keyIndex: number): string {
   return rid;
 }
 
-function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId: string, keyIndex: number = 0): Record<string, unknown> {
+function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId: string, keyIndex: number = 0, validityPeriodInSec?: number): Record<string, unknown> {
   let payload:HealthCard = {
     iss: ISSUER_URL,
     nbf: new Date().getTime() / 1000,
@@ -175,6 +177,9 @@ function createHealthCardJwsPayload(fhirBundle: Bundle, types: string[], userId:
   };
   if (issuerSupportingRevocation.has(keyIndex)) {
     payload.vc.rid = calculateRid(userId, keyIndex);
+  }
+  if (validityPeriodInSec) {
+    payload.exp = payload.nbf + validityPeriodInSec;
   }
   return payload as unknown as Record<string, unknown>;
 }
@@ -219,7 +224,7 @@ async function processExampleBundle(exampleBundleInfo: BundleInfo, userId:string
 
   const exampleBundleRetrieved = exampleBundleInfo.fixture as Bundle ?? (await got(exampleBundleInfo.url!).json()) as Bundle;
   const exampleBundleTrimmedForHealthCard = await trimBundleForHealthCard(exampleBundleRetrieved);
-  const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types, userId, exampleBundleInfo.issuerIndex);
+  const exampleJwsPayload = createHealthCardJwsPayload(exampleBundleTrimmedForHealthCard, types, userId, exampleBundleInfo.issuerIndex, exampleBundleInfo.validityPeriodInSec);
   const exampleBundleHealthCardFile = await createHealthCardFile(exampleJwsPayload, exampleBundleInfo.issuerIndex);
 
   const jws = exampleBundleHealthCardFile.verifiableCredential[0] as string;
