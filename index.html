@@ -505,6 +505,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#expiration-of-health-cards" class="md-nav__link">
+    Expiration of Health Cards
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -953,6 +960,13 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expiration-of-health-cards" class="md-nav__link">
+    Expiration of Health Cards
+  </a>
   
 </li>
         
@@ -1427,6 +1441,10 @@ For example, a request containing <code>credentialType</code> values <code>https
 <li>in a longer JWS, the second chunk in a set of three might produce a QR code like <code>shc:/2/3/56762909524320603460292437404460&lt;snipped for brevity&gt;</code></li>
 </ul>
 <p>When reading a QR code, scanning software can recognize a SMART Health Card from the <code>shc:/</code> prefix. Stripping this prefix and the following <code>&lt;ordinal&gt;/&lt;count&gt;/</code> and decoding the remaining pairs of numerals yields a JWS.</p>
+<h3 id="expiration-of-health-cards">Expiration of Health Cards<a class="headerlink" href="#expiration-of-health-cards" title="Permanent link">&para;</a></h3>
+<p>SMART Health Cards contain factual information that is assured to be correct at the point of issuance and does not change with the passage of time. Therefore, <strong>Health Cards generally do not expire</strong> and an expiration date is not used. There are, however, situations where the ability to set an expiration date is beneficial.</p>
+<p>One use case for issuing SMART Health Cards with an expiration date is a government entity issuing a vaccination card to foreign visitors for their use while in the destination country. This visitor's vaccination card is issued based on original documents presented by the visitor. Even with robust verification protocols, the government entity may not want to vouch for the validity of the visitor pass for an unlimited period of time. Importantly, the original document may be invalidated at some point in the future, e.g. by its signing keys being revoked. It may be impractical for the government entity issuing the visitor pass to track and reactively revoke the visitor pass. This risk can be mitigated by setting an expiration date on the visitor pass at the time of issuance. The expiration date could, for example, correspond to the visitor's allowed duration of stay in the foreign country.</p>
+<p>To address use cases such as the preceding one, an optional SMART Health Card expiration date can be represented by the registered JWT <code>exp</code> claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Verifiers SHALL check the expiration, if present, and reject SMART Health Cards with an <code>exp</code> value that is before the current verification date-time.</p>
 <hr />
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
 <p>Technical security questions are covered in the <a href="https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/security.md">security FAQ page</a>.</p>
