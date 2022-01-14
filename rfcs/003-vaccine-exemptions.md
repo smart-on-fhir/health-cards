@@ -11,12 +11,12 @@ Beyond simply requiring proof of vaccination or lab results, some jurisdictions 
 * :arrow_right: a key policy consideration for jurisdictions considering Vaccine Exemptions
 * :bulb: a technical design recommendation for SMART Health Cards deployments that want to model Vaccine Exemptions
 
-:warning: **Conveying "exemption status" is beyond the SMART Health Cards design intent.** Nevertheless, if jurisdictions intend to move ahead in this space, VCI has developed a set of policy and technical considerations.
+:warning: **Conveying "exemption status" is beyond the SMART Health Cards design intent.** On the other hand, conveying the clinical (or other relevant) facts behind an exemption raises significant privacy concern. If jurisdictions intend to move ahead in this space, VCI has developed a set of policy and technical considerations.
 
 ### Understanding exemptions
 
 #### *Exempt* from vaccination vs "simply not vaccinated"?
-Vaccination policies vary widely by jurisdiction. Exemption policies will vary even more widely. A key policy question is whether an "exempt" individual is treated differently from an otherwise-unvaccinated individual. For example, does a "vaccine exempt" individual have more lenient testing or quarantine requirements (compared with an otherwise-unvaccinated individual) upon arrival at a travel destination? In real-world travel use cases, the answer has been "no" (with a strong basis in public health and risk mitigation, when "exempt" does not imply lower-risk).
+Vaccination policies vary widely by jurisdiction. Exemption policies will vary even more widely. A key policy question is whether an "exempt" individual is treated differently from an otherwise-unvaccinated individual. For example, does a "vaccine exempt" individual have more lenient testing or quarantine requirements (compared with an otherwise-unvaccinated individual) upon arrival at a travel destination? In real-world travel use cases, the answer has been predominantly "no" (with a strong basis in public health and risk mitigation, when "exempt" does not imply lower-risk).
 
 :arrow_right: For international travel, an interoperable approach to exemptions may not be needed.
 
@@ -41,7 +41,7 @@ The data associated with a COVID-19 vaccine or lab results are relatively well-u
 
 When it comes to exemptions, the privacy analysis is much more challenging: some reasons for an exemption may be quite sensitive and outside the scope of information generally shared in the context of everyday life. Public health policy should not put individuals in a situation where they are asked to share information about their behavior problems, religious affiliation, research participation (etc) in the course of everyday life.
 
-*Note: It doesn't help use an "unpublished data dictionary" with opaque codes for the different exemption reasons; the community will (and should!) tear apart their QRs, compare them, and reverse engineer the data dictionary in short order.*
+*Note: It doesn't help to use an "unpublished data dictionary" with opaque codes for the different exemption reasons; the community will (and should!) tear apart their QRs, compare them, and reverse engineer the data dictionary in short order.*
 
 :bulb: SMART Health Cards should represent exemptions as a broad category, rather than naming the specific condition that is the cause for an exemption.
 
