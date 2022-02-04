@@ -24,6 +24,8 @@ interface BundleInfo {
   issuerIndex: number;
   types: string[];
   validityPeriodInSec?: number; // optional validity period to add to the nbf value to create an exp value
+  title: string;
+  description?: string;
 }
 
 // set of issuer indices (identifying kids) supporting the revocation feature, only one currently
@@ -33,13 +35,23 @@ const exampleBundleInfo: BundleInfo[] = [
   {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
-  ]},
+  ],
+  title: "Two COVID-19 Vaccine Doses"},
   {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
-  ]},
-  {fixture: DrFixture, issuerIndex: 0, types: []},
-  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19'], validityPeriodInSec: 60 * 60 * 24 * 365},
+  ],
+  title: "Two COVID-19 Vaccine Doses",
+  description: "Signed with an issuer key that includes `x5c` claim. Useful for testing code paths that rely on an X.509-based trust framework."
+},
+  {fixture: DrFixture, issuerIndex: 0, types: [],
+    title: "Multi-QR Testing Payload",
+    description: "Large payload with no particular clinical semantics. Useful for testing code paths where the JWS is too large to fit in a single QR."
+
+  },
+  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization', 'https://smarthealth.cards#covid19'], validityPeriodInSec: 60 * 60 * 24 * 365,
+  title: "Revoked COVID-19 Credential",
+  description: "Useful for testing code paths that evaluate the revocation status of a JWS."}
 ];
 
 interface Bundle {
@@ -254,8 +266,13 @@ const iToDoubleDigit = (i: number) => i.toLocaleString('en-US', {
   useGrouping: false,
 });
 
+interface ExampleOutput {
+  source: BundleInfo,
+  files: string[]
+}
+
 async function generate(options: { outdir: string }) {
-  const exampleIndex: string[][] = [];
+  const exampleIndex: ExampleOutput[] = [];
   const writeExamples = exampleBundleInfo.map(async (info, i) => {
     const exNum = iToDoubleDigit(i);
     const outputPrefix = `example-${exNum}-`;
@@ -282,15 +299,15 @@ async function generate(options: { outdir: string }) {
       fs.writeFileSync(`${options.outdir}/${fileG[i]}`, qr);
     });
 
-    const exampleEntry: string[] = [];
+    const exampleEntry: ExampleOutput = {source: info, files: []};
 
-    exampleEntry.push(fileA);
-    exampleEntry.push(fileB);
-    exampleEntry.push(fileC);
-    exampleEntry.push(fileD);
-    exampleEntry.push(fileE);
-    fileF.forEach(f => exampleEntry.push(f))
-    fileG.forEach(f => exampleEntry.push(f))
+    exampleEntry.files.push(fileA);
+    exampleEntry.files.push(fileB);
+    exampleEntry.files.push(fileC);
+    exampleEntry.files.push(fileD);
+    exampleEntry.files.push(fileE);
+    fileF.forEach(f => exampleEntry.files.push(f))
+    fileG.forEach(f => exampleEntry.files.push(f))
     exampleIndex[i] = exampleEntry;
   });
 
@@ -298,7 +315,7 @@ async function generate(options: { outdir: string }) {
   fs.writeFileSync(
     `${options.outdir}/index.md`,
     '# Example Resources \n' +
-    exampleIndex.map((e, i) => `## Example ${i}\n\n` + e.map((f) => `* [${f}](./${f})`).join('\n')).join('\n\n'),
+    exampleIndex.map((e, i) => `## Example ${i}: ${e.source.title}\n\n${e.source.description ?? ""}\n\n` + e.files.map((f) => `* [${f}](./${f})`).join('\n')).join('\n\n'),
   );
 }
 
