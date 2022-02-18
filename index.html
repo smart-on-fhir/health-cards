@@ -1148,13 +1148,13 @@
 <li>Wallets and Verifiers use the public key to verify Issuer signatures on Health Cards</li>
 </ul>
 <h4 id="determining-keys-associated-with-an-issuer">Determining keys associated with an issuer<a class="headerlink" href="#determining-keys-associated-with-an-issuer" title="Permanent link">&para;</a></h4>
-<p>Each public key used to verify signatures is represented as a JSON Web Key (see <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>):</p>
+<p>Each public key used to verify signatures is represented as a JSON Web Key (see <a href="https://tools.ietf.org/html/rfc7517">RFC7517</a>), with some of its properties encoded using base64url (see section 5 of <a href="https://tools.ietf.org/html/rfc4648#section-5">RFC4648</a>):</p>
 <ul>
 <li>SHALL have <code>"kty": "EC"</code>, <code>"use": "sig"</code>, and <code>"alg": "ES256"</code></li>
 <li>SHALL have <code>"kid"</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 <li>SHALL have <code>"crv": "P-256</code>, and <code>"x"</code>, <code>"y"</code> equal to the base64url-encoded values for the public Elliptic Curve point coordinates (see <a href="https://tools.ietf.org/html/rfc7518#section-6.2">RFC7518</a>)</li>
 <li>SHALL NOT have the Elliptic Curve private key parameter <code>"d"</code></li>
-<li>If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (not base64url-encoded) DER representations of the public certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
+<li>If the issuer has an X.509 certificate for the public key, SHALL have <code>"x5c"</code> equal to an array of one or more base64-encoded (<em>not</em> base64url-encoded) DER representations of the public certificate or certificate chain (see <a href="https://tools.ietf.org/html/rfc7517#section-4.7">RFC7517</a>).
 The public key listed in the first certificate in the <code>"x5c"</code> array SHALL match the public key specified by the <code>"crv"</code>, <code>"x"</code>, and <code>"y"</code> parameters of the same JWK entry.
 If the issuer has more than one certificate for the same public key (e.g. participation in more than one trust community), then a separate JWK entry is used for each certificate with all JWK parameter values identical except <code>"x5c"</code>.</li>
 </ul>
@@ -1199,7 +1199,10 @@ Older public key entries that are needed to validate previously
 signed Health Cards SHALL remain in the JWK set for as long as the corresponding Health Cards
 are clinically relevant. However, if a private signing key is compromised, then the issuer SHALL immediately remove the corresponding public key from the JWK set in its <code>jwks.json</code> file and request revocation of all X.509 certificates bound to that public key; verifiers will from then on reject all Health Cards signed using that key.</p>
 <h4 id="revocation">Revocation<a class="headerlink" href="#revocation" title="Permanent link">&para;</a></h4>
-<p>Individual Health Cards MAY be revoked using a revocation identifier property <code>rid</code> encoded in the <code>vc</code> claim of the JWT. This should be a short identifier, meaningless to the verifiers; the only constraint is that the identifier SHALL use the base64url alphabet (but doesn’t need to be base64url encoded) and be no longer than 24 characters. Issuers MAY use application-specific user identifiers for this purpose, but since these could be publicly listed in revocation lists, issuers SHOULD use a one-way transformation of the data combined with enough entropy to prevent reversal. It is RECOMMENDED to use the base64url encoding of the first 64 bits of the output of HMAC-SHA-256 (as specified in <a href="https://tools.ietf.org/html/rfc4868">RFC 4868</a>) on the user identifier using a 256-bit random secret key concatenated with the <code>&lt;&lt;kid&gt;&gt;</code>; i.e., `rid = base64url(hmac-sha-256(secret_key || &lt;<kid>&gt;, user_id)[1..64]).</p>
+<p>Individual Health Cards MAY be revoked using a revocation identifier property <code>rid</code> encoded in the <code>vc</code> claim of the JWT. This should be a short identifier, meaningless to the verifiers; the only constraint is that the identifier SHALL use the base64url alphabet (but doesn’t need to be base64url encoded, see section 5 of <a href="https://tools.ietf.org/html/rfc4648#section-5">RFC4648</a>) and be no longer than 24 characters. Issuers MAY use application-specific user identifiers for this purpose, but since these could be publicly listed in revocation lists, issuers SHOULD use a one-way transformation of the data combined with enough entropy to prevent reversal. It is RECOMMENDED to use the base64url encoding of the first 64 bits of the output of HMAC-SHA-256 (as specified in <a href="https://tools.ietf.org/html/rfc4868">RFC4868</a>) on the user identifier using a 256-bit random secret key concatenated with the <code>&lt;&lt;kid&gt;&gt;</code>; i.e.,</p>
+<p><div class="highlight"><pre><span></span><code>rid = base64url(hmac-sha-256(secret_key || &lt;&lt;kid&gt;&gt;, user_id)[1..64]).
+</code></pre></div>
+The revocation HMAC secret can be generated once and reused for all the issuer keys and issued Health Cards. If an issuer chooses to change the secret, old values need to be remembered in order to re-calculate previously generated <code>rid</code>.</p>
 <p>To enable per-card revocation, the issuer creates, for each of its keys, a JSON Card Revocation List (CRL) file with the following content:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="nt">&quot;kid&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;kid&gt;&gt;&quot;</span><span class="p">,</span>
@@ -1208,20 +1211,26 @@ are clinically relevant. However, if a private signing key is compromised, then 
 <span class="nt">&quot;rids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">...</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>where
-- <code>"&lt;&lt;kid&gt;&gt;"</code> is the ID of the corresponding issuer key,
-- <code>"rid"</code> identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,
-- <code>"&lt;&lt;ctr&gt;&gt;"</code> is a counter indicating how many times this file has been updated; initial value is 1,
--  <code>rids</code> is an array of revoked cards' identifiers <code>rid</code> values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of <code>.</code> followed by a numerical timestamp (e.g., <code>.1636977600</code>)</p>
-<p>To revoke a Health Card issued under the key <code>"&lt;&lt;kid&gt;&gt;"</code>, an issuer adds its revocation identifier to the <code>rids</code> array of the corresponding <code>&lt;&lt;kid&gt;&gt;</code>'s revocation file. Since an issuer might want to invalidate a series of Health Cards associated with the user up to a certain time, the <code>rid</code> might be followed by a separator <code>.</code> a timestamp (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by RFC 7519). After updating the <code>rids</code> array (with one or more items), the <code>&lt;&lt;ctr&gt;&gt;</code> is incremented.</p>
+<p>where</p>
+<ul>
+<li><code>"&lt;&lt;kid&gt;&gt;"</code> is the ID of the corresponding issuer key,</li>
+<li><code>"rid"</code> identifies the revocation method specified in this framework; legacy cards can use different methods specified in external revocation profiles,</li>
+<li><code>"&lt;&lt;ctr&gt;&gt;"</code> is a counter indicating how many times this file has been updated; initial value is 1,</li>
+<li><code>rids</code> is an array of revoked cards' identifiers <code>rid</code> values. These values are represented as strings from the base64url alphabet, plus an optional timestamp suffix consisting of <code>.</code> followed by a numerical timestamp (e.g., <code>.1636977600</code>)</li>
+</ul>
+<p>To revoke a Health Card issued under the key <code>"&lt;&lt;kid&gt;&gt;"</code>, an issuer adds its revocation identifier to the <code>rids</code> array of the corresponding <code>&lt;&lt;kid&gt;&gt;</code>'s revocation file. Since an issuer might want to invalidate a series of Health Cards associated with the user up to a certain time, the <code>rid</code> might be followed by a separator <code>.</code> a timestamp (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC7519</a>)). After updating the <code>rids</code> array (with one or more items), the <code>&lt;&lt;ctr&gt;&gt;</code> is incremented.</p>
 <p>As an example, the <code>rids</code> array <code>["AQPCj4wwk6Mt", "lHKzqFUMjhs.1636977600"]</code> marks as revoked any Health Cards with <code>rid</code> equal to <code>AQPCj4wwk6Mt</code> and Health Cards with <code>rid</code> equal to <code>lHKzqFUMjhs</code> issued before November 15, 2021 12:00:00 PM GMT.</p>
-<p>The per-key revocation file is made available at <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code>, where
-- <code>"&lt;&lt;Issuer URL&gt;&gt;"</code> is the issuer URL listed in the Health Card,
-- <code>"&lt;&lt;kid&gt;&gt;"</code> is the key ID with which the Health Card was signed.</p>
+<p>The per-key revocation file is made available at <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code>, where</p>
+<ul>
+<li><code>"&lt;&lt;Issuer URL&gt;&gt;"</code> is the issuer URL listed in the Health Card,</li>
+<li><code>"&lt;&lt;kid&gt;&gt;"</code> is the key ID with which the Health Card was signed.</li>
+</ul>
 <p>Issuers supporting this revocation method SHALL include in their published JWK set, for each key, a <code>crlVersion</code> field encoding the update counter "&lt;<ctr>&gt;" for the corresponding revocation file.</p>
-<p>If the <code>crlVersion</code> is present in the Issuer's JWK for key <code>&lt;&lt;kid&gt;&gt;</code>, Verifiers SHALL
-- Download the <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code> file or use a cached version if the counter value has not changed since the last retrieval,
-- Reject the Health Card if the calculated <code>rid</code> is contained in the CRL's <code>rids</code> array and (if a timestamp suffix is present) the Health Card’s <code>nbf</code> is value is before the timestamp.</p>
+<p>If the <code>crlVersion</code> is present in the Issuer's JWK for key <code>&lt;&lt;kid&gt;&gt;</code>, Verifiers SHALL</p>
+<ul>
+<li>Download the <code>https://"&lt;&lt;Issuer URL&gt;&gt;"/.well-known/crl/"&lt;&lt;kid&gt;&gt;".json</code> file or use a cached version if the counter value has not changed since the last retrieval,</li>
+<li>Reject the Health Card if the calculated <code>rid</code> is contained in the CRL's <code>rids</code> array and (if a timestamp suffix is present) the Health Card’s <code>nbf</code> is value is before the timestamp.</li>
+</ul>
 <p>Revocation of Health Cards without a <code>rid</code> field (including all pre-v1.2.0 ones) can be done using external mechanisms to calculate a dynamic <code>rid</code> value based on the JWS’s content.</p>
 <p>If individual revocation of SMART Health Cards is not possible, then an issuer SHOULD revoke its issuing key, and allow users to obtain new Health Cards; limiting the validity period of a key helps to mitigate the adverse effects of this situation. See the <a href="https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/revocation.md">revocation FAQ</a> for more details.</p>
 <h3 id="issuer-generates-results">Issuer Generates Results<a class="headerlink" href="#issuer-generates-results" title="Permanent link">&para;</a></h3>
@@ -1243,7 +1252,7 @@ note over Issuer, Holder: Later...
 Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws">Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)<a class="headerlink" href="#health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws" title="Permanent link">&para;</a></h4>
 <p>The VC structure (scaffold) is shown in the following example. The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
-<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://smarthealth.cards/vocabulary/">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. Verifiers and other entities processing SMART Health Cards SHALL ignore any additional <code>type</code> elements they do not understand. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
+<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://smarthealth.cards/vocabulary/">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. Verifiers and other entities processing SMART Health Cards SHALL ignore any additional <code>type</code> elements they do not understand. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC7519</a>). Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;nbf&quot;</span><span class="p">:</span> <span class="mi">1591037940</span><span class="p">,</span>
@@ -1269,7 +1278,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <li>JWS Header<ul>
 <li>header includes <code>alg: "ES256"</code></li>
 <li>header includes <code>zip: "DEF"</code></li>
-<li>header includes <code>kid</code> equal to the base64url-encoded SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+<li>header includes <code>kid</code> equal to the base64url-encoded (see section 5 of <a href="https://tools.ietf.org/html/rfc4648#section-5">RFC4648</a>) SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
 </ul>
 </li>
 <li>JWS Payload<ul>
@@ -1444,7 +1453,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <h3 id="expiration-of-health-cards">Expiration of Health Cards<a class="headerlink" href="#expiration-of-health-cards" title="Permanent link">&para;</a></h3>
 <p>SMART Health Cards contain factual information that is assured to be correct at the point of issuance and does not change with the passage of time. Therefore, <strong>Health Cards generally do not expire</strong> and an expiration date is not used. There are, however, situations where the ability to set an expiration date is beneficial.</p>
 <p>One use case for issuing SMART Health Cards with an expiration date is a government entity issuing a vaccination card to foreign visitors for their use while in the destination country. This visitor's vaccination card is issued based on original documents presented by the visitor. Even with robust verification protocols, the government entity may not want to vouch for the validity of the visitor pass for an unlimited period of time. Importantly, the original document may be invalidated at some point in the future, e.g. by its signing keys being revoked. It may be impractical for the government entity issuing the visitor pass to track and reactively revoke the visitor pass. This risk can be mitigated by setting an expiration date on the visitor pass at the time of issuance. The expiration date could, for example, correspond to the visitor's allowed duration of stay in the foreign country.</p>
-<p>To address use cases such as the preceding one, an optional SMART Health Card expiration date can be represented by the registered JWT <code>exp</code> claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Verifiers SHALL check the expiration, if present, and reject SMART Health Cards with an <code>exp</code> value that is before the current verification date-time.</p>
+<p>To address use cases such as the preceding one, an optional SMART Health Card expiration date can be represented by the registered JWT <code>exp</code> claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC7519</a>). Verifiers SHALL check the expiration, if present, and reject SMART Health Cards with an <code>exp</code> value that is before the current verification date-time.</p>
 <hr />
 <h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
 <p>Technical security questions are covered in the <a href="https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/security.md">security FAQ page</a>.</p>
