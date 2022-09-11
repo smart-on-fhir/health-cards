@@ -1,9 +1,7 @@
-# Verifiable Credential (VC) Types
+# Vocabulary
 
-* `https://smarthealth.cards#health-card`: A VC designed to convey a "Health Card" (i.e. clinical data bound to a subject's identity)
+Please see <https://terminology.smarthealth.cards>.
 
-### More Granular Sub-types
+## Verifiable Credential (VC) Types
 
-* `https://smarthealth.cards#covid19`: A Health Card designed to convey COVID-19 details
-* `https://smarthealth.cards#immunization`: A Health Card designed to convey immunization details
-* `https://smarthealth.cards#laboratory`: A Health Card designed to convey laboratory results
+SMART Health Cards are identified by the `https://smarthealth.cards#health-card` credential type, and optionally by additional relevant types. The [canonical list of SMART Health Card types is here](https://terminology.smarthealth.cards/CodeSystem-health-card.html).
