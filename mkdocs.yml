@@ -33,6 +33,9 @@ markdown_extensions:
 
 plugins:
     - search
+    - redirects:
+        redirect_maps:
+            'ial.md': 'https://terminology.smarthealth.cards/CodeSystem-identity-assurance-level.html'
 
 extra_javascript:
     - https://unpkg.com/mermaid@8.7.0/dist/mermaid.min.js
