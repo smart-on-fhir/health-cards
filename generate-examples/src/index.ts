@@ -15,6 +15,7 @@ import issuerRevocationHmacSecret from './config/issuer.hmac.private.json';  // 
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
+import CovidVaccinesFixture from './fixtures/covid-vaccines-bundle.json';
 import DrFixture from './fixtures/dr-bundle.json';
 import RevokedFixture from './fixtures/revoked-bundle.json'; // example of a card that will be revoked
 
@@ -32,16 +33,16 @@ interface BundleInfo {
 const issuerSupportingRevocation = new Set([0]);
 
 const exampleBundleInfo: BundleInfo[] = [
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
+  {fixture: CovidVaccinesFixture, issuerIndex: 0, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ],
-  title: "Two COVID-19 Vaccine Doses"},
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2, types: [
+  title: "Three COVID-19 Vaccine Doses"},
+  {fixture: CovidVaccinesFixture, issuerIndex: 2, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ],
-  title: "Two COVID-19 Vaccine Doses",
+  title: "Three COVID-19 Vaccine Doses",
   description: "Signed with an issuer key that includes `x5c` claim. Useful for testing code paths that rely on an X.509-based trust framework."
 },
   {fixture: DrFixture, issuerIndex: 0, types: [],

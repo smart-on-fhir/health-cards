@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+Update examples to include 3-dose COVID vaccination histories
+
 ## 1.2.1
 
 Documented optional `exp` claim for expiration
