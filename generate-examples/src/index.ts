@@ -15,6 +15,8 @@ import issuerRevocationHmacSecret from './config/issuer.hmac.private.json';  // 
 
 const ISSUER_URL = process.env.ISSUER_URL || 'https://spec.smarthealth.cards/examples/issuer';
 
+import TwoDoses from './fixtures/two-doses.json';
+import TwoDosesWithX5C from './fixtures/two-doses-x5c.json';
 import DrFixture from './fixtures/dr-bundle.json';
 import RevokedFixture from './fixtures/revoked-bundle.json'; // example of a card that will be revoked
 
@@ -32,12 +34,12 @@ interface BundleInfo {
 const issuerSupportingRevocation = new Set([0]);
 
 const exampleBundleInfo: BundleInfo[] = [
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario1Bundle.json', issuerIndex: 0, types: [
+  {fixture: TwoDoses, issuerIndex: 0, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ],
   title: "Two COVID-19 Vaccine Doses"},
-  {url: 'https://raw.githubusercontent.com/HL7/fhir-shc-vaccination-ig/master/examples/Scenario2Bundle.json', issuerIndex: 2, types: [
+  {fixture: TwoDosesWithX5C, issuerIndex: 2, types: [
     'https://smarthealth.cards#immunization',
     'https://smarthealth.cards#covid19',
   ],
