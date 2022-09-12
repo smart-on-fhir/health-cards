@@ -1,6 +1,6 @@
 {
   "iss": "https://spec.smarthealth.cards/examples/issuer",
-  "nbf": 1646083020.152,
+  "nbf": 1663010381.698,
   "vc": {
     "type": [
       "https://smarthealth.cards#health-card",
@@ -21,12 +21,12 @@
                 {
                   "family": "Anyperson",
                   "given": [
-                    "Jane",
-                    "C."
+                    "John",
+                    "B."
                   ]
                 }
               ],
-              "birthDate": "1961-01-20"
+              "birthDate": "1951-01-20"
             }
           },
           {
@@ -38,7 +38,7 @@
                 "coding": [
                   {
                     "system": "http://hl7.org/fhir/sid/cvx",
-                    "code": "208"
+                    "code": "207"
                   }
                 ]
               },
@@ -53,7 +53,7 @@
                   }
                 }
               ],
-              "lotNumber": "0000002"
+              "lotNumber": "0000001"
             }
           },
           {
@@ -65,7 +65,7 @@
                 "coding": [
                   {
                     "system": "http://hl7.org/fhir/sid/cvx",
-                    "code": "208"
+                    "code": "207"
                   }
                 ]
               },
@@ -80,7 +80,34 @@
                   }
                 }
               ],
-              "lotNumber": "0000008"
+              "lotNumber": "0000007"
+            }
+          },
+          {
+            "fullUrl": "resource:3",
+            "resource": {
+              "resourceType": "Immunization",
+              "status": "completed",
+              "vaccineCode": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/cvx",
+                    "code": "229"
+                  }
+                ]
+              },
+              "patient": {
+                "reference": "resource:0"
+              },
+              "occurrenceDateTime": "2022-09-05",
+              "performer": [
+                {
+                  "actor": {
+                    "display": "ABC General Hospital"
+                  }
+                }
+              ],
+              "lotNumber": "0000001"
             }
           }
         ]
