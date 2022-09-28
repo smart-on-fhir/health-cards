@@ -89,7 +89,7 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
 
-  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
+  * **Vaccination and Laboratory Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
 
 # Protocol Details
 
@@ -457,7 +457,29 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
+In this step, the verifier asks the user to share a Health Card. A Health Card
+containing the result can be conveyed by presenting a QR code; by uploading a
+file; or by leveraging wallet-specific APIs.
+
+When a wallet-specific API is used to manage this sharing workflow, the API
+SHOULD ensure that the requester can include filters for:
+
+1. SMART Health Card credential types, to restrict the request by high-level
+categories such as "#laboratory" or "#immunization". See [Health Card
+Types](https://terminology.smarthealth.cards/CodeSystem-health-card.html).
+Type-based filters apply to the types within the Health Card payload at
+`.vc.type[]`.
+
+2. SMART Health Card value sets, to further restrict the request by FHIR
+content such as "any standardized vaccine code for Moneypox". See [Health Card
+Value Sets](https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets).
+Valueset-based filters apply to the FHIR Resources within the Health Card
+payload at `.vc.credentialSubject.fhirBundle.entry[].resource`.  For
+Immunizations, the `Immunization.vaccineCode` is evaluated. For
+Observations, the `Observation.code` is evaluated.
+
+Over time, we will endeavor to provide more standardized presentation workflows
+for on-device and web-based exchange.
 
 ## Health Cards as QR Codes
 
