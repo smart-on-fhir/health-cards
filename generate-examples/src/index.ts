@@ -34,11 +34,9 @@ const issuerSupportingRevocation = new Set([0]);
 
 const exampleBundleInfo: BundleInfo[] = [
   {fixture: CovidVaccinesFixture, issuerIndex: 0, types: [
-    'https://smarthealth.cards#immunization',
   ],
   title: "Three COVID-19 Vaccine Doses"},
   {fixture: CovidVaccinesFixture, issuerIndex: 2, types: [
-    'https://smarthealth.cards#immunization',
   ],
   title: "Three COVID-19 Vaccine Doses",
   description: "Signed with an issuer key that includes `x5c` claim. Useful for testing code paths that rely on an X.509-based trust framework."
@@ -48,7 +46,7 @@ const exampleBundleInfo: BundleInfo[] = [
     description: "Large payload with no particular clinical semantics. Useful for testing code paths where the JWS is too large to fit in a single QR."
 
   },
-  {fixture: RevokedFixture, issuerIndex: 0, types: ['https://smarthealth.cards#immunization'], validityPeriodInSec: 60 * 60 * 24 * 365,
+  {fixture: RevokedFixture, issuerIndex: 0, types: [], validityPeriodInSec: 60 * 60 * 24 * 365,
   title: "Revoked COVID-19 Credential",
   description: "Useful for testing code paths that evaluate the revocation status of a JWS."}
 ];

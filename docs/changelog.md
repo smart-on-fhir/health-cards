@@ -2,7 +2,7 @@
 
 ## 1.4.0
 
-Deprecate disease-specific top-level types like `#covid19`, in favor of classifying cards based on their contents.
+Deprecate "additional" top-level types like `#covid19`, `#laboratory`, and `#immunization` in favor of classifying cards based on their contents.
 
 ## 1.3.0
 
