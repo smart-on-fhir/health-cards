@@ -270,7 +270,7 @@ Issuers SHALL ensure that the following constraints apply at the time of issuanc
     * payload is minified (i.e., all optional whitespace is stripped)
     * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
    
-For Health Cards that will be exchanged as QR codes, issuers SHALL:
+For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:
     * payload `.vc.credentialSubject.fhirBundle` is created:
         * without `Resource.id` elements
         * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
