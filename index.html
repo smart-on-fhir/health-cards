@@ -1288,15 +1288,18 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </li>
 </ul>
 <p>For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:</p>
-<pre><code>* payload `.vc.credentialSubject.fhirBundle` is created:
-    * without `Resource.id` elements
-    * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
-    * without `DomainResource.text` elements
-    * without `CodeableConcept.text` elements
-    * without `Coding.display` elements
-    * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
-    * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
-</code></pre>
+<ul>
+<li>JWS payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
+<li>without <code>Resource.id</code> elements</li>
+<li>without <code>Resource.meta</code> elements (or if present, <code>.meta.security</code> is included and no other fields are included)</li>
+<li>without <code>DomainResource.text</code> elements</li>
+<li>without <code>CodeableConcept.text</code> elements</li>
+<li>without <code>Coding.display</code> elements</li>
+<li>with <code>Bundle.entry.fullUrl</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"fullUrl": "resource:0"}</code>)</li>
+<li>with <code>Reference.reference</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"patient": {"reference": "resource:0"}}</code>)</li>
+</ul>
+</li>
+</ul>
 <p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
 <h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
 <p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.)</p>
