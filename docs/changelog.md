@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+Clarify that payload size restrictions apply when SHCs are intended for presentation as QRs
+
 ## 1.2.2
 
 Update examples to include 3-dose COVID vaccination histories
