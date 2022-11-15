@@ -273,14 +273,14 @@ Issuers SHALL ensure that the following constraints apply at the time of issuanc
    
 For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:
 
-    * payload `.vc.credentialSubject.fhirBundle` is created:
-        * without `Resource.id` elements
-        * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
-        * without `DomainResource.text` elements
-        * without `CodeableConcept.text` elements
-        * without `Coding.display` elements
-        * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
-        * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
+* JWS payload `.vc.credentialSubject.fhirBundle` is created:
+    * without `Resource.id` elements
+    * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
+    * without `DomainResource.text` elements
+    * without `CodeableConcept.text` elements
+    * without `Coding.display` elements
+    * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
+    * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
 
 For details about how to embed Health Cards in a QR code, [see below](#every-health-card-can-be-embedded-in-a-qr-code).
 
