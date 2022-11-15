@@ -1273,23 +1273,30 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="health-cards-are-small">Health Cards are Small<a class="headerlink" href="#health-cards-are-small" title="Permanent link">&para;</a></h4>
-<p>Issuers SHALL ensure that the following constraints apply at the time of issuance:
-* JWS Header
-    * header includes <code>alg: "ES256"</code>
-    * header includes <code>zip: "DEF"</code>
-    * header includes <code>kid</code> equal to the base64url-encoded (see section 5 of <a href="https://tools.ietf.org/html/rfc4648#section-5">RFC4648</a>) SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)
-* JWS Payload
-    * payload is minified (i.e., all optional whitespace is stripped)
-    * payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)</p>
-<p>For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:
-    * payload <code>.vc.credentialSubject.fhirBundle</code> is created:
-        * without <code>Resource.id</code> elements
-        * without <code>Resource.meta</code> elements (or if present, <code>.meta.security</code> is included and no other fields are included)
-        * without <code>DomainResource.text</code> elements
-        * without <code>CodeableConcept.text</code> elements
-        * without <code>Coding.display</code> elements
-        * with <code>Bundle.entry.fullUrl</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"fullUrl": "resource:0"}</code>)
-        * with <code>Reference.reference</code> populated with short <code>resource</code>-scheme URIs (e.g., <code>{"patient": {"reference": "resource:0"}}</code>)</p>
+<p>Issuers SHALL ensure that the following constraints apply at the time of issuance:</p>
+<ul>
+<li>JWS Header<ul>
+<li>header includes <code>alg: "ES256"</code></li>
+<li>header includes <code>zip: "DEF"</code></li>
+<li>header includes <code>kid</code> equal to the base64url-encoded (see section 5 of <a href="https://tools.ietf.org/html/rfc4648#section-5">RFC4648</a>) SHA-256 JWK Thumbprint of the key (see <a href="https://tools.ietf.org/html/rfc7638">RFC7638</a>)</li>
+</ul>
+</li>
+<li>JWS Payload<ul>
+<li>payload is minified (i.e., all optional whitespace is stripped)</li>
+<li>payload is compressed with the DEFLATE (see <a href="https://www.ietf.org/rfc/rfc1951.txt">RFC1951</a>) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)</li>
+</ul>
+</li>
+</ul>
+<p>For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:</p>
+<pre><code>* payload `.vc.credentialSubject.fhirBundle` is created:
+    * without `Resource.id` elements
+    * without `Resource.meta` elements (or if present, `.meta.security` is included and no other fields are included)
+    * without `DomainResource.text` elements
+    * without `CodeableConcept.text` elements
+    * without `Coding.display` elements
+    * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
+    * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
+</code></pre>
 <p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
 <h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
 <p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.)</p>
