@@ -273,7 +273,7 @@ Issuers SHALL ensure that the following constraints apply at the time of issuanc
     * payload is minified (i.e., all optional whitespace is stripped)
     * payload is compressed with the DEFLATE (see [RFC1951](https://www.ietf.org/rfc/rfc1951.txt)) algorithm before being signed (note, this should be "raw" DEFLATE compression, omitting any zlib or gz headers)
    
-For Health Cards that will be directly embedded in QR codes, issuers SHALL ensure that:
+For Health Cards that will be directly represented as QR codes, issuers SHALL ensure that:
 
 * JWS payload `.vc.credentialSubject.fhirBundle` is created:
     * without `Resource.id` elements
@@ -284,7 +284,7 @@ For Health Cards that will be directly embedded in QR codes, issuers SHALL ensur
     * with `Bundle.entry.fullUrl` populated with short `resource`-scheme URIs (e.g., `{"fullUrl": "resource:0"}`)
     * with `Reference.reference` populated with short `resource`-scheme URIs (e.g., `{"patient": {"reference": "resource:0"}}`)
 
-For details about how to embed Health Cards in a QR code, [see below](#many-health-cards-can-be-embedded-in-a-qr-code).
+For details about how to represent a Health Card as a QR code, [see below](#health-cards-as-qr-codes).
 
 ## User Retrieves Health Cards
 
@@ -305,7 +305,7 @@ To facilitate this workflow, the issuer can include a link to help the user down
 
 ### via QR (Print or Scan)
 
-Alternatively, issuers can make any individual JWS inside a Health Card available **embedded in a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#many-health-cards-can-be-embedded-in-a-qr-code).
+Alternatively, issuers can represent an individual JWS inside a Health Card available **as a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#health-cards-as-qr-codes).
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
 
@@ -428,9 +428,9 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
 
-## Many Health Cards can be embedded in a QR code
+## Health Cards as QR Codes
 
-Each JWS string that appears in the `.verifiableCredential[]` of a `.smart-health-card` file can be embedded in one or more QR codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a JWS string in QR codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see ["Encoding Chunks as QR codes"](#encoding-shcs-as-qr-codes)).
+Each JWS string that appears in the `.verifiableCredential[]` of a `.smart-health-card` file can be represented as a QR code, if the payload is small enough. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When representing a JWS as a QR code, implementers SHALL follow the rules for "Encoding QRs"(#encoding-qrs).
 
 Ensuring Health Cards can be presented as QR codes:
 
@@ -445,11 +445,9 @@ The following limitations apply when presenting Health Card as QR codes, rather 
   * Verifier cannot include purposes of use in-band
 * Does not capture a digital record of the presentation
 
-## Creating a QR code (or a set of QR codes) from a Health Card JWS
-
 ### Chunking Larger SHCs (deprecated)
    
-**Deprecation note: As of December 2022, support for chunking has not been widely adopted in production SHC deployments. For SHCs that need to be presented as QRs, we recommend limiting JWS size to fit in a single chunk (when possible), or else considering use of [SMART Health Links](https://docs.smarthealthit.org/smart-health-links).**
+**Deprecation note: As of December 2022, support for chunking has not been widely adopted in production SHC deployments. For SHCs that need to be presented as QRs, we recommend limiting payload size to fit in a single QR (when possible), or else considering [SMART Health Links](https://docs.smarthealthit.org/smart-health-links).**
 
 Commonly, Health Cards will fit in a single V22 QR code. Any JWS longer than 1195 characters SHALL be split into "chunks" of length 1191 or smaller; each chunk SHALL be encoded as a separate QR code of V22 or lower, to ensure ease of scanning. Each chunk SHALL be numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below. The [QR code FAQ page](https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/qr.md) details max JWS length restrictions at various error correction levels.
 
@@ -458,7 +456,7 @@ To ensure the best user experience when producing and consuming multiple QR code
 * Producers of QR codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.
 * Consumers of QR codes SHOULD allow for scanning the multiple QR codes in any order. Once the full set is scanned, the JWS can be assembled and validated.
 
-### Encoding SHCs as QR codes
+### Encoding QRs
 
 When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:
 
