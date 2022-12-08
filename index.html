@@ -419,8 +419,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#health-cards-are-small" class="md-nav__link">
-    Health Cards are Small
+  <a href="#health-cards-are-compact" class="md-nav__link">
+    Health Cards are Compact
   </a>
   
 </li>
@@ -472,30 +472,23 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#every-health-card-can-be-embedded-in-a-qr-code" class="md-nav__link">
-    Every Health Card can be embedded in a QR code
+  <a href="#health-cards-as-qr-codes" class="md-nav__link">
+    Health Cards as QR Codes
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" class="md-nav__link">
-    Creating a QR code (or a set of QR codes) from a Health Card JWS
-  </a>
-  
-    <nav class="md-nav" aria-label="Creating a QR code (or a set of QR codes) from a Health Card JWS">
+    <nav class="md-nav" aria-label="Health Cards as QR Codes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#chunking" class="md-nav__link">
-    Chunking
+  <a href="#chunking-larger-shcs-deprecated" class="md-nav__link">
+    Chunking Larger SHCs (deprecated)
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#encoding-chunks-as-qr-codes" class="md-nav__link">
-    Encoding Chunks as QR codes
+  <a href="#encoding-qrs" class="md-nav__link">
+    Encoding QRs
   </a>
   
 </li>
@@ -877,8 +870,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#health-cards-are-small" class="md-nav__link">
-    Health Cards are Small
+  <a href="#health-cards-are-compact" class="md-nav__link">
+    Health Cards are Compact
   </a>
   
 </li>
@@ -930,30 +923,23 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#every-health-card-can-be-embedded-in-a-qr-code" class="md-nav__link">
-    Every Health Card can be embedded in a QR code
+  <a href="#health-cards-as-qr-codes" class="md-nav__link">
+    Health Cards as QR Codes
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" class="md-nav__link">
-    Creating a QR code (or a set of QR codes) from a Health Card JWS
-  </a>
-  
-    <nav class="md-nav" aria-label="Creating a QR code (or a set of QR codes) from a Health Card JWS">
+    <nav class="md-nav" aria-label="Health Cards as QR Codes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#chunking" class="md-nav__link">
-    Chunking
+  <a href="#chunking-larger-shcs-deprecated" class="md-nav__link">
+    Chunking Larger SHCs (deprecated)
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#encoding-chunks-as-qr-codes" class="md-nav__link">
-    Encoding Chunks as QR codes
+  <a href="#encoding-qrs" class="md-nav__link">
+    Encoding QRs
   </a>
   
 </li>
@@ -1073,14 +1059,14 @@
 <h4 id="looking-for-a-non-technical-overview">Looking for a non-technical overview?<a class="headerlink" href="#looking-for-a-non-technical-overview" title="Permanent link">&para;</a></h4>
 <p>See the <a href="https://smarthealth.cards/">SMART Health Cards public landing page</a>. Otherwise, read on for the technical specifications.</p>
 <h4 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h4>
-<p>Stable first release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.2.3; see the revision history in the <a href="./changelog/">change log</a>.</p>
+<p>Stable release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.3.0; see the revision history in the <a href="./changelog/">change log</a>.</p>
 <h4 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h4>
 <p>This specification is copyright by <em>Computational Health Informatics Program, Boston Children's Hospital, Boston, MA</em> and licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.</p>
 <p>We welcome discussion on the <a href="https://chat.fhir.org/#narrow/stream/284830-smart.2Fhealth-cards">SMART Health Cards channel</a> of the FHIR community chat. You can also propose changes via GitHub <a href="https://github.com/smart-on-fhir/health-cards/issues">Issues</a> or create a <a href="https://github.com/smart-on-fhir/health-cards/pulls">Pull Request</a>.</p>
 <p>Security issues can be disclosed privately by emailing <code>security@smarthealth.cards</code> to allow for a responsible disclosure to affected parties.</p>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
-<p>This implementation guide provides a framework for "Health Cards", with a short term goal to enable a consumer to receive COVID-19 Vaccination or Lab results and <strong>present these results to another party in a verifiable manner</strong>. Key use cases include conveying point-in-time infection status for return-to-workplace and travel. This approach should also support documentation of immunization status and other health details.</p>
-<p>Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we are building on international open standards and decentralized infrastructure.</p>
+<p>This implementation guide provides a framework for "Health Cards". The frameworks supports documentation of any health-related details that can be modeled with <a href="https://hl7.org/fhir/">HL7 FHIR</a>. This work grew out of our initial focus on enabling a consumer to receive COVID-19 Vaccination or Lab results and <strong>present these results to another party in a verifiable manner</strong>. Key use cases included conveying point-in-time infection status for return-to-workplace and travel.</p>
+<p>Because we must ensure end-user privacy and because Health Cards must work across organizational and jurisdictional boundaries, we build on international open standards and decentralized infrastructure.</p>
 <h3 id="conceptual-model">Conceptual Model<a class="headerlink" href="#conceptual-model" title="Permanent link">&para;</a></h3>
 <p><img alt="Figure" src="https://i.imgur.com/T8RHjlJ.png" /></p>
 <ul>
@@ -1096,14 +1082,14 @@
 <li>Enable <strong>privacy preserving</strong> data presentations for specific use cases</li>
 </ul>
 <h3 id="start-small-think-big">Start Small -- Think Big<a class="headerlink" href="#start-small-think-big" title="Permanent link">&para;</a></h3>
-<p>We enable Health Cards by defining building blocks that can be used across healthcare. The core building block allows us to aggregate data into meaningful sets, signed by an issuer, and stored/presented by a consumer as needed. The broader set of use cases might eventually include:</p>
+<p>We enable Health Cards by defining building blocks that can be used across healthcare. The core building block allows us to aggregate data into meaningful sets, signed by an issuer, and stored/presented by a consumer as needed. The broader set of use cases should eventually include:</p>
 <ul>
 <li>Managing an immunization record that can be shared with schools or employers, or for travel</li>
 <li>Sharing verifiable health history data with clinical research studies</li>
 <li>Sharing voluntary data with public health agencies</li>
 <li>Sharing questionnaire responses with healthcare providers</li>
 </ul>
-<p>Despite this broad scope, our <em>short-term definition of success</em> requires that we:</p>
+<p>When we launched the project, our short-term definition of success included:</p>
 <ul>
 <li>Represent "Health Cards" in a "Health Wallet", focusing on COVID-19 status</li>
 <li>Ensure that each role (issuer, holder, app) can be implemented by any organization following open standards, provided they sign on to the relevant trust framework</li>
@@ -1127,7 +1113,8 @@
 <p>The granularity of information disclosure will be at the level of an entire credential (i.e., a user can select "which cards" to share from a Health Wallet, and each card is shared wholesale). The credentials are designed to only include the minimum information necessary for a given use case.</p>
 <h4 id="granular-sharing">Granular Sharing<a class="headerlink" href="#granular-sharing" title="Permanent link">&para;</a></h4>
 <p>Data holders should have full control over the data they choose to share for a particular use-case. Since Health Cards are signed by the issuer and cannot be altered later, it is important to ensure that Health Cards are created with granular sharing in mind. Therefore, issuers SHOULD only combine distinct data elements into a Health Card when a Health Card FHIR profile requires it.</p>
-<p>Additionally, Health Card FHIR Profiles SHOULD only include data that need to be conveyed together. (e.g., immunizations for different diseases should be kept separate. Immunizations and lab results should be kept separate. Immunizations and immunization exemption status should be kept separate.)</p>
+<p>Commonly, Health Cards will be created to convey information about a specific disease. In such cases, Health Card FHIR Profiles SHOULD only include data that need to be conveyed together. (e.g., immunizations for different diseases should be kept separate. Immunizations and lab results should be kept separate. Immunizations and immunization exemption status should be kept separate.)</p>
+<p>In other cases, Health Cards may be created to convey a broader set of clinical information, such as a patient summary document that can be shared in a clinical setting. In these cases, standard FHIR profiles such as <a href="https://hl7.org/fhir/uv/ips">International Patient Summary</a> should guide the decision about which data to include.</p>
 <h4 id="future-considerations">Future Considerations<a class="headerlink" href="#future-considerations" title="Permanent link">&para;</a></h4>
 <p>If we identify <em>optional</em> data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to summarize results in a just-in-time fashion.</p>
 <h3 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
@@ -1252,7 +1239,7 @@ note over Issuer, Holder: Later...
 Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <h4 id="health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws">Health Cards are encoded as Compact Serialization JSON Web Signatures (JWS)<a class="headerlink" href="#health-cards-are-encoded-as-compact-serialization-json-web-signatures-jws" title="Permanent link">&para;</a></h4>
 <p>The VC structure (scaffold) is shown in the following example. The Health Cards framework serializes VCs using the compact JWS serialization, where the payload is a compressed set of JWT claims (see <a href="https://tools.ietf.org/html/rfc7515#appendix-A.3">Appendix 3 of RFC7515</a> for an example using ECDSA P-256 SHA-256, as required by this specification). Specific encoding choices ensure compatibility with standard JWT claims, as described at <a href="https://www.w3.org/TR/vc-data-model/#jwt-encoding">https://www.w3.org/TR/vc-data-model/#jwt-encoding</a>.</p>
-<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://terminology.smarthealth.cards/CodeSystem-health-card.html">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. Verifiers and other entities processing SMART Health Cards SHALL ignore any additional <code>type</code> elements they do not understand. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC7519</a>). Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-small">minified and compressed</a>):</p>
+<p>The <code>type</code>, and <code>credentialSubject</code> properties are added to the <code>vc</code> claim of the JWT. The <code>type</code> values are defined in <a href="https://terminology.smarthealth.cards/CodeSystem-health-card.html">Credential Types</a>; the <code>https://smarthealth.cards#health-card</code> SHALL be present; other types SHOULD be included when they apply. Verifiers and other entities processing SMART Health Cards SHALL ignore any additional <code>type</code> elements they do not understand. The <code>issuer</code> property is represented by the registered JWT <code>iss</code> claim and the <code>issuanceDate</code> property is represented by the registered JWT <code>nbf</code> ("not before") claim (encoded as the number of seconds from 1970-01-01T00:00:00Z UTC, as specified by <a href="https://tools.ietf.org/html/rfc7519">RFC7519</a>). Hence, the overall JWS payload matches the following structure (before it is <a href="#health-cards-are-compact">minified and compressed</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&lt;Issuer URL&gt;&gt;&quot;</span><span class="p">,</span>
   <span class="nt">&quot;nbf&quot;</span><span class="p">:</span> <span class="mi">1591037940</span><span class="p">,</span>
@@ -1272,7 +1259,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="health-cards-are-small">Health Cards are Small<a class="headerlink" href="#health-cards-are-small" title="Permanent link">&para;</a></h4>
+<h4 id="health-cards-are-compact">Health Cards are Compact<a class="headerlink" href="#health-cards-are-compact" title="Permanent link">&para;</a></h4>
 <p>Issuers SHALL ensure that the following constraints apply at the time of issuance:</p>
 <ul>
 <li>JWS Header<ul>
@@ -1287,7 +1274,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </ul>
 </li>
 </ul>
-<p>For Health Cards that will be exchanged as QR codes, issuers SHALL ensure that:</p>
+<p>For Health Cards that will be directly represented as QR codes, issuers SHALL ensure that:</p>
 <ul>
 <li>JWS payload <code>.vc.credentialSubject.fhirBundle</code> is created:<ul>
 <li>without <code>Resource.id</code> elements</li>
@@ -1300,7 +1287,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </ul>
 </li>
 </ul>
-<p>For details about how to embed Health Cards in a QR code, <a href="#every-health-card-can-be-embedded-in-a-qr-code">see below</a>.</p>
+<p>For details about how to represent a Health Card as a QR code, <a href="#health-cards-as-qr-codes">see below</a>.</p>
 <h3 id="user-retrieves-health-cards">User Retrieves Health Cards<a class="headerlink" href="#user-retrieves-health-cards" title="Permanent link">&para;</a></h3>
 <p>In this step, the user learns that a new Health Card is available (e.g., by receiving a text message or email notification, or by an in-wallet notification for FHIR-enabled issuers.)</p>
 <h4 id="via-file-download">via File Download<a class="headerlink" href="#via-file-download" title="Permanent link">&para;</a></h4>
@@ -1313,7 +1300,7 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="via-qr-print-or-scan">via QR (Print or Scan)<a class="headerlink" href="#via-qr-print-or-scan" title="Permanent link">&para;</a></h4>
-<p>Alternatively, issuers can make any individual JWS inside a Health Card available <strong>embedded in a QR code</strong> (for instance, printed on a paper-based vaccination record or after-visit summary document). See <a href="#every-health-card-can-be-embedded-in-a-qr-code">details</a>.</p>
+<p>Alternatively, issuers can represent an individual JWS inside a Health Card available <strong>as a QR code</strong> (for instance, printed on a paper-based vaccination record or after-visit summary document). See <a href="#health-cards-as-qr-codes">details</a>.</p>
 <p>Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.</p>
 <h4 id="via-fhir-health-cards-issue-operation">via FHIR <code>$health-cards-issue</code> Operation<a class="headerlink" href="#via-fhir-health-cards-issue-operation" title="Permanent link">&para;</a></h4>
 <p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$health-cards-issue</code> operation defined <a href="../artifacts/operation-patient-i-health-cards-issue.json">here</a>. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
@@ -1407,8 +1394,8 @@ For example, a request containing <code>credentialType</code> values <code>https
 </code></pre></div>
 <h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
 <p>In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
-<h3 id="every-health-card-can-be-embedded-in-a-qr-code">Every Health Card can be embedded in a QR code<a class="headerlink" href="#every-health-card-can-be-embedded-in-a-qr-code" title="Permanent link">&para;</a></h3>
-<p>Each JWS string that appears in the <code>.verifiableCredential[]</code> of a <code>.smart-health-card</code> file can be embedded in one or more QR codes. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When embedding a JWS string in QR codes, the JWS string SHALL be encoded as Numerical Mode QR codes consisting of the digits 0-9 (see <a href="#encoding-chunks-as-qr-codes">"Encoding Chunks as QR codes"</a>).</p>
+<h3 id="health-cards-as-qr-codes">Health Cards as QR Codes<a class="headerlink" href="#health-cards-as-qr-codes" title="Permanent link">&para;</a></h3>
+<p>Each JWS string that appears in the <code>.verifiableCredential[]</code> of a <code>.smart-health-card</code> file can be represented as a QR code, if the payload is small enough. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When representing a JWS as a QR code, implementers SHALL follow the rules for "Encoding QRs"(#encoding-qrs).</p>
 <p>Ensuring Health Cards can be presented as QR codes:</p>
 <ul>
 <li>Allows basic storage and sharing of Health Cards for users without a smartphone</li>
@@ -1422,20 +1409,20 @@ For example, a request containing <code>credentialType</code> values <code>https
 <li>Verifier cannot include purposes of use in-band</li>
 <li>Does not capture a digital record of the presentation</li>
 </ul>
-<h3 id="creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws">Creating a QR code (or a set of QR codes) from a Health Card JWS<a class="headerlink" href="#creating-a-qr-code-or-a-set-of-qr-codes-from-a-health-card-jws" title="Permanent link">&para;</a></h3>
-<h4 id="chunking">Chunking<a class="headerlink" href="#chunking" title="Permanent link">&para;</a></h4>
+<h4 id="chunking-larger-shcs-deprecated">Chunking Larger SHCs (deprecated)<a class="headerlink" href="#chunking-larger-shcs-deprecated" title="Permanent link">&para;</a></h4>
+<p><strong>Deprecation note: As of December 2022, support for chunking has not been widely adopted in production SHC deployments. For SHCs that need to be presented as QRs, we recommend limiting payload size to fit in a single QR (when possible), or else considering <a href="https://docs.smarthealthit.org/smart-health-links">SMART Health Links</a>.</strong></p>
 <p>Commonly, Health Cards will fit in a single V22 QR code. Any JWS longer than 1195 characters SHALL be split into "chunks" of length 1191 or smaller; each chunk SHALL be encoded as a separate QR code of V22 or lower, to ensure ease of scanning. Each chunk SHALL be numerically encoded and prefixed with an ordinal as well as the total number of chunks required to re-assemble the JWS, as described below. The <a href="https://github.com/smart-on-fhir/health-cards/blob/main/FAQ/qr.md">QR code FAQ page</a> details max JWS length restrictions at various error correction levels.</p>
 <p>To ensure the best user experience when producing and consuming multiple QR codes:</p>
 <ul>
 <li>Producers of QR codes SHOULD balance the sizes of chunks. For example, if a JWS is 1200 characters long, producers should create two ~600 character chunks rather than a 1191 character chunk and a 9 character chunk.</li>
 <li>Consumers of QR codes SHOULD allow for scanning the multiple QR codes in any order. Once the full set is scanned, the JWS can be assembled and validated.</li>
 </ul>
-<h4 id="encoding-chunks-as-qr-codes">Encoding Chunks as QR codes<a class="headerlink" href="#encoding-chunks-as-qr-codes" title="Permanent link">&para;</a></h4>
+<h4 id="encoding-qrs">Encoding QRs<a class="headerlink" href="#encoding-qrs" title="Permanent link">&para;</a></h4>
 <p>When printing or displaying a Health Card using QR codes, let "N" be the total number of chunks required, and let "C" be a variable indicating the index of the current chunk. Each chunk of the JWS string value SHALL be represented as a QR with two data segments:</p>
 <ol>
 <li>A segment encoded with <code>bytes</code> mode consisting of<ul>
 <li>the fixed string <code>shc:/</code> (registered as an <a href="https://www.iana.org/assignments/uri-schemes/prov/shc">IANA scheme</a>)</li>
-<li>plus (only if more than one chunk is required)<ul>
+<li>plus (only if more than one chunk is required; note this feature is <em>deprecated</em>)<ul>
 <li>decimal representation of "C" (e.g., <code>1</code> for the first chunk, <code>2</code> for the second chunk, and so on)</li>
 <li>plus the fixed string <code>/</code></li>
 <li>plus decimal representation of "N" (e.g., <code>2</code> if there are two chunks in total, <code>3</code> if there three chunks in total, and so on)</li>
@@ -1450,7 +1437,7 @@ For example, a request containing <code>credentialType</code> values <code>https
 <p>For example:</p>
 <ul>
 <li>a single chunk might produce a QR code like <code>shc:/56762909524320603460292437404460&lt;snipped for brevity&gt;</code></li>
-<li>in a longer JWS, the second chunk in a set of three might produce a QR code like <code>shc:/2/3/56762909524320603460292437404460&lt;snipped for brevity&gt;</code></li>
+<li>in a longer JWS, the second chunk in a set of three might produce a QR code like <code>shc:/2/3/56762909524320603460292437404460&lt;snipped for brevity&gt;</code> (note this feature is <em>deprecated</em>)</li>
 </ul>
 <p>When reading a QR code, scanning software can recognize a SMART Health Card from the <code>shc:/</code> prefix. Stripping this prefix and the following <code>&lt;ordinal&gt;/&lt;count&gt;/</code> and decoding the remaining pairs of numerals yields a JWS.</p>
 <h3 id="expiration-of-health-cards">Expiration of Health Cards<a class="headerlink" href="#expiration-of-health-cards" title="Permanent link">&para;</a></h3>

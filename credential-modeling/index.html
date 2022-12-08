@@ -439,7 +439,7 @@
 <ul>
 <li><code>credentialSubject</code> with these top level elements:<ul>
 <li><code>fhirVersion</code>: a string representation of the semantic FHIR version the content is represented in (e.g. <code>1.0.*</code> for DSTU2, <code>4.0.*</code> for R4, where <code>*</code> is a number, not a literal asterisk)</li>
-<li><code>fhirBundle</code>: a FHIR <code>Bundle</code> resource of type "collection" that includes all required FHIR resources (content + identity resources)</li>
+<li><code>fhirBundle</code>: a FHIR <code>Bundle</code> resource that includes all required FHIR resources (content + identity resources). For the <a href="http://hl7.org/fhir/bundle-definitions.html#Bundle.type"><code>Bundle.type</code></a>, implementers should choose <code>collection</code> unless a more specific type applies (e.g. <code>document</code>).</li>
 </ul>
 </li>
 </ul>
