@@ -13,7 +13,9 @@ Once we make these decisions, we can construct a VC with a **credential subject*
 
 * `credentialSubject` with these top level elements:
     * `fhirVersion`: a string representation of the semantic FHIR version the content is represented in (e.g. `1.0.*` for DSTU2, `4.0.*` for R4, where `*` is a number, not a literal asterisk)
-    * `fhirBundle`: a FHIR `Bundle` resource of type "collection" that includes all required FHIR resources (content + identity resources)
+    * `fhirBundle`: a FHIR `Bundle` resource that includes all required FHIR resources (content + identity resources). For the [`Bundle.type`](http://hl7.org/fhir/bundle-definitions.html#Bundle.type), implementers should choose `collection` unless a more specific type applies (e.g. `document`).
+
+
 
 Resulting payload for the `"credentialSubject"`:
 

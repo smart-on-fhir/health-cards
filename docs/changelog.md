@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0
+
+* Deprecate "QR chunking" protocol, which has not seen wide adoption in real products and does not support a clean UX for presentation
+* Ensure that SHCs can be used for patient summary documents
+  * any FHIR `Bundle.type` is allowed
+* Update introduction to reflect current status
+
 ## 1.2.3
 
 Clarify that payload size restrictions apply when SHCs are intended for presentation as QRs
