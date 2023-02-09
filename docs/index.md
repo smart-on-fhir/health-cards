@@ -315,21 +315,21 @@ For a more seamless user experience when FHIR API connections are already in pla
 
 ### via “Deep Link”
 
-So a user can import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can create app specific “deep links”. These are available on most modern operating systems and will open link clicks in a native app if it's installed on the computer or smartphone.
+For a user to import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can display app specific “deep links”. These are available on most modern operating systems and will open link clicks in a native app if the respective app is installed on the computer or smartphone.
 
-Even though apps can define their own deep link syntax, for consistency we recommend Health Wallets support the following format:
+Apps can define their own deep link syntax. However, for consistency, we recommend Health Wallets support the following format:
 
 ```
 https://<<associated domain>><<'/'optional path>>/SMARTHealthCard/#(<<Verifiable Credential as JWS>><<','0+ more JWS>>)
 ```
 
-A hypothetical deep link into an app registered for `example.com` with two SMART Health Cards would look like this (actual JWS payload shortened for readability):
+A hypothetical deep link into an app registered for `example.com` with two SMART Health Cards would look something like this (actual JWS payload shortened for readability):
 
 ```text
 https://app.example.com/i/SMARTHealthCard/#(eyJhbGc.dVPBbtswDP.Xo3dhlA,eyJhbGc.xVVNc9MwEP.B3KT7OD)
 ```
 
-The Health Wallet can now parse the one or more JWT and present an import option to the user.
+The Health Wallet app can now parse the JWS and present them for import to the user.
 
 
 #### Discovery of FHIR Support
