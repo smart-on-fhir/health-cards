@@ -317,20 +317,28 @@ For a more seamless user experience when FHIR API connections are already in pla
 
 For a user to import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can display app-specific "deep links". These are available on most modern operating systems and will open in a native app if the respective app is installed on the computer or smartphone.
 
-Apps can define their own deep link syntax. However, for consistency we recommend Health Wallets support the following format:
+Apps can define their own deep link syntax. However, for consistency we recommend Health Wallets support the following format, which re-uses the JSON format defined for [file download](#via-file-download):
 
 ```
-<<app-specific deep link base URL>>#(<<Verifiable Credential as JWS>><<','0+ more JWS>>)
+<<app-specific deep link base URL>>#{"verifiableCredential":["<<Verifiable Credential as JWS>>"<<','0+ more JWS>>]}
 ```
 
 To follow this recommendation, deep link base URLs SHALL use a secure protocol (e.g., `https://`), and SHOULD end with `/SMARTHealthCard/`.
    
-Note that the recommended format includes a `#` fragment to ensure that JWS content is not transmitted to the server in the event that an app-specific deep link is opened in a browser context (e.g., on a device where the app has not been installed).
+Note that the recommended format serves the JWS content in a `#` fragment to ensure that no data is transmitted to the server in the event that an app-specific deep link is opened in a browser context (e.g., on a device where the app has not been installed).
 
 For a concrete example, consider an app whose deep link base is `https://app.example.com/i/SMARTHealthCard/`. A deep link to import two SMART Health Cards into the app would look something like this (actual JWS payload shortened for readability):
 
 ```text
-https://app.example.com/i/SMARTHealthCard/#(eyJhbGc.dVPBbtswDP.Xo3dhlA,eyJhbGc.xVVNc9MwEP.B3KT7OD)
+https://app.example.com/i/SMARTHealthCard/#{"verifiableCredential":["eyJhbGc.dVPBbtswDP.Xo3dhlA","eyJhbGc.xVVNc9MwEP.B3KT7OD"]}
+```
+
+With proper URL encoding a link will look like:
+
+```html
+<a href="https://app.example.com/i/SMARTHealthCard/#%7B%22verifiableCredential%22%3A%20%5B%22eyJhbGc.dVPBbtswDP.Xo3dhlA%22%2C%22eyJhbGc.xVVNc9MwEP.B3KT7OD%22%5D%7D">
+  Link Text
+</a>
 ```
 
 After OS-mediated redirection, the Health Wallet app can now parse each JWS and present the collection for import to the user.
