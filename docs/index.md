@@ -313,24 +313,27 @@ Finally, the Health Wallet asks the user if they want to save any/all of the sup
 
 For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$health-cards-issue` operation defined [here](../artifacts/operation-patient-i-health-cards-issue.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
-### via “Deep Link”
+### via "Deep Link"
 
-For a user to import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can display app specific “deep links”. These are available on most modern operating systems and will open link clicks in a native app if the respective app is installed on the computer or smartphone.
+For a user to import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can display app-specific "deep links". These are available on most modern operating systems and will open in a native app if the respective app is installed on the computer or smartphone.
 
-Apps can define their own deep link syntax. However, for consistency, we recommend Health Wallets support the following format:
+Apps can define their own deep link syntax. However, for consistency we recommend Health Wallets support the following format:
 
 ```
-https://<<associated domain>><<'/'optional path>>/SMARTHealthCard/#(<<Verifiable Credential as JWS>><<','0+ more JWS>>)
+<<app-specific deep link base URL>>#(<<Verifiable Credential as JWS>><<','0+ more JWS>>)
 ```
 
-A hypothetical deep link into an app registered for `example.com` with two SMART Health Cards would look something like this (actual JWS payload shortened for readability):
+To follow this recommendation, deep link base URLs SHALL use a secure protocol (e.g., `https://`), and SHOULD end with `/SMARTHealthCard/`.
+   
+Note that the recommended format includes a `#` fragment to ensure that JWS content is not transmitted to the server in the event that an app-specific deep link is opened in a browser context (e.g., on a device where the app has not been installed).
+
+For a concrete example, consider an app whose deep link base is `https://app.example.com/i/SMARTHealthCard/`. A deep link to import two SMART Health Cards into the app would look something like this (actual JWS payload shortened for readability):
 
 ```text
 https://app.example.com/i/SMARTHealthCard/#(eyJhbGc.dVPBbtswDP.Xo3dhlA,eyJhbGc.xVVNc9MwEP.B3KT7OD)
 ```
 
-The Health Wallet app can now parse the JWS and present them for import to the user.
-
+After OS-mediated redirection, the Health Wallet app can now parse each JWS and present the collection for import to the user.
 
 #### Discovery of FHIR Support
 
