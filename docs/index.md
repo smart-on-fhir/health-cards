@@ -336,7 +336,7 @@ https://app.example.com/i/SMARTHealthCard/#{"verifiableCredential":["eyJhbGc.dVP
 With proper URL encoding a link will look like:
 
 ```html
-<a href="https://app.example.com/i/SMARTHealthCard/#%7B%22verifiableCredential%22%3A%20%5B%22eyJhbGc.dVPBbtswDP.Xo3dhlA%22%2C%22eyJhbGc.xVVNc9MwEP.B3KT7OD%22%5D%7D">
+<a href="https://app.example.com/i/SMARTHealthCard/#%7B%22verifiableCredential%22%3A%5B%22eyJhbGc.dVPBbtswDP.Xo3dhlA%22%2C%22eyJhbGc.xVVNc9MwEP.B3KT7OD%22%5D%7D">
   Link Text
 </a>
 ```
