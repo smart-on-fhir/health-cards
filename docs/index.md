@@ -308,10 +308,7 @@ To facilitate this workflow, the issuer can include a link to help the user down
 Alternatively, issuers can represent an individual JWS inside a Health Card available **as a QR code** (for instance, printed on a paper-based vaccination record or after-visit summary document). See [details](#health-cards-as-qr-codes).
 
 Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.
-
-### via FHIR `$health-cards-issue` Operation
-
-For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$health-cards-issue` operation defined [here](../artifacts/operation-patient-i-health-cards-issue.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
+   
 
 ### via "Deep Link"
 
@@ -342,6 +339,10 @@ With proper URL encoding a link will look like:
 ```
 
 After OS-mediated redirection, the Health Wallet app can now parse each JWS and present the collection for import to the user.
+
+### via FHIR `$health-cards-issue` Operation
+
+For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API `$health-cards-issue` operation defined [here](../artifacts/operation-patient-i-health-cards-issue.json). For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., `launch/patient patient/Immunization.read` for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.
 
 #### Discovery of FHIR Support
 
