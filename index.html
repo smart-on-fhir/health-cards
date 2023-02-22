@@ -459,6 +459,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#via-deep-link" class="md-nav__link">
+    via "Deep Link"
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -910,6 +917,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#via-deep-link" class="md-nav__link">
+    via "Deep Link"
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1304,6 +1318,22 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 <p>Finally, the Health Wallet asks the user if they want to save any/all of the supplied credentials.</p>
 <h4 id="via-fhir-health-cards-issue-operation">via FHIR <code>$health-cards-issue</code> Operation<a class="headerlink" href="#via-fhir-health-cards-issue-operation" title="Permanent link">&para;</a></h4>
 <p>For a more seamless user experience when FHIR API connections are already in place, results may also be conveyed through a FHIR API <code>$health-cards-issue</code> operation defined <a href="../artifacts/operation-patient-i-health-cards-issue.json">here</a>. For issuers that support SMART on FHIR access, the Health Wallet MAY request authorization with SMART on FHIR scopes (e.g., <code>launch/patient patient/Immunization.read</code> for an Immunization use case). This allows the Health Wallet to automatically request issuance of VCs, including requests for periodic updates.</p>
+<h4 id="via-deep-link">via "Deep Link"<a class="headerlink" href="#via-deep-link" title="Permanent link">&para;</a></h4>
+<p>For a user to import one or more SMART Health Cards to their Health Wallet with one tap or click, issuers can display app-specific "deep links". These are available on most modern operating systems and will open in a native app if the respective app is installed on the computer or smartphone.</p>
+<p>Apps can define their own deep link syntax. However, for consistency we recommend Health Wallets support the following format, which re-uses the JSON format defined for <a href="#via-file-download">file download</a>:</p>
+<div class="highlight"><pre><span></span><code>&lt;&lt;app-specific deep link base URL&gt;&gt;#{&quot;verifiableCredential&quot;:[&quot;&lt;&lt;Verifiable Credential as JWS&gt;&gt;&quot;&lt;&lt;&#39;,&#39;0+ more JWS&gt;&gt;]}
+</code></pre></div>
+<p>To follow this recommendation, deep link base URLs SHALL use a secure protocol (e.g., <code>https://</code>), and SHOULD end with <code>/SMARTHealthCard/</code>.</p>
+<p>Note that the recommended format serves the JWS content in a <code>#</code> fragment to ensure that no data is transmitted to the server in the event that an app-specific deep link is opened in a browser context (e.g., on a device where the app has not been installed).</p>
+<p>For a concrete example, consider an app whose deep link base is <code>https://app.example.com/i/SMARTHealthCard/</code>. A deep link to import two SMART Health Cards into the app would look something like this (actual JWS payload shortened for readability):</p>
+<div class="highlight"><pre><span></span><code>https://app.example.com/i/SMARTHealthCard/#{&quot;verifiableCredential&quot;:[&quot;eyJhbGc.dVPBbtswDP.Xo3dhlA&quot;,&quot;eyJhbGc.xVVNc9MwEP.B3KT7OD&quot;]}
+</code></pre></div>
+<p>With proper URL encoding a link will look like:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://app.example.com/i/SMARTHealthCard/#%7B%22verifiableCredential%22%3A%5B%22eyJhbGc.dVPBbtswDP.Xo3dhlA%22%2C%22eyJhbGc.xVVNc9MwEP.B3KT7OD%22%5D%7D&quot;</span><span class="p">&gt;</span>
+  Link Text
+<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>After OS-mediated redirection, the Health Wallet app can now parse each JWS and present the collection for import to the user.</p>
 <h5>Discovery of FHIR Support</h5>
 <p>A SMART on FHIR Server capable of issuing VCs according to this specification SHALL advertise its support by adding the <code>health-cards</code> capability to its <code>/.well-known/smart-configuration</code> JSON file. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
