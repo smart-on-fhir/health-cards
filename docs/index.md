@@ -406,7 +406,7 @@ from all of the supplied Valuesets (logical AND).
     "valueUri": "Immunization"
   }, {
     "name": "credentialValueSet",
-    "valueUri": "https://terminology.smarthealth.cards/ValueSet/monkeypox-cvx"
+    "valueUri": "https://terminology.smarthealth.cards/ValueSet/immunization-orthopoxvirus-all"
   }]
 }
 ```
