@@ -389,7 +389,7 @@ The following parameters are optional; clients MAY include them in a request,
 and servers MAY ignore them if present.
 
 * **`credentialValueSet`**. Restricts the request by FHIR
-content such as "any standardized vaccine code for Moneypox". See [Health Card
+content such as "any standardized vaccine code for mpox". See [Health Card
 Valuesets](https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets).
 Valueset-based filters apply to the FHIR Resources within the Health Card
 payload at `.vc.credentialSubject.fhirBundle.entry[].resource`.  For
