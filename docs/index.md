@@ -503,7 +503,7 @@ Health Cards based on the FHIR resource types within the Health Card payload at
 `.vc.credentialSubject.fhirBundle.entry[].resource`.
 
 2. SMART Health Card value sets, to further restrict the request by FHIR
-content such as "any standardized vaccine code for Moneypox". See [Health Card
+content such as "any standardized vaccine code for mpox". See [Health Card
 Valuesets](https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets).
 Valueset-based filters apply to the FHIR Resources within the Health Card
 payload at `.vc.credentialSubject.fhirBundle.entry[].resource`.  For
