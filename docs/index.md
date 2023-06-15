@@ -89,7 +89,7 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
 
-  * **COVID-19 Vaccination Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
+  * **Vaccination and Laboratory Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
 
 # Protocol Details
 
@@ -362,22 +362,54 @@ A SMART on FHIR Server capable of issuing VCs according to this specification SH
 <a name="healthwalletissuevc-operation"></a>
 #### `$health-cards-issue` Operation
 
-A Health Wallet can `POST /Patient/:id/$health-cards-issue` to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:
+A Health Wallet can `POST /Patient/:id/$health-cards-issue` to a FHIR-enabled issuer to request or generate a specific type of Health Card. The body of the POST looks like:
 
 ```json
 {
   "resourceType": "Parameters",
   "parameter": [{
     "name": "credentialType",
-    "valueUri": "https://smarthealth.cards#covid19"
+    "valueUri": "Immunization"
   }]
 }
 ```
 
-The `credentialType` parameter is required. Multiple `credentialType` values in one request SHALL be interpreted as a request for the intersection of the requested types (logical AND).
-For example, a request containing `credentialType` values `https://smarthealth.cards#covid19` and `https://smarthealth.cards#immunization` is a request for only those cards that are both COVID-19 cards and immunization cards (i.e., only those COVID-19 cards that are about immunizations).
+The `credentialType` parameter is required. This parameter restricts the request
+by high-level categories based on FHIR Resource Types such as "Observation" or
+"Immunization". See [FHIR Resource
+Types](https://hl7.org/fhir/R4/resourcelist.html).  Type-based filters evalute
+Health Cards based on the FHIR resource types within the Health Card payload at
+`.vc.credentialSubject.fhirBundle.entry[].resource`.  Multiple `credentialType`
+parameters in one request SHALL be interpreted as a request for Health Cards
+that contain all of the requested types (logical AND). To maintain compatibility
+with the initial release of this specification, servers SHOULD process
+`#immunization` as `Immunization`, and `#laboratory` as `Observation`.
 
-The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.
+The following parameters are optional; clients MAY include them in a request,
+and servers MAY ignore them if present.
+
+* **`credentialValueSet`**. Restricts the request by FHIR
+content such as "any standardized vaccine code for mpox". See [Health Card
+Valuesets](https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets).
+Valueset-based filters apply to the FHIR Resources within the Health Card
+payload at `.vc.credentialSubject.fhirBundle.entry[].resource`.  For
+Immunizations, the `Immunization.vaccineCode` is evaluated. For Observations,
+the `Observation.code` is evaluated. Multiple `credentialValueSet` parameters
+in one request SHALL be interpreted as a request for credentials with content
+from all of the supplied Valuesets (logical AND).
+
+```json
+{
+  "resourceType": "Parameters",
+  "parameter": [{
+    "name": "credentialType",
+    "valueUri": "Immunization"
+  }, {
+    "name": "credentialValueSet",
+    "valueUri": "https://terminology.smarthealth.cards/ValueSet/immunization-orthopoxvirus-all"
+  }]
+}
+```
 
 * **`includeIdentityClaim`**. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more `includeIdentityClaim`s, which will limit the claims included in the VC. For example, to request that only name be included:
 
@@ -386,7 +418,7 @@ The following parameters are optional; clients MAY include them in a request, an
   "resourceType": "Parameters",
   "parameter": [{
     "name": "credentialType",
-    "valueUri": "https://smarthealth.cards#covid19"
+    "valueUri": "Immunization"
   }, {
     "name": "includeIdentityClaim",
     "valueString": "Patient.name"
@@ -402,7 +434,7 @@ The following parameters are optional; clients MAY include them in a request, an
   "resourceType": "Parameters",
   "parameter": [{
     "name": "credentialType",
-    "valueUri": "https://smarthealth.cards#covid19"
+    "valueUri": "Immunization"
   }, {
     "name": "_since",
     "valueDateTime": "2021-03"
@@ -457,7 +489,31 @@ In the response, an optional repeating `resourceLink` parameter can capture the 
 
 ## Presenting Health Cards to a Verifier
 
-In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.
+In this step, the verifier asks the user to share a Health Card. A Health Card
+containing the result can be conveyed by presenting a QR code; by uploading a
+file; or by leveraging wallet-specific APIs.
+
+When a wallet-specific API is used to manage this sharing workflow, the API
+SHOULD ensure that the requester can specify filters for:
+
+1. SMART Health Card resource types, to restrict the request based on FHIR
+Resource Types such as "Immunization" or "Observation". See [FHIR Resource
+Types](https://hl7.org/fhir/R4/resourcelist.html).  Type-based filters evalute
+Health Cards based on the FHIR resource types within the Health Card payload at
+`.vc.credentialSubject.fhirBundle.entry[].resource`.
+
+2. SMART Health Card value sets, to further restrict the request by FHIR
+content such as "any standardized vaccine code for mpox". See [Health Card
+Valuesets](https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets).
+Valueset-based filters apply to the FHIR Resources within the Health Card
+payload at `.vc.credentialSubject.fhirBundle.entry[].resource`.  For
+Immunizations, the `Immunization.vaccineCode` is evaluated. For
+Observations, the `Observation.code` is evaluated.
+
+This same filtering approach is used by the [`$health-cards-issue`
+operation](#via-fhir-health-cards-issue-operation), via the `credentialType`
+and `credentialValueSet` parameters. Over time, we will endeavor to provide
+more standardized presentation workflows for on-device and web-based exchange.
 
 ## Health Cards as QR Codes
 
