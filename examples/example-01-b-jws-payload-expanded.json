@@ -1,11 +1,9 @@
 {
   "iss": "https://spec.smarthealth.cards/examples/issuer",
-  "nbf": 1685487703.286,
+  "nbf": 1686850131.629,
   "vc": {
     "type": [
-      "https://smarthealth.cards#health-card",
-      "https://smarthealth.cards#immunization",
-      "https://smarthealth.cards#covid19"
+      "https://smarthealth.cards#health-card"
     ],
     "credentialSubject": {
       "fhirVersion": "4.0.1",

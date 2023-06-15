@@ -1073,7 +1073,7 @@
 <h4 id="looking-for-a-non-technical-overview">Looking for a non-technical overview?<a class="headerlink" href="#looking-for-a-non-technical-overview" title="Permanent link">&para;</a></h4>
 <p>See the <a href="https://smarthealth.cards/">SMART Health Cards public landing page</a>. Otherwise, read on for the technical specifications.</p>
 <h4 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h4>
-<p>Stable release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.3.0; see the revision history in the <a href="./changelog/">change log</a>.</p>
+<p>Stable release authored with input from technology, lab, pharmacy, Electronic Health Record, and Immunization Information System vendors. The current version of the framework is 1.4.0; see the revision history in the <a href="./changelog/">change log</a>.</p>
 <h4 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h4>
 <p>This specification is copyright by <em>Computational Health Informatics Program, Boston Children's Hospital, Boston, MA</em> and licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.</p>
 <p>We welcome discussion on the <a href="https://chat.fhir.org/#narrow/stream/284830-smart.2Fhealth-cards">SMART Health Cards channel</a> of the FHIR community chat. You can also propose changes via GitHub <a href="https://github.com/smart-on-fhir/health-cards/issues">Issues</a> or create a <a href="https://github.com/smart-on-fhir/health-cards/pulls">Pull Request</a>.</p>
@@ -1134,7 +1134,7 @@
 <h3 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
 <p>This framework defines a general approach to <strong>representing demographic and clinical data in FHIR</strong>, outlined in <a href="./credential-modeling/">Modeling Verifiable Credentials in FHIR</a>. Specific use cases for Health Cards will define specific data profiles.</p>
 <ul>
-<li><strong>COVID-19 Vaccination Credentials</strong>: See <a href="http://vci.org/ig/vaccination-and-testing">SMART Health Cards: Vaccination IG</a></li>
+<li><strong>Vaccination and Laboratory Credentials</strong>: See <a href="http://vci.org/ig/vaccination-and-testing">SMART Health Cards: Vaccination IG</a></li>
 </ul>
 <h2 id="protocol-details">Protocol Details<a class="headerlink" href="#protocol-details" title="Permanent link">&para;</a></h2>
 <h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
@@ -1347,18 +1347,49 @@ Issuer -&gt;&gt; Holder: Holder receives Health Card</div>
 </code></pre></div>
 <p><a name="healthwalletissuevc-operation"></a></p>
 <h5><code>$health-cards-issue</code> Operation</h5>
-<p>A Health Wallet can <code>POST /Patient/:id/$health-cards-issue</code> to a FHIR-enabled issuer to request the generation of a specific type of Health Card. The body of the POST looks like:</p>
+<p>A Health Wallet can <code>POST /Patient/:id/$health-cards-issue</code> to a FHIR-enabled issuer to request or generate a specific type of Health Card. The body of the POST looks like:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;Immunization&quot;</span>
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The <code>credentialType</code> parameter is required. Multiple <code>credentialType</code> values in one request SHALL be interpreted as a request for the intersection of the requested types (logical AND).
-For example, a request containing <code>credentialType</code> values <code>https://smarthealth.cards#covid19</code> and <code>https://smarthealth.cards#immunization</code> is a request for only those cards that are both COVID-19 cards and immunization cards (i.e., only those COVID-19 cards that are about immunizations).</p>
-<p>The following parameters are optional; clients MAY include them in a request, and servers MAY ignore them if present.</p>
+<p>The <code>credentialType</code> parameter is required. This parameter restricts the request
+by high-level categories based on FHIR Resource Types such as "Observation" or
+"Immunization". See <a href="https://hl7.org/fhir/R4/resourcelist.html">FHIR Resource
+Types</a>.  Type-based filters evalute
+Health Cards based on the FHIR resource types within the Health Card payload at
+<code>.vc.credentialSubject.fhirBundle.entry[].resource</code>.  Multiple <code>credentialType</code>
+parameters in one request SHALL be interpreted as a request for Health Cards
+that contain all of the requested types (logical AND). To maintain compatibility
+with the initial release of this specification, servers SHOULD process
+<code>#immunization</code> as <code>Immunization</code>, and <code>#laboratory</code> as <code>Observation</code>.</p>
+<p>The following parameters are optional; clients MAY include them in a request,
+and servers MAY ignore them if present.</p>
+<ul>
+<li><strong><code>credentialValueSet</code></strong>. Restricts the request by FHIR
+content such as "any standardized vaccine code for mpox". See <a href="https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets">Health Card
+Valuesets</a>.
+Valueset-based filters apply to the FHIR Resources within the Health Card
+payload at <code>.vc.credentialSubject.fhirBundle.entry[].resource</code>.  For
+Immunizations, the <code>Immunization.vaccineCode</code> is evaluated. For Observations,
+the <code>Observation.code</code> is evaluated. Multiple <code>credentialValueSet</code> parameters
+in one request SHALL be interpreted as a request for credentials with content
+from all of the supplied Valuesets (logical AND).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;Immunization&quot;</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialValueSet&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://terminology.smarthealth.cards/ValueSet/immunization-orthopoxvirus-all&quot;</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
 <ul>
 <li><strong><code>includeIdentityClaim</code></strong>. By default, the issuer will decide which identity claims to include, based on profile-driven guidance. If the Health Wallet wants to fine-tune identity claims in the generated credentials, it can provide an explicit list of one or more <code>includeIdentityClaim</code>s, which will limit the claims included in the VC. For example, to request that only name be included:</li>
 </ul>
@@ -1366,7 +1397,7 @@ For example, a request containing <code>credentialType</code> values <code>https
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;Immunization&quot;</span>
   <span class="p">},</span> <span class="p">{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;includeIdentityClaim&quot;</span><span class="p">,</span>
     <span class="nt">&quot;valueString&quot;</span><span class="p">:</span> <span class="s2">&quot;Patient.name&quot;</span>
@@ -1380,7 +1411,7 @@ For example, a request containing <code>credentialType</code> values <code>https
   <span class="nt">&quot;resourceType&quot;</span><span class="p">:</span> <span class="s2">&quot;Parameters&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="p">[{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;credentialType&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;https://smarthealth.cards#covid19&quot;</span>
+    <span class="nt">&quot;valueUri&quot;</span><span class="p">:</span> <span class="s2">&quot;Immunization&quot;</span>
   <span class="p">},</span> <span class="p">{</span>
     <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;_since&quot;</span><span class="p">,</span>
     <span class="nt">&quot;valueDateTime&quot;</span><span class="p">:</span> <span class="s2">&quot;2021-03&quot;</span>
@@ -1423,7 +1454,33 @@ For example, a request containing <code>credentialType</code> values <code>https
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="presenting-health-cards-to-a-verifier">Presenting Health Cards to a Verifier<a class="headerlink" href="#presenting-health-cards-to-a-verifier" title="Permanent link">&para;</a></h3>
-<p>In this step, the verifier asks the user to share a COVID-19 result. A Health Card containing the result can be conveyed by presenting a QR code; by uploading a file; or by leveraging device-specific APIs. Over time, we will endeavor to standardize presentation workflows including device-specific patterns and web-based exchange.</p>
+<p>In this step, the verifier asks the user to share a Health Card. A Health Card
+containing the result can be conveyed by presenting a QR code; by uploading a
+file; or by leveraging wallet-specific APIs.</p>
+<p>When a wallet-specific API is used to manage this sharing workflow, the API
+SHOULD ensure that the requester can specify filters for:</p>
+<ol>
+<li>
+<p>SMART Health Card resource types, to restrict the request based on FHIR
+Resource Types such as "Immunization" or "Observation". See <a href="https://hl7.org/fhir/R4/resourcelist.html">FHIR Resource
+Types</a>.  Type-based filters evalute
+Health Cards based on the FHIR resource types within the Health Card payload at
+<code>.vc.credentialSubject.fhirBundle.entry[].resource</code>.</p>
+</li>
+<li>
+<p>SMART Health Card value sets, to further restrict the request by FHIR
+content such as "any standardized vaccine code for mpox". See <a href="https://terminology.smarthealth.cards/artifacts.html#terminology-value-sets">Health Card
+Valuesets</a>.
+Valueset-based filters apply to the FHIR Resources within the Health Card
+payload at <code>.vc.credentialSubject.fhirBundle.entry[].resource</code>.  For
+Immunizations, the <code>Immunization.vaccineCode</code> is evaluated. For
+Observations, the <code>Observation.code</code> is evaluated.</p>
+</li>
+</ol>
+<p>This same filtering approach is used by the <a href="#via-fhir-health-cards-issue-operation"><code>$health-cards-issue</code>
+operation</a>, via the <code>credentialType</code>
+and <code>credentialValueSet</code> parameters. Over time, we will endeavor to provide
+more standardized presentation workflows for on-device and web-based exchange.</p>
 <h3 id="health-cards-as-qr-codes">Health Cards as QR Codes<a class="headerlink" href="#health-cards-as-qr-codes" title="Permanent link">&para;</a></h3>
 <p>Each JWS string that appears in the <code>.verifiableCredential[]</code> of a <code>.smart-health-card</code> file can be represented as a QR code, if the payload is small enough. We aim to ensure that printed (or electronically displayed) codes are usable at physical dimensions of 40mmx40mm. This constraint allows us to use QR codes up to Version 22, at 105x105 modules. When representing a JWS as a QR code, implementers SHALL follow the rules for <a href="#encoding-qrs">Encoding QRs</a>.</p>
 <p>Ensuring Health Cards can be presented as QR codes:</p>

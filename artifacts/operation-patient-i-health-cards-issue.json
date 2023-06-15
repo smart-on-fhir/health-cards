@@ -25,6 +25,12 @@
     "min": 1,
     "max": "*",
     "type": "uri"
+  },{
+    "name": "credentialValueSet",
+    "use": "in",
+    "min": 0,
+    "max": "*",
+    "type": "uri"
   }, {
     "name": "includeIdentityClaim",
     "use": "in",
