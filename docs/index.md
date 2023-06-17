@@ -87,9 +87,14 @@ If we identify *optional* data elements for a given use case, we might incorpora
 
 ## Data Model
 
-This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/). Specific use cases for Health Cards will define specific data profiles.
+This framework defines a general approach to **representing demographic and clinical data in FHIR**, outlined in [Modeling Verifiable Credentials in FHIR](./credential-modeling/).
 
-  * **Vaccination and Laboratory Credentials**: See [SMART Health Cards: Vaccination IG](http://vci.org/ig/vaccination-and-testing)
+The data model for the Health Card payload at `.vc.credentialSubject.fhirBundle` is specific to a given use case (e.g., a COVID-19 immunization card). These use case-specific details are not included as part of this framework. Instead, they are described in use case-specific [FHIR Implementation Guides](https://www.hl7.org/fhir/implementationguide.html):
+
+| Use Case | FHIR Implementation Guide |
+| - | - |
+| Vaccination records and laboratory testing status for infectious diseases | [SMART Health Cards: Vaccination & Testing Implementation Guide ](http://vci.org/ig/vaccination-and-testing) |
+
 
 # Protocol Details
 
