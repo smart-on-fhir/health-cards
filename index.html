@@ -1132,10 +1132,22 @@
 <h4 id="future-considerations">Future Considerations<a class="headerlink" href="#future-considerations" title="Permanent link">&para;</a></h4>
 <p>If we identify <em>optional</em> data elements for a given use case, we might incorporate them into credentials by including a cryptographic hash of their values instead of embedding values directly. Longer term we can provide more granular options using techniques like zero-knowledge proofs, or by allowing a trusted intermediary to summarize results in a just-in-time fashion.</p>
 <h3 id="data-model">Data Model<a class="headerlink" href="#data-model" title="Permanent link">&para;</a></h3>
-<p>This framework defines a general approach to <strong>representing demographic and clinical data in FHIR</strong>, outlined in <a href="./credential-modeling/">Modeling Verifiable Credentials in FHIR</a>. Specific use cases for Health Cards will define specific data profiles.</p>
-<ul>
-<li><strong>Vaccination and Laboratory Credentials</strong>: See <a href="http://vci.org/ig/vaccination-and-testing">SMART Health Cards: Vaccination IG</a></li>
-</ul>
+<p>This framework defines a general approach to <strong>representing demographic and clinical data in FHIR</strong>, outlined in <a href="./credential-modeling/">Modeling Verifiable Credentials in FHIR</a>.</p>
+<p>The data model for the Health Card payload at <code>.vc.credentialSubject.fhirBundle</code> is specific to a given use case (e.g., a COVID-19 immunization card). These use case-specific details are not included as part of this framework. Instead, they are described in use case-specific <a href="https://www.hl7.org/fhir/implementationguide.html">FHIR Implementation Guides</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>FHIR Implementation Guide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vaccination records and laboratory testing status for infectious diseases</td>
+<td><a href="http://vci.org/ig/vaccination-and-testing">SMART Health Cards: Vaccination &amp; Testing Implementation Guide </a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="protocol-details">Protocol Details<a class="headerlink" href="#protocol-details" title="Permanent link">&para;</a></h2>
 <h3 id="generating-and-resolving-cryptographic-keys">Generating and resolving cryptographic keys<a class="headerlink" href="#generating-and-resolving-cryptographic-keys" title="Permanent link">&para;</a></h3>
 <p>The following key types are used in the Health Cards Framework:</p>
