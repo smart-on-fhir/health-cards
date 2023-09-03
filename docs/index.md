@@ -307,6 +307,37 @@ To facilitate this workflow, the issuer can include a link to help the user down
   ]
 }
 ```
+#### on Android
+When transferring a SMART Health Card from one app to another on Android, send it via a [content provider](https://developer.android.com/guide/topics/providers/content-providers) URI pointing to the .smart-health-card.
+
+```java
+Intent intent = new Intent();
+intent.setAction(Intent.ACTION_SEND);
+intent.setType("application/smart-health-card");
+intent.putExtra(Intent.EXTRA_STREAM, uri);
+intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+startActivity(Intent.createChooser(intent, ...
+```
+
+To receive a SMART Health Card in an Android app, register an intent filter, like:
+```xml
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="application/smart-health-card"/>
+    </intent-filter>
+
+<!-- other apps on the device (e.g. Gmail, Files) may use ACTION_VIEW and a binary MIME type, to be safe also support the below -->
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+
+    <data android:host="*" android:scheme="content" android:mimeType="application/smart-health-card" />
+    <data android:host="*" android:scheme="content" android:mimeType="application/octet-stream" />
+</intent-filter>
+```
 
 ### via QR (Print or Scan)
 
